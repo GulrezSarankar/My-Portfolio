@@ -1,13 +1,165 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- Global Body Styling ---------- */
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  background: linear-gradient(135deg, #020202, #0c0c0c, #111111, #1a1a1a);
+  background-attachment: fixed;
+  color: #ffffff;
+  font-family: "Poppins", sans-serif;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* ---------- Smooth Font Rendering ---------- */
+* {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* ---------- Selection Highlight ---------- */
+::selection {
+  background: #915eff;
+  color: #ffffff;
+}
+
+/* ---------- Scrollbar Styling ---------- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #915eff, #c084fc);
+  border-radius: 20px;
+  box-shadow: 0 0 10px #915effaa;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #a679ff, #d5a6ff);
+}
+
+/* ---------- Page Container Fade ---------- */
+.page-enter {
+  opacity: 0;
+  transform: translateY(15px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0px);
+  transition: all 0.5s ease;
+}
+
+/* ---------- Smooth Card Hover Scaling ---------- */
+.card-hover {
+  transition: 0.35s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-6px) scale(1.02);
+}
+
+/* ---------- Neon Glow Effect ---------- */
+.neon-border {
+  border: 1px solid rgba(147, 51, 234, 0.4);
+  box-shadow: 0 0 12px rgba(147, 51, 234, 0.4),
+              inset 0 0 12px rgba(147, 51, 234, 0.3);
+}
+
+/* ---------- Floating Animation (Reusable) ---------- */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0px); }
+}
+
+.floating {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* ---------- Glow Pulse Animation ---------- */
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.8; filter: blur(60px); }
+  50% { opacity: 1; filter: blur(80px); }
+}
+
+.glow-pulse {
+  animation: glowPulse 4s infinite;
+}
+
+/* ---------- Neon Gradient Text ---------- */
+.neon-text {
+  background: linear-gradient(90deg, #915eff, #c084fc, #e879f9);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: neonGradient 4s linear infinite;
+}
+
+@keyframes neonGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ---------- Custom Smooth Hover ---------- */
+.smooth-hover {
+  transition: 0.2s ease;
+}
+
+.smooth-hover:hover {
+  opacity: 0.7;
+}
+
+/* ---------- Cursor Glow (optional) ---------- */
+.cursor-glow {
+  position: fixed;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(147,51,234,0.25), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 50;
+  filter: blur(60px);
+  mix-blend-mode: screen;
+}
+
+/* Masonry Layout Fix */
+.my-masonry-grid_column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Shine Hover Effect */
+.shine-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-effect::before {
+  content: "";
+  position: absolute;
+  top: -150%;
+  left: -150%;
+  width: 300%;
+  height: 300%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transform: rotate(25deg);
+  transition: 0.8s;
+}
+
+.shine-effect:hover::before {
+  top: -50%;
+  left: -50%;
 }
