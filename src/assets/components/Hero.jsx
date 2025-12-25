@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Tilt from "react-parallax-tilt";
 import Typewriter from "typewriter-effect";
 
+
 import { FaJava, FaGithub, FaLinkedin, FaDownload } from "react-icons/fa";
 import { SiPostman, SiJavascript, SiMongodb } from "react-icons/si";
 
@@ -173,7 +174,7 @@ export default function Hero() {
           </motion.a>
 
           <motion.a
-            href="/Gulrez-Sarankar-Resume.pdf"
+            href="/Gulrez-Sarankar.pdf"
             download
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.95 }}
