@@ -193,7 +193,7 @@ export default function Hero() {
             <FaGithub />
           </a>
 
-          <a href="https://linkedin.com/in/gulrezsarankar" target="_blank" rel="noreferrer" className="hover:text-purple-400 transition">
+          <a href="https://www.linkedin.com/in/gulrez-sarankar/" target="_blank" rel="noreferrer" className="hover:text-purple-400 transition">
             <FaLinkedin />
           </a>
         </motion.div>
