@@ -36,4 +36,19 @@ export const projects = [
     ],
     link: "https://summary-inky.vercel.app/",
   },
+
+  // ✅ NEW PROJECT ADDED
+  {
+    title: "Society Affair Management System(SAMS)",
+    description:
+      "Smart Attendance Management System (SAMS) that helps manage student attendance efficiently with real-time tracking, dashboard insights, and a modern UI.",
+    tech: ["React", "FastAPI", "Python ", "MySQL"], // update if needed
+    images: [
+      "/projects/sams/1.png",
+      "/projects/sams/2.png",
+      "/projects/sams/3.png",
+      "/projects/sams/3.png",
+    ],
+    link: "https://github.com/your-username/sams", // replace with your actual link
+  },
 ];
