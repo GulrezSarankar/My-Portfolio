@@ -49,6 +49,6 @@ export const projects = [
       "/projects/sams/3.png",
       "/projects/sams/3.png",
     ],
-    link: "https://github.com/your-username/sams", // replace with your actual link
+    link: "https://society-affair-management-system.vercel.app/", // replace with your actual link
   },
 ];
