@@ -37,7 +37,7 @@ export const projects = [
     link: "https://summary-inky.vercel.app/",
   },
 
-  // ✅ NEW PROJECT ADDED
+  // 
   {
     title: "Society Affair Management System(SAMS)",
     description:
@@ -49,6 +49,6 @@ export const projects = [
       "/projects/sams/3.png",
       "/projects/sams/3.png",
     ],
-    link: "https://society-affair-management-system.vercel.app/", // replace with your actual link
+    link: "https://society-affair-management-system.vercel.app/", 
   },
 ];
