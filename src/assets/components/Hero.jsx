@@ -74,7 +74,7 @@ export default function Hero() {
                   <div className="flex justify-between items-center">
                     <div>
                       <p className="text-white font-bold text-lg">Gulrez Sarankar</p>
-                      <p className="text-purple-400 text-xs uppercase tracking-widest font-mono">Backend Architect</p>
+                      <p className="text-purple-400 text-xs uppercase tracking-widest font-mono">Backend Developer</p>
                     </div>
                     <div className="p-2 bg-purple-500/20 rounded-lg">
                       <FaCode className="text-purple-400" />
