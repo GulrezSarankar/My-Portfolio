@@ -1,215 +1,165 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Tilt from "react-parallax-tilt";
 import Typewriter from "typewriter-effect";
-
-
-import { FaJava, FaGithub, FaLinkedin, FaDownload } from "react-icons/fa";
-import { SiPostman, SiJavascript, SiMongodb } from "react-icons/si";
-
-// Animation
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0 },
-};
+import { FaJava, FaGithub, FaLinkedin, FaDownload, FaCode } from "react-icons/fa";
+import { SiSpringboot, SiMongodb, SiMysql, SiPostman } from "react-icons/si";
 
 export default function Hero() {
   const [greeting, setGreeting] = useState("");
 
-  // Auto Greeting
   useEffect(() => {
     const hour = new Date().getHours();
-    if (hour < 12) setGreeting("Good Morning ☀️");
-    else if (hour < 17) setGreeting("Good Afternoon 🌤️");
-    else setGreeting("Good Evening 🌙");
+    setGreeting(hour < 12 ? "Good Morning" : hour < 17 ? "Good Afternoon" : "Good Evening");
   }, []);
 
+  const particles = useMemo(() => 
+    Array.from({ length: 15 }).map((_, i) => ({
+      id: i,
+      left: Math.random() * 100 + "%",
+      top: Math.random() * 100 + "%",
+      duration: Math.random() * 5 + 4,
+    })), []);
+
   return (
-    <section className="relative min-h-screen flex flex-col md:flex-row items-center justify-center gap-16 px-6 overflow-hidden">
-
-      {/* Background Gradient */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[#18001b] via-[#0c001b] to-black"></div>
-
-      {/* Background Blobs */}
-      <div className="absolute top-10 left-10 w-[300px] h-[300px] bg-purple-700/40 blur-[180px] rounded-full"></div>
-      <div className="absolute bottom-10 right-10 w-[350px] h-[350px] bg-fuchsia-600/40 blur-[200px] rounded-full"></div>
+    <section className="relative min-h-screen w-full flex items-center justify-center pt-20 pb-10 md:py-0 px-4 md:px-10 lg:px-24 overflow-hidden bg-[#05000a]">
+      
+      {/* Background Decor */}
+      <div className="absolute top-[-10%] right-[-10%] w-[400px] h-[400px] bg-purple-600/10 blur-[150px] rounded-full"></div>
+      <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-blue-600/10 blur-[150px] rounded-full"></div>
 
       {/* Floating Particles */}
-      <div className="absolute inset-0 pointer-events-none">
-        {Array.from({ length: 25 }).map((_, i) => (
+      <div className="absolute inset-0 pointer-events-none opacity-20">
+        {particles.map((p) => (
           <motion.span
-            key={i}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{
-              opacity: [0, 1, 0],
-              y: [-20, -50, -20],
-              x: Math.random() * 40 - 20,
-            }}
-            transition={{
-              duration: Math.random() * 4 + 3,
-              repeat: Infinity,
-              delay: i * 0.2,
-            }}
-            className="absolute w-1 h-1 bg-white/20 rounded-full"
-            style={{
-              top: Math.random() * 100 + "%",
-              left: Math.random() * 100 + "%",
-            }}
+            key={p.id}
+            animate={{ opacity: [0, 1, 0], y: [0, -40, 0] }}
+            transition={{ duration: p.duration, repeat: Infinity }}
+            className="absolute w-1 h-1 bg-white rounded-full"
+            style={{ left: p.left, top: p.top }}
           />
         ))}
       </div>
 
-      {/* LEFT — PHOTO + ORBIT */}
-      <motion.div
-        initial={{ opacity: 0, x: -40 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8 }}
-        className="relative md:w-1/2 flex justify-center"
-      >
-        {/* Rotating Rings */}
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-          className="absolute w-[380px] h-[380px] rounded-full border border-purple-500/40 shadow-[0_0_60px_#a855f7]"
-        />
-
-        <motion.div
-          animate={{ rotate: -360 }}
-          transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-          className="absolute w-[460px] h-[460px] rounded-full border border-pink-500/30 shadow-[0_0_90px_#ec4899]"
-        />
-
-        {/* Orbit Icons */}
-        <div className="absolute w-[450px] h-[450px] animate-slow-spin">
-          <div className="absolute top-0 left-1/2 -ml-6 text-purple-300 text-4xl">
-            <FaJava />
-          </div>
-          <div className="absolute bottom-10 right-0 text-green-300 text-4xl">
-            <SiMongodb />
-          </div>
-          <div className="absolute left-0 top-1/2 text-yellow-300 text-4xl">
-            <SiJavascript />
-          </div>
-          <div className="absolute right-0 top-1/2 text-orange-400 text-4xl">
-            <SiPostman />
-          </div>
-        </div>
-
-        {/* Profile Image */}
-        <Tilt tiltMaxAngleX={10} tiltMaxAngleY={10} scale={1.04}>
-          <div className="relative w-72 h-72 md:w-[330px] md:h-[330px] rounded-full overflow-hidden border-4 border-purple-500/50 shadow-[0_0_80px_#a855f7] z-20">
-            <img src="/Gulrez.png" alt="Gulrez" className="w-full h-full object-cover" />
-          </div>
-        </Tilt>
-      </motion.div>
-
-      {/* RIGHT — CONTENT */}
-      <motion.div
-        initial="hidden"
-        animate="show"
-        variants={fadeUp}
-        className="md:w-1/2 text-center md:text-left z-20 max-w-xl"
-      >
-        {/* Greeting */}
-        <motion.div
-          variants={fadeUp}
-          className="inline-block mb-4 px-5 py-2 bg-white/5 backdrop-blur-lg rounded-xl border border-purple-400/20 text-purple-300 shadow-lg"
+      <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-24 z-10">
+        
+        {/* --- LEFT: BIG IMAGE SECTION --- */}
+        <motion.div 
+          initial={{ opacity: 0, x: -50 }} 
+          animate={{ opacity: 1, x: 0 }} 
+          transition={{ duration: 0.8 }}
+          className="w-full lg:w-1/2 flex justify-center lg:justify-start relative"
         >
-          🤖 {greeting}, Welcome to my Portfolio!
+          {/* Tech Badges Floating */}
+          <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 3, repeat: Infinity }} className="absolute -top-6 -right-4 z-30 bg-white/5 backdrop-blur-md p-3 rounded-2xl border border-white/10 hidden md:block">
+            <SiSpringboot className="text-green-400 text-3xl" />
+          </motion.div>
+          
+          <motion.div animate={{ y: [0, 15, 0] }} transition={{ duration: 4, repeat: Infinity }} className="absolute bottom-10 -left-6 z-30 bg-white/5 backdrop-blur-md p-3 rounded-2xl border border-white/10 hidden md:block">
+            <FaJava className="text-orange-400 text-4xl" />
+          </motion.div>
+
+          <Tilt tiltMaxAngleX={7} tiltMaxAngleY={7} scale={1.02} className="z-20">
+            <div className="relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-[2.5rem] blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+              
+              <div className="relative w-[290px] h-[400px] md:w-[420px] md:h-[580px] bg-[#0a0010] rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl">
+                <img 
+                  src="/Gulrez New.png" 
+                  alt="Gulrez Sarankar" 
+                  className="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 transition-all duration-700"
+                />
+                
+                <div className="absolute bottom-6 left-6 right-6 p-5 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="text-white font-bold text-lg">Gulrez Sarankar</p>
+                      <p className="text-purple-400 text-xs uppercase tracking-widest font-mono">Backend Architect</p>
+                    </div>
+                    <div className="p-2 bg-purple-500/20 rounded-lg">
+                      <FaCode className="text-purple-400" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Tilt>
         </motion.div>
 
-        {/* Name */}
-        <motion.h1 variants={fadeUp} className="text-5xl md:text-7xl font-extrabold leading-tight">
-          I'm{" "}
-          <span className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-            Gulrez Sarankar
-          </span>
-        </motion.h1>
-
-        {/* Typewriter */}
-        <motion.div variants={fadeUp} className="mt-3 text-3xl text-purple-300 font-semibold">
-          <Typewriter
-            options={{
-              strings: [
-                "Java Developer",
-                "Spring Boot Specialist",
-                "Backend Engineer",
-                "REST API Architect",
-              ],
-              autoStart: true,
-              loop: true,
-            }}
-          />
-        </motion.div>
-
-        {/* Summary */}
-        <motion.p variants={fadeUp} className="mt-6 text-gray-300 leading-relaxed text-lg">
-          I build secure, scalable{" "}
-          <span className="text-purple-400 font-semibold">Spring Boot</span> applications,
-          optimized{" "}
-          <span className="text-purple-400 font-semibold">MySQL databases</span>, and
-          modern backend architectures.
-        </motion.p>
-
-        {/* Experience */}
-        <motion.div
-          variants={fadeUp}
-          className="mt-6 inline-block px-6 py-3 bg-black/40 border border-purple-500/30 rounded-xl backdrop-blur-xl text-purple-300 font-semibold"
+        {/* --- RIGHT: TEXT CONTENT SECTION --- */}
+        <motion.div 
+          initial={{ opacity: 0, x: 50 }} 
+          animate={{ opacity: 1, x: 0 }} 
+          transition={{ duration: 0.8 }}
+          className="w-full lg:w-1/2 text-center lg:text-left"
         >
-          🚀 8+ Months Experience in Backend Development
+          <div className="flex items-center gap-3 justify-center lg:justify-start mb-6">
+            <span className="w-10 h-[1px] bg-purple-500"></span>
+            <p className="text-purple-400 font-mono tracking-widest text-xs uppercase">
+              {greeting}
+            </p>
+          </div>
+
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white leading-[0.9] tracking-tighter">
+            CRAFTING <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-fuchsia-500 to-indigo-500">
+              SOLUTIONS
+            </span>
+          </h1>
+
+          <div className="mt-6 text-xl md:text-3xl font-medium text-gray-300">
+            <Typewriter
+              options={{
+                strings: ["Java Specialist", "Spring Boot Expert", "Database Architect"],
+                autoStart: true, loop: true, deleteSpeed: 50,
+              }}
+            />
+          </div>
+
+          <p className="mt-8 text-gray-400 text-lg md:text-xl leading-relaxed max-w-lg mx-auto lg:mx-0">
+            I specialize in building <span className="text-white">secure, scalable backend systems</span> that power 
+            modern digital experiences.
+          </p>
+
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-5 mt-12 justify-center lg:justify-start">
+            <motion.a 
+              href="mailto:gulrez@example.com"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-white text-black px-10 py-4 rounded-2xl font-bold text-center transition-all shadow-xl"
+            >
+              Get In Touch
+            </motion.a>
+            
+            <motion.a 
+              href="/Gulrez-Resume.pdf"
+              className="border border-white/20 px-10 py-4 rounded-2xl font-bold text-white text-center flex items-center justify-center gap-2 transition-all"
+            >
+              <FaDownload size={14}/> Download CV
+            </motion.a>
+          </div>
+
+          {/* Fixed Social Icons - Now using FaGithub and FaLinkedin */}
+          <div className="mt-12 flex justify-center lg:justify-start gap-6 text-3xl">
+            <a href="https://github.com/gulrezsarankar" target="_blank" rel="noreferrer" className="text-gray-500 hover:text-white transition-all">
+              <FaGithub />
+            </a>
+            <a href="https://linkedin.com/in/gulrez-sarankar" target="_blank" rel="noreferrer" className="text-gray-500 hover:text-blue-400 transition-all">
+              <FaLinkedin />
+            </a>
+          </div>
+
+          {/* Mini Tech Stack Row */}
+          <div className="mt-10 flex flex-wrap justify-center lg:justify-start gap-6 text-2xl text-gray-700">
+            <SiSpringboot className="hover:text-green-500 transition-all cursor-help" title="Spring Boot" />
+            <SiMongodb className="hover:text-green-600 transition-all cursor-help" title="MongoDB" />
+            <SiMysql className="hover:text-blue-500 transition-all cursor-help" title="MySQL" />
+            <SiPostman className="hover:text-orange-500 transition-all cursor-help" title="Postman" />
+          </div>
         </motion.div>
 
-        {/* Buttons */}
-        <motion.div
-          variants={fadeUp}
-          className="flex flex-wrap gap-4 mt-10 justify-center md:justify-start"
-        >
-          <motion.a
-            href="/projects"
-            whileHover={{ scale: 1.08 }}
-            whileTap={{ scale: 0.95 }}
-            className="bg-primary px-7 py-3 rounded-xl text-lg font-medium hover:bg-purple-600 transition shadow-lg"
-          >
-            View My Work
-          </motion.a>
-
-          <motion.a
-            href="/Gulrez-Sarankar.pdf"
-            download
-            whileHover={{ scale: 1.08 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-7 py-3 rounded-xl text-lg border border-primary hover:bg-primary/20 transition flex items-center gap-2 shadow-lg"
-          >
-            <FaDownload /> Download Resume
-          </motion.a>
-        </motion.div>
-
-        {/* Social Icons */}
-        <motion.div
-          variants={fadeUp}
-          className="flex gap-6 mt-10 text-3xl text-gray-300 justify-center md:justify-start"
-        >
-          <a href="https://github.com/gulrezsarankar" target="_blank" rel="noreferrer" className="hover:text-purple-400 transition">
-            <FaGithub />
-          </a>
-
-          <a href="https://www.linkedin.com/in/gulrez-sarankar/" target="_blank" rel="noreferrer" className="hover:text-purple-400 transition">
-            <FaLinkedin />
-          </a>
-        </motion.div>
-      </motion.div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 1.5, repeat: Infinity }}
-        className="absolute bottom-10 text-gray-300 text-sm opacity-70"
-      >
-        <div className="flex flex-col items-center">
-          <span>Scroll Down</span>
-          <span className="text-2xl">⬇</span>
-        </div>
-      </motion.div>
+      </div>
     </section>
   );
 }

@@ -1,190 +1,163 @@
-import SectionTitle from "../assets/components/Sectiontitle";
 import { motion } from "framer-motion";
+import { useEffect, useState, useMemo } from "react";
 import Tilt from "react-parallax-tilt";
+import Typewriter from "typewriter-effect";
+import { FaJava, FaGithub, FaLinkedin, FaDownload, FaCode } from "react-icons/fa";
+import { SiSpringboot, SiMongodb, SiMysql, SiPostman } from "react-icons/si";
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  show: { opacity: 1, y: 0 }
-};
+export default function Hero() {
+  const [greeting, setGreeting] = useState("");
 
-export default function AboutPage() {
+  useEffect(() => {
+    const hour = new Date().getHours();
+    setGreeting(hour < 12 ? "Good Morning" : hour < 17 ? "Good Afternoon" : "Good Evening");
+  }, []);
+
+  const particles = useMemo(() => 
+    Array.from({ length: 15 }).map((_, i) => ({
+      id: i,
+      left: Math.random() * 100 + "%",
+      top: Math.random() * 100 + "%",
+      duration: Math.random() * 5 + 4,
+    })), []);
+
   return (
-    <div className="pb-32 relative overflow-hidden">
-
-      {/* Background Glow */}
-      <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-purple-700/40 blur-[200px] -z-10" />
-      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-pink-600/40 blur-[220px] -z-10" />
+    <section className="relative min-h-screen w-full flex items-center justify-center pt-20 pb-10 md:py-0 px-4 md:px-10 lg:px-24 overflow-hidden bg-[#05000a]">
+      
+      {/* Background Decor */}
+      <div className="absolute top-[-10%] right-[-10%] w-[400px] h-[400px] bg-purple-600/10 blur-[150px] rounded-full"></div>
+      <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-blue-600/10 blur-[150px] rounded-full"></div>
 
       {/* Floating Particles */}
-      <div className="absolute inset-0 pointer-events-none">
-        {Array.from({ length: 40 }).map((_, i) => (
+      <div className="absolute inset-0 pointer-events-none opacity-20">
+        {particles.map((p) => (
           <motion.span
-            key={i}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{
-              opacity: [0, 1, 0],
-              y: [-10, -40, -10],
-              x: Math.random() * 40 - 20
-            }}
-            transition={{
-              duration: Math.random() * 3 + 3,
-              repeat: Infinity,
-              delay: i * 0.2
-            }}
-            className="absolute w-1 h-1 bg-white/30 rounded-full"
-            style={{
-              top: Math.random() * 100 + "%",
-              left: Math.random() * 100 + "%"
-            }}
+            key={p.id}
+            animate={{ opacity: [0, 1, 0], y: [0, -40, 0] }}
+            transition={{ duration: p.duration, repeat: Infinity }}
+            className="absolute w-1 h-1 bg-white rounded-full"
+            style={{ left: p.left, top: p.top }}
           />
         ))}
       </div>
 
-      <SectionTitle title="About Me" />
-
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 mt-16">
-
-        {/* LEFT SIDE — 3D CARD */}
-        <Tilt tiltMaxAngleX={12} tiltMaxAngleY={12} scale={1.05} transitionSpeed={1800}>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7 }}
-            className="relative bg-white/10 rounded-3xl border border-white/10 
-                       shadow-[0_0_55px_rgba(170,0,255,0.35)] 
-                       backdrop-blur-xl p-10"
-          >
-            {/* Profile Image */}
-            <div className="relative flex justify-center">
-              <div className="w-56 h-56 rounded-full overflow-hidden 
-                              border-4 border-purple-400 shadow-[0_0_40px_rgba(160,0,255,0.5)]">
-                <img
-                  src="/Gulrez.png"
-                  alt="Gulrez Sarankar"
-                  className="object-cover w-full h-full"
-                />
-              </div>
-            </div>
-
-            <h2 className="text-3xl mt-8 font-bold text-center bg-gradient-to-r 
-                           from-purple-300 to-pink-300 bg-clip-text text-transparent">
-              Gulrez Sarankar
-            </h2>
-
-            <p className="text-center text-gray-300 mt-2">
-              Java Backend Developer
-            </p>
-
-            <p className="text-gray-400 mt-6 text-center leading-relaxed">
-              I build secure and scalable backend systems using Spring Boot, 
-              MySQL, MongoDB, and modern backend architecture.
-            </p>
-          </motion.div>
-        </Tilt>
-
-        {/* RIGHT SIDE — CONTENT */}
-        <motion.div
-          initial="hidden"
-          animate="show"
-          variants={{ show: { transition: { staggerChildren: 0.25 } } }}
+      <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-24 z-10">
+        
+        {/* --- LEFT: BIG IMAGE SECTION --- */}
+        <motion.div 
+          initial={{ opacity: 0, x: -50 }} 
+          animate={{ opacity: 1, x: 0 }} 
+          transition={{ duration: 0.8 }}
+          className="w-full lg:w-1/2 flex justify-center lg:justify-start relative order-1 lg:order-1"
         >
-
-          {/* WHO AM I */}
-          <motion.div variants={fadeUp}>
-            <h3 className="text-3xl font-bold bg-gradient-to-r 
-                           from-purple-400 to-pink-400 bg-clip-text text-transparent">
-              👋 Who Am I?
-            </h3>
-            <p className="text-gray-300 mt-4 leading-relaxed">
-              I'm a passionate <span className="text-purple-300 font-semibold">Java Developer</span>
-              skilled in building powerful backend systems, REST APIs, and optimized SQL databases.
-            </p>
+          {/* Tech Badges Floating */}
+          <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 3, repeat: Infinity }} className="absolute -top-6 -right-4 z-30 bg-white/5 backdrop-blur-md p-3 rounded-2xl border border-white/10 hidden md:block">
+            <SiSpringboot className="text-green-400 text-3xl" />
+          </motion.div>
+          
+          <motion.div animate={{ y: [0, 15, 0] }} transition={{ duration: 4, repeat: Infinity }} className="absolute bottom-10 -left-6 z-30 bg-white/5 backdrop-blur-md p-3 rounded-2xl border border-white/10 hidden md:block">
+            <FaJava className="text-orange-400 text-4xl" />
           </motion.div>
 
-          {/* DIVIDER */}
-          <div className="w-full h-[2px] bg-gradient-to-r from-purple-500/40 to-pink-500/40 my-8" />
-
-          {/* SKILL BARS */}
-          <motion.div variants={fadeUp}>
-            <h3 className="text-3xl font-bold text-purple-300">🧰 Technical Skills</h3>
-
-            <div className="mt-6 space-y-6">
-              {[
-                { name: "Java", level: 90 },
-                { name: "Spring Boot", level: 85 },
-                { name: "MySQL", level: 80 },
-                { name: "MongoDB", level: 75 },
-                { name: "Hibernate / JPA", level: 80 },
-                { name: "React.js", level: 70 }
-              ].map((skill, i) => (
-                <div key={i}>
-                  <div className="flex justify-between text-gray-300 mb-1">
-                    <span>{skill.name}</span>
-                    <span>{skill.level}%</span>
-                  </div>
-                  <div className="w-full bg-white/10 h-2 rounded-full overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${skill.level}%` }}
-                      transition={{ duration: 1.2, delay: i * 0.15 }}
-                      className="h-full bg-gradient-to-r from-purple-500 to-pink-500"
-                    ></motion.div>
+          <Tilt tiltMaxAngleX={7} tiltMaxAngleY={7} scale={1.02} className="z-20">
+            <div className="relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-[2.5rem] blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+              
+              <div className="relative w-[290px] h-[400px] md:w-[420px] md:h-[580px] bg-[#0a0010] rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl">
+                <img 
+                  src="/Gulrez New.png" 
+                  alt="Gulrez Sarankar" 
+                  className="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 transition-all duration-700"
+                />
+                
+                <div className="absolute bottom-6 left-6 right-6 p-5 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="text-white font-bold text-lg">Gulrez Sarankar</p>
+                      <p className="text-purple-400 text-xs uppercase tracking-widest font-mono">Backend Architect</p>
+                    </div>
+                    <div className="p-2 bg-purple-500/20 rounded-lg">
+                      <FaCode className="text-purple-400" />
+                    </div>
                   </div>
                 </div>
-              ))}
+              </div>
             </div>
-          </motion.div>
-
-          {/* DIVIDER */}
-          <div className="w-full h-[2px] bg-gradient-to-r from-pink-500/40 to-purple-500/40 my-10" />
-
-          {/* TIMELINE */}
-          <motion.div variants={fadeUp}>
-            <h3 className="text-3xl font-bold text-purple-300 mb-4">🚀 My Journey</h3>
-
-            <div className="space-y-6">
-              <motion.div
-                initial={{ x: -50, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                transition={{ duration: 0.5 }}
-                viewport={{ once: true }}
-                className="bg-white/5 p-4 rounded-xl border border-white/10 hover:border-purple-400"
-              >
-                <h4 className="font-semibold text-purple-300">
-                  🎓 M.Sc Computer Science
-                </h4>
-                <p className="text-gray-400 text-sm">2024 – 2026</p>
-              </motion.div>
-
-              <motion.div
-                initial={{ x: 50, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                transition={{ duration: 0.5 }}
-                viewport={{ once: true }}
-                className="bg-white/5 p-4 rounded-xl border border-white/10 hover:border-pink-400"
-              >
-                <h4 className="font-semibold text-pink-300">
-                  🎓 B.Sc IT — Information Technology
-                </h4>
-                <p className="text-gray-400 text-sm">2021 – 2024</p>
-              </motion.div>
-            </div>
-          </motion.div>
-
-          {/* GOALS */}
-          <motion.div variants={fadeUp} className="mt-10">
-            <h3 className="text-3xl font-bold text-purple-300 mb-4">🎯 Current Goals</h3>
-
-            <ul className="list-disc pl-6 space-y-2 text-gray-400">
-              <li>Master Microservices & Distributed Systems</li>
-              <li>Spring Security + JWT Full Expertise</li>
-              <li>Docker + Kubernetes Deployment</li>
-              <li>AWS Cloud Architecture</li>
-            </ul>
-          </motion.div>
-
+          </Tilt>
         </motion.div>
+
+        {/* --- RIGHT: TEXT CONTENT SECTION --- */}
+        <motion.div 
+          initial={{ opacity: 0, x: 50 }} 
+          animate={{ opacity: 1, x: 0 }} 
+          transition={{ duration: 0.8 }}
+          className="w-full lg:w-1/2 text-center lg:text-left order-2 lg:order-2"
+        >
+          <div className="flex items-center gap-3 justify-center lg:justify-start mb-6">
+            <span className="w-10 h-[1px] bg-purple-500"></span>
+            <p className="text-purple-400 font-mono tracking-widest text-xs uppercase">
+              {greeting}
+            </p>
+          </div>
+
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white leading-[0.9] tracking-tighter">
+            CRAFTING <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-fuchsia-500 to-indigo-500">
+              SOLUTIONS
+            </span>
+          </h1>
+
+          <div className="mt-6 text-xl md:text-3xl font-medium text-gray-300">
+            <Typewriter
+              options={{
+                strings: ["Java Specialist", "Spring Boot Expert", "Database Architect"],
+                autoStart: true, loop: true, deleteSpeed: 50,
+              }}
+            />
+          </div>
+
+          <p className="mt-8 text-gray-400 text-lg md:text-xl leading-relaxed max-w-lg mx-auto lg:mx-0">
+            I specialize in building <span className="text-white">secure, scalable backend systems</span> that power 
+            modern digital experiences.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-5 mt-12 justify-center lg:justify-start px-4 sm:px-0">
+            <motion.a 
+              href="mailto:gulrez@example.com"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-white text-black px-10 py-4 rounded-2xl font-bold text-center transition-all shadow-xl"
+            >
+              Get In Touch
+            </motion.a>
+            
+            <motion.a 
+              href="/Gulrez-Resume.pdf"
+              className="border border-white/20 px-10 py-4 rounded-2xl font-bold text-white text-center flex items-center justify-center gap-2 transition-all hover:bg-white/5"
+            >
+              <FaDownload size={14}/> Download CV
+            </motion.a>
+          </div>
+
+          {/* Fixed Socials - Zero Warnings */}
+          <div className="mt-12 flex justify-center lg:justify-start gap-6 text-3xl">
+            <a href="https://github.com/gulrezsarankar" target="_blank" rel="noreferrer" className="text-gray-500 hover:text-white transition-all">
+              <FaGithub />
+            </a>
+            <a href="https://linkedin.com/in/gulrez-sarankar" target="_blank" rel="noreferrer" className="text-gray-500 hover:text-blue-400 transition-all">
+              <FaLinkedin />
+            </a>
+          </div>
+
+          <div className="mt-10 flex flex-wrap justify-center lg:justify-start gap-6 text-2xl text-gray-700">
+            <SiSpringboot className="hover:text-green-500 transition-all cursor-help" title="Spring Boot" />
+            <SiMongodb className="hover:text-green-600 transition-all cursor-help" title="MongoDB" />
+            <SiMysql className="hover:text-blue-500 transition-all cursor-help" title="MySQL" />
+            <SiPostman className="hover:text-orange-500 transition-all cursor-help" title="Postman" />
+          </div>
+        </motion.div>
+
       </div>
-    </div>
+    </section>
   );
 }
