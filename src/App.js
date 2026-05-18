@@ -8,6 +8,7 @@ import Projects from "./pages/projects";
 import Certificates from "./pages/certificate";
 import Contact from "./pages/contact";
 import Education from "./pages/Education";
+import ProfessionalExperience from "./pages/ProfessionalExperience";
 export default function App() {
   return (
     <BrowserRouter>
@@ -18,6 +19,7 @@ export default function App() {
           <Route path="/skills" element={<Skills />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/certificates" element={<Certificates />} />
+          <Route path="/experience" element={<ProfessionalExperience />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="education" element={<Education/>}/>
         </Routes>
