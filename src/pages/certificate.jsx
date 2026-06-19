@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Tilt from "react-parallax-tilt";
 import Masonry from "react-masonry-css";
 import { certificates } from "../data/certificate";
 import SectionTitle from "../assets/components/Sectiontitle";
@@ -10,151 +9,89 @@ export default function Certificates() {
   const [filter, setFilter] = useState("All");
 
   const filteredCertificates =
-    filter === "All"
-      ? certificates
-      : certificates.filter((c) => c.category === filter);
-
-  const openPopup = (index) => setSelectedIndex(index);
-  const closePopup = () => setSelectedIndex(null);
+    filter === "All" ? certificates : certificates.filter((c) => c.category === filter);
 
   const nextCertificate = () =>
     setSelectedIndex((prev) => (prev + 1) % filteredCertificates.length);
 
   const prevCertificate = () =>
-    setSelectedIndex((prev) =>
-      prev === 0 ? filteredCertificates.length - 1 : prev - 1
-    );
+    setSelectedIndex((prev) => (prev === 0 ? filteredCertificates.length - 1 : prev - 1));
 
-  const breakpoints = {
-    default: 3,
-    900: 2,
-    600: 1,
-  };
+  const breakpoints = { default: 3, 900: 2, 600: 1 };
 
   return (
-    <div className="pb-24 relative">
-
-      {/* Background Effects */}
-      <div className="absolute top-0 left-0 w-[260px] h-[260px] bg-purple-700 blur-[150px] opacity-30 -z-10" />
-      <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-pink-600 blur-[180px] opacity-30 -z-10" />
-
+    <section className="page-section px-4 sm:px-6">
       <SectionTitle title="Certificates" />
 
-      {/* FILTERS */}
-      <div className="flex justify-center gap-4 mb-10">
+      <div className="mb-10 flex flex-wrap justify-center gap-3">
         {["All", "Backend", "Frontend", "Database", "Tools"].map((cat) => (
           <button
             key={cat}
+            type="button"
             onClick={() => setFilter(cat)}
-            className={`px-5 py-2 rounded-xl border border-white/10 text-white backdrop-blur-xl
-              ${filter === cat 
-                ? "bg-purple-600 shadow-lg shadow-purple-500/40"
-                : "bg-white/5 hover:bg-white/10"} 
-              transition`}
+            className={`rounded-xl px-5 py-2 text-sm font-bold transition ${
+              filter === cat ? "primary-button" : "secondary-button"
+            }`}
           >
             {cat}
           </button>
         ))}
       </div>
 
-      {/* Masonry Grid */}
-      <Masonry
-        breakpointCols={breakpoints}
-        className="flex gap-6 max-w-7xl mx-auto px-6"
-        columnClassName="my-masonry-grid_column"
-      >
-        {filteredCertificates.map((c, i) => (
-          <Tilt
-            key={i}
-            tiltMaxAngleX={10}
-            tiltMaxAngleY={10}
-            scale={1.03}
-            transitionSpeed={1000}
-            className="rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl 
-                       shadow-[0_0_20px_rgba(150,0,255,0.2)] hover:border-purple-500/40 
-                       hover:shadow-[0_0_30px_rgba(150,0,255,0.4)] p-4 cursor-pointer 
-                       shine-effect overflow-hidden"
-            onClick={() => openPopup(i)}
+      <Masonry breakpointCols={breakpoints} className="mx-auto flex max-w-7xl gap-6" columnClassName="my-masonry-grid_column">
+        {filteredCertificates.map((certificate, index) => (
+          <motion.button
+            key={`${certificate.title}-${index}`}
+            type="button"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            onClick={() => setSelectedIndex(index)}
+            className="surface-card shine-effect cursor-pointer rounded-2xl p-4 text-left transition hover:-translate-y-1"
           >
-            <img
-              src={c.img}
-              alt={c.title}
-              className="rounded-xl w-full object-cover"
-            />
-
-            <h3 className="text-xl font-semibold text-center mt-4 text-transparent 
-                           bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text">
-              {c.title}
-            </h3>
-
-            <p className="text-center text-gray-300 text-sm mt-1">{c.category}</p>
-          </Tilt>
+            <img src={certificate.img} alt={certificate.title} className="w-full rounded-xl object-cover" />
+            <h3 className="mt-4 text-center text-xl font-extrabold text-heading">{certificate.title}</h3>
+            <p className="mt-1 text-center text-sm font-semibold text-muted">{certificate.category}</p>
+          </motion.button>
         ))}
       </Masonry>
 
-      {/* POPUP VIEWER */}
       <AnimatePresence>
         {selectedIndex !== null && (
           <motion.div
-            className="fixed inset-0 bg-black/70 backdrop-blur-xl flex justify-center items-center z-50"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
             <motion.div
-              initial={{ scale: 0.7 }}
+              initial={{ scale: 0.92 }}
               animate={{ scale: 1 }}
-              exit={{ scale: 0.7 }}
-              transition={{ duration: 0.3 }}
-              className="relative"
+              exit={{ scale: 0.92 }}
+              className="relative max-w-5xl"
             >
-              {/* Spotlight Glow */}
-              <div className="absolute inset-0 rounded-xl shadow-[0_0_80px_#ffffff55]"></div>
-
-              {/* Popup Image */}
               <img
                 src={filteredCertificates[selectedIndex].img}
-                alt=""
-                className="max-w-4xl max-h-[90vh] rounded-2xl border border-white/20 shadow-2xl"
+                alt={filteredCertificates[selectedIndex].title}
+                className="max-h-[82vh] rounded-2xl border border-white/20 object-contain shadow-2xl"
               />
             </motion.div>
 
-            {/* Close */}
-            <button
-              className="absolute top-8 right-8 text-white bg-red-600 px-4 py-2 rounded-xl"
-              onClick={closePopup}
-            >
-              ✕ Close
+            <button type="button" className="absolute right-6 top-6 secondary-button px-4 py-2" onClick={() => setSelectedIndex(null)}>
+              Close
             </button>
-
-            {/* Prev */}
-            <button
-              className="absolute left-8 text-white bg-white/20 px-4 py-3 rounded-full hover:bg-white/30"
-              onClick={prevCertificate}
-            >
-              ‹
+            <button type="button" className="absolute left-6 secondary-button px-4 py-3" onClick={prevCertificate}>
+              Prev
             </button>
-
-            {/* Next */}
-            <button
-              className="absolute right-8 text-white bg-white/20 px-4 py-3 rounded-full hover:bg-white/30"
-              onClick={nextCertificate}
-            >
-              ›
+            <button type="button" className="absolute right-6 secondary-button px-4 py-3" onClick={nextCertificate}>
+              Next
             </button>
-
-            {/* Download */}
-            <a
-              href={filteredCertificates[selectedIndex].file}
-              download
-              className="absolute bottom-8 bg-purple-600 px-6 py-2 rounded-xl text-white 
-                         font-semibold hover:bg-purple-700"
-            >
-              ⬇ Download Certificate
+            <a href={filteredCertificates[selectedIndex].file} download className="primary-button absolute bottom-6 px-6 py-3">
+              Download Certificate
             </a>
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </section>
   );
 }

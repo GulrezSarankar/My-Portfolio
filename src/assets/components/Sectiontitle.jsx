@@ -1,10 +1,10 @@
 export default function SectionTitle({ title }) {
     return (
       <h2
-        className="text-4xl font-bold mb-10 text-center"
+        className="mb-10 text-center text-3xl font-extrabold tracking-tight text-heading md:text-4xl"
         data-aos="fade-up"
       >
-        <span className="text-primary">#</span> {title}
+        <span className="accent-text">/</span> {title}
       </h2>
     );
   }

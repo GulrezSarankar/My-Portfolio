@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 export default function Stats() {
   const stats = [
     { label: "Projects Completed", value: 15 },
-    { label: "APIs Built", value: 40 },
+    { label: "APIs Built", value: 300 },
     { label: "Months Experience", value: 8 },
     { label: "Technologies Mastered", value: 12 },
   ];
@@ -33,8 +33,8 @@ export default function Stats() {
   }, []); // <— Fixed: remove stats from dependency to avoid warning
 
   return (
-    <section className="py-20 bg-transparent relative z-20">
-      <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10 text-center px-6">
+    <section className="relative z-20 py-16">
+      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-5 px-6 text-center md:grid-cols-4">
 
         {stats.map((item, i) => (
           <motion.div
@@ -42,12 +42,12 @@ export default function Stats() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: i * 0.1 }}
-            className="p-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-lg hover:border-purple-500/40 transition"
+            className="surface-card rounded-2xl p-6 transition hover:-translate-y-1"
           >
-            <h2 className="text-4xl font-bold text-purple-300">
+            <h2 className="text-3xl font-black accent-text md:text-4xl">
               {Math.floor(counts[i])}+
             </h2>
-            <p className="text-gray-300 mt-2 text-lg">{item.label}</p>
+            <p className="mt-2 text-sm font-semibold text-muted md:text-base">{item.label}</p>
           </motion.div>
         ))}
 

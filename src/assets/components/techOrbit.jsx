@@ -1,63 +1,44 @@
 import { motion } from "framer-motion";
-import {
-  SiJavascript,
-  SiPostman,
-  SiMongodb,
-  SiSpringboot,
-  SiMysql,
-} from "react-icons/si";
+import { SiJavascript, SiMongodb, SiMysql, SiPostman, SiSpringboot } from "react-icons/si";
 
 export default function TechOrbit() {
-  const icons = [
-    { icon: <SiJavascript className="text-yellow-400" />, angle: 0 },
-    { icon: <SiPostman className="text-orange-400" />, angle: 60 },
-    { icon: <SiSpringboot className="text-green-400" />, angle: 120 },
-    { icon: <SiMysql className="text-blue-400" />, angle: 180 },
-    { icon: <SiMongodb className="text-green-500" />, angle: 240 },
-    { icon: <SiJavascript className="text-yellow-400" />, angle: 300 },
+  const stack = [
+    { name: "JavaScript", icon: <SiJavascript className="text-yellow-500" /> },
+    { name: "Postman", icon: <SiPostman className="text-orange-500" /> },
+    { name: "Spring Boot", icon: <SiSpringboot className="text-green-500" /> },
+    { name: "MySQL", icon: <SiMysql className="text-blue-500" /> },
+    { name: "MongoDB", icon: <SiMongodb className="text-green-600" /> },
   ];
 
   return (
-    <div className="relative flex justify-center items-center py-20">
+    <section className="px-6 py-16">
+      <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+        <div>
+          <p className="mb-3 text-sm font-bold uppercase tracking-[0.18em] accent-text">Core Stack</p>
+          <h2 className="text-3xl font-extrabold tracking-tight text-heading md:text-4xl">
+            Tools I use to ship reliable products.
+          </h2>
+          <p className="mt-5 max-w-xl leading-7 text-muted">
+            My stack is focused around backend reliability, database correctness, API testing, and clean product interfaces.
+          </p>
+        </div>
 
-      {/* GLOW CIRCLE */}
-      <div className="absolute w-[380px] h-[380px] md:w-[480px] md:h-[480px] rounded-full 
-                      bg-purple-700/20 blur-[90px]"></div>
-
-      {/* ORBIT RING */}
-      <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-        className="relative w-[280px] h-[280px] md:w-[380px] md:h-[380px] 
-                   border-[2px] border-purple-500/30 rounded-full"
-      >
-        {/* ICONS IN PERFECT CIRCLE */}
-        {icons.map((item, index) => {
-          const radius = 150; // circle radius
-          const x = radius * Math.cos((item.angle * Math.PI) / 180);
-          const y = radius * Math.sin((item.angle * Math.PI) / 180);
-
-          return (
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-5">
+          {stack.map((item, index) => (
             <motion.div
-              key={index}
-              className="absolute left-1/2 top-1/2"
-              style={{
-                transform: `translate(${x}px, ${y}px) translate(-50%, -50%)`,
-              }}
-              whileHover={{ scale: 1.3 }}
-              transition={{ type: "spring", stiffness: 200 }}
+              key={item.name}
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.08 }}
+              className="surface-card flex min-h-32 flex-col items-center justify-center rounded-2xl p-5"
             >
-              <div className="text-4xl p-3 rounded-full bg-black/50 border border-white/10 
-                              backdrop-blur-xl shadow-lg hover:shadow-purple-500/40 transition">
-                {item.icon}
-              </div>
+              <div className="text-4xl">{item.icon}</div>
+              <p className="mt-3 text-center text-sm font-bold text-muted">{item.name}</p>
             </motion.div>
-          );
-        })}
-      </motion.div>
-
-      {/* CENTER GLOW */}
-      <div className="absolute w-24 h-24 rounded-full bg-purple-500/20 blur-3xl"></div>
-    </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }

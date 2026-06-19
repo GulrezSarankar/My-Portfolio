@@ -1,164 +1,136 @@
 import { motion } from "framer-motion";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import Tilt from "react-parallax-tilt";
 import Typewriter from "typewriter-effect";
-import { FaJava, FaGithub, FaLinkedin, FaDownload, FaCode } from "react-icons/fa";
-import { SiSpringboot, SiMongodb, SiMysql, SiPostman } from "react-icons/si";
+import { FaArrowRight, FaCheckCircle, FaDownload, FaGithub, FaLinkedin } from "react-icons/fa";
+import { SiMongodb, SiMysql, SiPostman, SiSpringboot } from "react-icons/si";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
   const [greeting, setGreeting] = useState("");
 
   useEffect(() => {
     const hour = new Date().getHours();
-    setGreeting(hour < 12 ? "Good Morning" : hour < 17 ? "Good Afternoon" : "Good Evening");
+    setGreeting(hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening");
   }, []);
 
-  const particles = useMemo(() => 
-    Array.from({ length: 15 }).map((_, i) => ({
-      id: i,
-      left: Math.random() * 100 + "%",
-      top: Math.random() * 100 + "%",
-      duration: Math.random() * 5 + 4,
-    })), []);
+  const highlights = ["Java", "Spring Boot", "REST APIs", "SQL", "MongoDB"];
+  const proof = [
+    { label: "API delivered", value: "300+" },
+    { label: "Projects", value: "15+" },
+    { label: "Performance", value: "Excellent" },
+  ];
 
   return (
-    <section className="relative min-h-screen w-full flex items-center justify-center pt-20 pb-10 md:py-0 px-4 md:px-10 lg:px-24 overflow-hidden bg-[#05000a]">
-      
-      {/* Background Decor */}
-      <div className="absolute top-[-10%] right-[-10%] w-[400px] h-[400px] bg-purple-600/10 blur-[150px] rounded-full"></div>
-      <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-blue-600/10 blur-[150px] rounded-full"></div>
-
-      {/* Floating Particles */}
-      <div className="absolute inset-0 pointer-events-none opacity-20">
-        {particles.map((p) => (
-          <motion.span
-            key={p.id}
-            animate={{ opacity: [0, 1, 0], y: [0, -40, 0] }}
-            transition={{ duration: p.duration, repeat: Infinity }}
-            className="absolute w-1 h-1 bg-white rounded-full"
-            style={{ left: p.left, top: p.top }}
-          />
-        ))}
-      </div>
-
-      <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-24 z-10">
-        
-        {/* --- LEFT: BIG IMAGE SECTION --- */}
-        <motion.div 
-          initial={{ opacity: 0, x: -50 }} 
-          animate={{ opacity: 1, x: 0 }} 
-          transition={{ duration: 0.8 }}
-          className="w-full lg:w-1/2 flex justify-center lg:justify-start relative"
+    <section className="relative flex min-h-[calc(100vh-5rem)] items-center overflow-hidden px-4 py-16 sm:px-6 lg:px-10">
+      <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.65 }}
+          className="text-center lg:text-left"
         >
-          {/* Tech Badges Floating */}
-          <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 3, repeat: Infinity }} className="absolute -top-6 -right-4 z-30 bg-white/5 backdrop-blur-md p-3 rounded-2xl border border-white/10 hidden md:block">
-            <SiSpringboot className="text-green-400 text-3xl" />
-          </motion.div>
-          
-          <motion.div animate={{ y: [0, 15, 0] }} transition={{ duration: 4, repeat: Infinity }} className="absolute bottom-10 -left-6 z-30 bg-white/5 backdrop-blur-md p-3 rounded-2xl border border-white/10 hidden md:block">
-            <FaJava className="text-orange-400 text-4xl" />
-          </motion.div>
-
-          <Tilt tiltMaxAngleX={7} tiltMaxAngleY={7} scale={1.02} className="z-20">
-            <div className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-[2.5rem] blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
-              
-              <div className="relative w-[290px] h-[400px] md:w-[420px] md:h-[580px] bg-[#0a0010] rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl">
-                <img 
-                  src="/Gulrez New.png" 
-                  alt="Gulrez Sarankar" 
-                  className="w-full h-full object-cover grayscale-[15%] group-hover:grayscale-0 transition-all duration-700"
-                />
-                
-                <div className="absolute bottom-6 left-6 right-6 p-5 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <p className="text-white font-bold text-lg">Gulrez Sarankar</p>
-                      <p className="text-purple-400 text-xs uppercase tracking-widest font-mono">Backend Developer</p>
-                    </div>
-                    <div className="p-2 bg-purple-500/20 rounded-lg">
-                      <FaCode className="text-purple-400" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Tilt>
-        </motion.div>
-
-        {/* --- RIGHT: TEXT CONTENT SECTION --- */}
-        <motion.div 
-          initial={{ opacity: 0, x: 50 }} 
-          animate={{ opacity: 1, x: 0 }} 
-          transition={{ duration: 0.8 }}
-          className="w-full lg:w-1/2 text-center lg:text-left"
-        >
-          <div className="flex items-center gap-3 justify-center lg:justify-start mb-6">
-            <span className="w-10 h-[1px] bg-purple-500"></span>
-            <p className="text-purple-400 font-mono tracking-widest text-xs uppercase">
-              {greeting}
-            </p>
+          <div className="mb-6 inline-flex items-center gap-3 rounded-full border px-4 py-2 text-sm font-semibold text-muted" style={{ borderColor: "var(--border)", background: "var(--surface)" }}>
+            <span className="h-2.5 w-2.5 rounded-full" style={{ background: "var(--success)" }} />
+            {greeting}, available for freelance and backend roles
           </div>
 
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white leading-[0.9] tracking-tighter">
-            CRAFTING <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-fuchsia-500 to-indigo-500">
-              SOLUTIONS
-            </span>
+          <h1 className="max-w-4xl text-4xl font-black leading-tight tracking-tight text-heading sm:text-6xl lg:text-7xl">
+            Backend-focused software engineer for scalable web applications.
           </h1>
 
-          <div className="mt-6 text-xl md:text-3xl font-medium text-gray-300">
+          <div className="mt-6 text-xl font-semibold text-muted md:text-2xl">
             <Typewriter
               options={{
-                strings: ["Java Specialist", "Spring Boot Expert", "Database Architect"],
-                autoStart: true, loop: true, deleteSpeed: 50,
+                strings: ["Java Developer", "Spring Boot Engineer", "Database-focused Builder"],
+                autoStart: true,
+                loop: true,
+                deleteSpeed: 45,
               }}
             />
           </div>
 
-          <p className="mt-8 text-gray-400 text-lg md:text-xl leading-relaxed max-w-lg mx-auto lg:mx-0">
-            I specialize in building <span className="text-white">secure, scalable backend systems</span> that power 
-            modern digital experiences.
+          <p className="mx-auto mt-7 max-w-2xl text-base leading-8 text-muted md:text-lg lg:mx-0">
+            I turn product requirements into secure APIs, clean database models, and responsive React
+            experiences that are simple to maintain after handover.
           </p>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-5 mt-12 justify-center lg:justify-start">
-            <motion.a 
-              href="mailto:gulrez@example.com"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-white text-black px-10 py-4 rounded-2xl font-bold text-center transition-all shadow-xl"
-            >
-              Get In Touch
-            </motion.a>
-            
-            <motion.a 
-              href="/Gulrez-Resume.pdf"
-              className="border border-white/20 px-10 py-4 rounded-2xl font-bold text-white text-center flex items-center justify-center gap-2 transition-all"
-            >
-              <FaDownload size={14}/> Download CV
-            </motion.a>
+          <div className="mt-9 flex flex-col justify-center gap-4 sm:flex-row lg:justify-start">
+            <Link to="/freelance" className="primary-button px-6 py-4">
+              Hire Me <FaArrowRight className="text-sm" />
+            </Link>
+            <a href="/Gulrez-Sarankar.pdf" className="secondary-button px-6 py-4">
+              <FaDownload className="text-sm" /> Download CV
+            </a>
           </div>
 
-          {/* Fixed Social Icons - Now using FaGithub and FaLinkedin */}
-          <div className="mt-12 flex justify-center lg:justify-start gap-6 text-3xl">
-            <a href="https://github.com/gulrezsarankar" target="_blank" rel="noreferrer" className="text-gray-500 hover:text-white transition-all">
+          <div className="mt-9 grid max-w-xl grid-cols-3 gap-3 lg:mx-0">
+            {proof.map((item) => (
+              <div key={item.label} className="surface-card rounded-2xl p-4 text-left">
+                <p className="text-2xl font-black accent-text">{item.value}</p>
+                <p className="mt-1 text-xs font-bold uppercase tracking-wide text-soft">{item.label}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10 flex flex-wrap justify-center gap-3 lg:justify-start">
+            {highlights.map((item) => (
+              <span key={item} className="rounded-full px-4 py-2 text-sm font-bold accent-soft accent-text">
+                {item}
+              </span>
+            ))}
+          </div>
+
+          <div className="mt-9 flex justify-center gap-4 text-2xl lg:justify-start">
+            <a href="https://github.com/gulrezsarankar" target="_blank" rel="noreferrer" className="text-soft transition hover:accent-text" aria-label="GitHub">
               <FaGithub />
             </a>
-            <a href="https://linkedin.com/in/gulrez-sarankar" target="_blank" rel="noreferrer" className="text-gray-500 hover:text-blue-400 transition-all">
+            <a href="https://linkedin.com/in/gulrez-sarankar" target="_blank" rel="noreferrer" className="text-soft transition hover:accent-text" aria-label="LinkedIn">
               <FaLinkedin />
             </a>
           </div>
-
-          {/* Mini Tech Stack Row */}
-          <div className="mt-10 flex flex-wrap justify-center lg:justify-start gap-6 text-2xl text-gray-700">
-            <SiSpringboot className="hover:text-green-500 transition-all cursor-help" title="Spring Boot" />
-            <SiMongodb className="hover:text-green-600 transition-all cursor-help" title="MongoDB" />
-            <SiMysql className="hover:text-blue-500 transition-all cursor-help" title="MySQL" />
-            <SiPostman className="hover:text-orange-500 transition-all cursor-help" title="Postman" />
-          </div>
         </motion.div>
 
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.65, delay: 0.1 }}
+          className="relative flex justify-center"
+        >
+          <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} scale={1.01} className="w-full max-w-md">
+            <div className="surface-card premium-card overflow-hidden rounded-3xl p-4">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
+                <img
+                  src="/Gulrez New.png"
+                  alt="Gulrez Sarankar"
+                  className="h-full w-full object-cover"
+                />
+                <div className="absolute bottom-4 left-4 right-4 rounded-2xl p-4" style={{ background: "rgba(15, 23, 42, 0.78)", color: "#fff", backdropFilter: "blur(16px)" }}>
+                  <p className="text-lg font-extrabold">Gulrez Sarankar</p>
+                  <p className="text-sm text-slate-200">Associate Software Engineer</p>
+                </div>
+              </div>
+
+              <div className="mt-4 grid grid-cols-4 gap-3">
+                {[SiSpringboot, SiMongodb, SiMysql, SiPostman].map((Icon, index) => (
+                  <div key={index} className="surface-flat flex aspect-square items-center justify-center rounded-2xl text-2xl accent-text">
+                    <Icon />
+                  </div>
+                ))}
+              </div>
+
+              <div className="relative z-10 mt-4 rounded-2xl p-5" style={{ background: "var(--surface-muted)" }}>
+                <p className="mb-3 text-sm font-extrabold text-heading">Currently focused on</p>
+                {["API architecture", "Database performance", "Secure authentication"].map((item) => (
+                  <div key={item} className="mt-2 flex items-center gap-2 text-sm font-semibold text-muted">
+                    <FaCheckCircle className="accent-text" />
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Tilt>
+        </motion.div>
       </div>
     </section>
   );

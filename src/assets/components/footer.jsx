@@ -1,10 +1,10 @@
 export default function Footer() {
-    return (
-      <footer className="text-center py-6 border-t border-white/10 mt-20 bg-black/40">
-        <p className="text-gray-400">
-          © {new Date().getFullYear()} Gulrez Sarankar — All Rights Reserved.
-        </p>
-      </footer>
-    );
-  }
-  
+  return (
+    <footer className="mt-16 border-t px-6 py-8" style={{ borderColor: "var(--border)" }}>
+      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 text-center text-sm text-muted md:flex-row md:text-left">
+        <p>Copyright {new Date().getFullYear()} Gulrez Sarankar. All rights reserved.</p>
+        <p className="font-semibold">Software Engineer · Java · Spring Boot · React</p>
+      </div>
+    </footer>
+  );
+}

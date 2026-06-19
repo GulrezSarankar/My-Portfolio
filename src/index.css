@@ -2,141 +2,204 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ---------- Global Body Styling ---------- */
-body {
-  background: linear-gradient(135deg, #020202, #0c0c0c, #111111, #1a1a1a);
-  background-attachment: fixed;
-  color: #ffffff;
-  font-family: "Poppins", sans-serif;
-  overflow-x: hidden;
+:root {
+  --bg: #f7f8fb;
+  --bg-soft: #eef2f7;
+  --surface: rgba(255, 255, 255, 0.86);
+  --surface-strong: #ffffff;
+  --surface-muted: #f1f5f9;
+  --border: rgba(15, 23, 42, 0.12);
+  --text: #0f172a;
+  --text-muted: #475569;
+  --text-soft: #64748b;
+  --accent: #2563eb;
+  --accent-strong: #1d4ed8;
+  --accent-soft: rgba(37, 99, 235, 0.1);
+  --success: #16a34a;
+  --shadow: 0 24px 70px rgba(15, 23, 42, 0.1);
+  --shadow-soft: 0 12px 34px rgba(15, 23, 42, 0.08);
+}
+
+.dark {
+  --bg: #070b12;
+  --bg-soft: #0f172a;
+  --surface: rgba(15, 23, 42, 0.78);
+  --surface-strong: #111827;
+  --surface-muted: #172033;
+  --border: rgba(226, 232, 240, 0.13);
+  --text: #f8fafc;
+  --text-muted: #cbd5e1;
+  --text-soft: #94a3b8;
+  --accent: #60a5fa;
+  --accent-strong: #93c5fd;
+  --accent-soft: rgba(96, 165, 250, 0.13);
+  --success: #4ade80;
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.36);
+  --shadow-soft: 0 16px 44px rgba(0, 0, 0, 0.28);
+}
+
+html {
   scroll-behavior: smooth;
 }
 
-/* ---------- Smooth Font Rendering ---------- */
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  overflow-x: hidden;
+}
+
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ---------- Selection Highlight ---------- */
 ::selection {
-  background: #915eff;
+  background: var(--accent);
   color: #ffffff;
 }
 
-/* ---------- Scrollbar Styling ---------- */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: var(--bg-soft);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #915eff, #c084fc);
+  background: var(--text-soft);
   border-radius: 20px;
-  box-shadow: 0 0 10px #915effaa;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #a679ff, #d5a6ff);
+.app-shell {
+  min-height: 100vh;
+  background:
+    linear-gradient(135deg, var(--accent-soft), transparent 26rem),
+    linear-gradient(180deg, var(--bg), var(--bg-soft));
+  color: var(--text);
+  transition: background 240ms ease, color 240ms ease;
 }
 
-/* ---------- Page Container Fade ---------- */
-.page-enter {
-  opacity: 0;
-  transform: translateY(15px);
+.page-section {
+  position: relative;
+  min-height: calc(100vh - 5rem);
+  padding: 4rem 0 6rem;
 }
 
-.page-enter-active {
-  opacity: 1;
-  transform: translateY(0px);
-  transition: all 0.5s ease;
+.surface-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
 }
 
-/* ---------- Smooth Card Hover Scaling ---------- */
-.card-hover {
-  transition: 0.35s ease;
+.premium-card {
+  position: relative;
+  overflow: hidden;
 }
 
-.card-hover:hover {
-  transform: translateY(-6px) scale(1.02);
-}
-
-/* ---------- Neon Glow Effect ---------- */
-.neon-border {
-  border: 1px solid rgba(147, 51, 234, 0.4);
-  box-shadow: 0 0 12px rgba(147, 51, 234, 0.4),
-              inset 0 0 12px rgba(147, 51, 234, 0.3);
-}
-
-/* ---------- Floating Animation (Reusable) ---------- */
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
-  100% { transform: translateY(0px); }
-}
-
-.floating {
-  animation: float 4s ease-in-out infinite;
-}
-
-/* ---------- Glow Pulse Animation ---------- */
-@keyframes glowPulse {
-  0%, 100% { opacity: 0.8; filter: blur(60px); }
-  50% { opacity: 1; filter: blur(80px); }
-}
-
-.glow-pulse {
-  animation: glowPulse 4s infinite;
-}
-
-/* ---------- Neon Gradient Text ---------- */
-.neon-text {
-  background: linear-gradient(90deg, #915eff, #c084fc, #e879f9);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  color: transparent;
-  animation: neonGradient 4s linear infinite;
-}
-
-@keyframes neonGradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* ---------- Custom Smooth Hover ---------- */
-.smooth-hover {
-  transition: 0.2s ease;
-}
-
-.smooth-hover:hover {
-  opacity: 0.7;
-}
-
-/* ---------- Cursor Glow (optional) ---------- */
-.cursor-glow {
-  position: fixed;
-  width: 180px;
-  height: 180px;
-  background: radial-gradient(circle, rgba(147,51,234,0.25), transparent 70%);
-  border-radius: 50%;
+.premium-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   pointer-events: none;
-  z-index: 50;
-  filter: blur(60px);
-  mix-blend-mode: screen;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.16), transparent 34%);
 }
 
-/* Masonry Layout Fix */
+.surface-flat {
+  background: var(--surface-strong);
+  border: 1px solid var(--border);
+}
+
+.text-heading {
+  color: var(--text);
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+.text-soft {
+  color: var(--text-soft);
+}
+
+.accent-text {
+  color: var(--accent);
+}
+
+.accent-bg {
+  background: var(--accent);
+}
+
+.accent-soft {
+  background: var(--accent-soft);
+}
+
+.primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  background: var(--accent);
+  color: #ffffff;
+  font-weight: 700;
+  transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+  box-shadow: 0 14px 30px rgba(37, 99, 235, 0.22);
+}
+
+.primary-button:hover {
+  background: var(--accent-strong);
+  transform: translateY(-1px);
+}
+
+.secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  color: var(--text);
+  background: var(--surface);
+  font-weight: 700;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.secondary-button:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.nav-cta {
+  box-shadow: var(--shadow-soft);
+}
+
+.section-kicker {
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.focus-ring:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+.skill-bar {
+  background: linear-gradient(90deg, var(--accent), var(--success));
+}
+
 .my-masonry-grid_column {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-/* Shine Hover Effect */
 .shine-effect {
   position: relative;
   overflow: hidden;
@@ -145,21 +208,12 @@ body {
 .shine-effect::before {
   content: "";
   position: absolute;
-  top: -150%;
-  left: -150%;
-  width: 300%;
-  height: 300%;
-  background: linear-gradient(
-    45deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
+  inset: -150%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.22), transparent);
   transform: rotate(25deg);
   transition: 0.8s;
 }
 
 .shine-effect:hover::before {
-  top: -50%;
-  left: -50%;
+  inset: -50%;
 }

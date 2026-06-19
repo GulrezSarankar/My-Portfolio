@@ -1,46 +1,49 @@
 import { motion } from "framer-motion";
-import { FaServer, FaDatabase, FaLaptopCode } from "react-icons/fa";
+import { FaDatabase, FaLaptopCode, FaServer } from "react-icons/fa";
 
 export default function Services() {
   const services = [
     {
       title: "Backend Development",
-      desc: "Building powerful REST APIs with Java + Spring Boot.",
-      icon: <FaServer className="text-purple-400 text-4xl" />,
+      desc: "REST APIs, authentication, business workflows, and maintainable Spring Boot services.",
+      icon: <FaServer className="text-4xl accent-text" />,
     },
     {
       title: "Database Design",
-      desc: "MySQL, MongoDB, SQL Server — optimized schema design.",
-      icon: <FaDatabase className="text-pink-400 text-4xl" />,
+      desc: "MySQL, MongoDB, and SQL Server schemas shaped for reliability and performance.",
+      icon: <FaDatabase className="text-4xl accent-text" />,
     },
     {
-      title: "Full Stack Development",
-      desc: "React + Tailwind + Spring Boot integration.",
-      icon: <FaLaptopCode className="text-blue-400 text-4xl" />,
+      title: "Full Stack Delivery",
+      desc: "React interfaces connected to stable APIs with clean deployment-ready structure.",
+      icon: <FaLaptopCode className="text-4xl accent-text" />,
     },
   ];
 
   return (
-    <div className="py-24 text-center">
-      <h2 className="text-3xl font-bold text-purple-300 mb-12">
-        🛠️ What I Offer
-      </h2>
+    <section className="px-6 py-20 text-center">
+      <p className="section-kicker mb-3">Services</p>
+      <h2 className="mb-4 text-3xl font-extrabold text-heading">Engineering support for practical product work.</h2>
+      <p className="mx-auto mb-12 max-w-2xl text-muted">
+        Practical engineering support for teams that need clean APIs, durable data layers, and usable web interfaces.
+      </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+      <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-3">
         {services.map((srv, i) => (
           <motion.div
-            key={i}
+            key={srv.title}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.2 }}
-            className="bg-white/5 p-8 rounded-2xl border border-white/10 backdrop-blur-xl shadow-xl hover:border-purple-500/50 transition"
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.12 }}
+            className="surface-card rounded-2xl p-8 transition hover:-translate-y-1"
           >
             <div className="mb-4 flex justify-center">{srv.icon}</div>
-            <h3 className="text-xl font-semibold text-gray-200">{srv.title}</h3>
-            <p className="mt-3 text-gray-400">{srv.desc}</p>
+            <h3 className="text-xl font-bold text-heading">{srv.title}</h3>
+            <p className="mt-3 text-sm leading-6 text-muted">{srv.desc}</p>
           </motion.div>
         ))}
       </div>
-    </div>
+    </section>
   );
 }

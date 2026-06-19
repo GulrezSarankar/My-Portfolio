@@ -8,8 +8,7 @@ const Services = lazy(() => import("../assets/components/services"));
 
 export default function Home() {
   return (
-    <div className="overflow-hidden bg-[#0c001b]">
-      {/* Hero stays standard or gets a high-priority load */}
+    <div className="overflow-hidden">
       <Suspense fallback={<div className="h-screen bg-black" />}>
         <Hero />
         <Stats />
