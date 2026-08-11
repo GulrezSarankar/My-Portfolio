@@ -6,7 +6,7 @@ const experienceItems = [
   {
     title: "Associate Software Engineer",
     company: "Isees Technologies LLP",
-    period: "September 2025 - Present",
+    period: "July 2024 - Present",
     icon: <FaCode className="text-2xl accent-text md:text-3xl" />,
     summary:
       "Java Developer specializing in backend development using Spring Boot, REST APIs, and database-driven applications with MongoDB and MySQL.",

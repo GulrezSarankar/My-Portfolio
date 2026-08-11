@@ -9,6 +9,7 @@ const pages = [
   { name: "Experience", path: "/experience" },
   { name: "Skills", path: "/skills" },
   { name: "Projects", path: "/projects" },
+  { name: "Blog", path: "/blog" },
   { name: "Freelance", path: "/freelance", featured: true },
   { name: "Certificates", path: "/certificates" },
   { name: "Education", path: "/education" },
@@ -43,7 +44,8 @@ export default function Navbar() {
 
   useEffect(() => setOpen(false), [location.pathname]);
 
-  const isActive = (path) => location.pathname === path;
+  const isActive = (path) =>
+    path === "/blog" ? location.pathname.startsWith("/blog") : location.pathname === path;
 
   return (
     <motion.nav
@@ -64,13 +66,13 @@ export default function Navbar() {
               <span className="block text-base font-extrabold leading-tight text-heading">
                 Gulrez Sarankar
               </span>
-              <span className="block text-xs font-semibold uppercase tracking-[0.18em] text-soft">
-                Software Engineer
+              <span className="block text-xs font-semibold uppercase text-soft">
+                Java Software Engineer
               </span>
             </span>
           </Link>
 
-          <ul className="hidden items-center gap-1 lg:flex">
+          <ul className="hidden items-center gap-1 xl:flex">
             {pages.filter((item) => !item.featured).map((item) => (
               <li key={item.path}>
                 <Link
@@ -112,7 +114,7 @@ export default function Navbar() {
             <button
               type="button"
               aria-label="Open menu"
-              className="secondary-button h-10 w-10 rounded-xl p-0 lg:hidden"
+              className="secondary-button h-10 w-10 rounded-xl p-0 xl:hidden"
               onClick={() => setOpen((current) => !current)}
             >
               {open ? <FaTimes /> : <FaBars />}
@@ -126,7 +128,7 @@ export default function Navbar() {
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
-              className="surface-card mt-3 rounded-2xl p-3 lg:hidden"
+              className="surface-card mt-3 rounded-2xl p-3 xl:hidden"
             >
               <div className="grid gap-1">
                 {pages.map((item) => (

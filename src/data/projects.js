@@ -6,8 +6,6 @@ export const projects = [
     tech: ["Java", "Spring Boot", "MySQL", "Thymeleaf"],
     images: [
       "/projects/scm/1.png",
-      "/projects/scm/2.png",
-      "/projects/scm/3.png",
     ],
     link: "https://github.com/GulrezSarankar/SCM.git",
   },
@@ -20,7 +18,6 @@ export const projects = [
       "/projects/neokart/1.png",
       "/projects/neokart/2.png",
       "/projects/neokart/3.png",
-      "/projects/neokart/4.png",
     ],
     link: "https://github.com/GulrezSarankar/Live-NeoKart.git",
   },
@@ -36,18 +33,16 @@ export const projects = [
     ],
     link: "https://summary-inky.vercel.app/",
   },
-
-  // 
   {
     title: "Society Affair Management System(SAMS)",
     description:
       "Smart Attendance Management System (SAMS) that helps manage student attendance efficiently with real-time tracking, dashboard insights, and a modern UI.",
-    tech: ["React", "FastAPI", "Python ", "MySQL"], // update if needed
+    tech: ["React", "FastAPI", "Python", "MySQL"],
     images: [
       "/projects/sams/1.png",
       "/projects/sams/2.png",
       "/projects/sams/3.png",
-      "/projects/sams/3.png",
+      "/projects/sams/4.png",
     ],
     link: "https://society-affair-management-system.vercel.app/", 
   },

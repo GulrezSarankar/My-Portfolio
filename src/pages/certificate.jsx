@@ -86,9 +86,11 @@ export default function Certificates() {
             <button type="button" className="absolute right-6 secondary-button px-4 py-3" onClick={nextCertificate}>
               Next
             </button>
-            <a href={filteredCertificates[selectedIndex].file} download className="primary-button absolute bottom-6 px-6 py-3">
-              Download Certificate
-            </a>
+            {filteredCertificates[selectedIndex].file && (
+              <a href={filteredCertificates[selectedIndex].file} download className="primary-button absolute bottom-6 px-6 py-3">
+                Download Certificate
+              </a>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

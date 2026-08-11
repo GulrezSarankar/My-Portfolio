@@ -5,6 +5,8 @@ import Typewriter from "typewriter-effect";
 import { FaArrowRight, FaCheckCircle, FaDownload, FaGithub, FaLinkedin } from "react-icons/fa";
 import { SiMongodb, SiMysql, SiPostman, SiSpringboot } from "react-icons/si";
 import { Link } from "react-router-dom";
+import { projects } from "../../data/projects";
+import { skillCategories } from "../../data/skills";
 
 export default function Hero() {
   const [greeting, setGreeting] = useState("");
@@ -16,9 +18,9 @@ export default function Hero() {
 
   const highlights = ["Java", "Spring Boot", "REST APIs", "SQL", "MongoDB"];
   const proof = [
-    { label: "API delivered", value: "300+" },
-    { label: "Projects", value: "15+" },
-    { label: "Performance", value: "Excellent" },
+    { label: "Featured Projects", value: `${projects.length}` },
+    { label: "Skill Areas", value: `${skillCategories.length}` },
+    { label: "Primary Focus", value: "Backend" },
   ];
 
   return (
@@ -32,11 +34,11 @@ export default function Hero() {
         >
           <div className="mb-6 inline-flex items-center gap-3 rounded-full border px-4 py-2 text-sm font-semibold text-muted" style={{ borderColor: "var(--border)", background: "var(--surface)" }}>
             <span className="h-2.5 w-2.5 rounded-full" style={{ background: "var(--success)" }} />
-            {greeting}, available for freelance and backend roles
+            {greeting}, open to backend and full-stack opportunities
           </div>
 
           <h1 className="max-w-4xl text-4xl font-black leading-tight tracking-tight text-heading sm:text-6xl lg:text-7xl">
-            Backend-focused software engineer for scalable web applications.
+            Java-focused software engineer for clean backend systems.
           </h1>
 
           <div className="mt-6 text-xl font-semibold text-muted md:text-2xl">
@@ -51,8 +53,8 @@ export default function Hero() {
           </div>
 
           <p className="mx-auto mt-7 max-w-2xl text-base leading-8 text-muted md:text-lg lg:mx-0">
-            I turn product requirements into secure APIs, clean database models, and responsive React
-            experiences that are simple to maintain after handover.
+            I build Spring Boot APIs, database-backed modules, and responsive React
+            interfaces with a focus on structure, clarity, and maintainable handover.
           </p>
 
           <div className="mt-9 flex flex-col justify-center gap-4 sm:flex-row lg:justify-start">
@@ -64,7 +66,7 @@ export default function Hero() {
             </a>
           </div>
 
-          <div className="mt-9 grid max-w-xl grid-cols-3 gap-3 lg:mx-0">
+          <div className="mx-auto mt-9 grid max-w-xl grid-cols-3 gap-3 lg:mx-0">
             {proof.map((item) => (
               <div key={item.label} className="surface-card rounded-2xl p-4 text-left">
                 <p className="text-2xl font-black accent-text">{item.value}</p>

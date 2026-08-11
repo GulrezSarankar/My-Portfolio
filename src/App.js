@@ -12,6 +12,8 @@ import Contact from "./pages/contact";
 import Education from "./pages/Education";
 import ProfessionalExperience from "./pages/ProfessionalExperience";
 import Freelance from "./pages/Freelance";
+import Blog from "./pages/Blog";
+import BlogDetail from "./pages/BlogDetail";
 import IntroLoader from "./assets/components/IntroLoader";
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -33,8 +35,10 @@ export default function App() {
           <Route path="/certificates" element={<Certificates />} />
           <Route path="/experience" element={<ProfessionalExperience />} />
           <Route path="/freelance" element={<Freelance />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogDetail />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="education" element={<Education/>}/>
+          <Route path="/education" element={<Education />} />
         </Routes>
       </MainLayout>
     </BrowserRouter>
