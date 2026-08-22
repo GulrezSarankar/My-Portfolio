@@ -1,235 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --bg: #f5f7fb;
-  --bg-soft: #e9eef6;
-  --surface: rgba(255, 255, 255, 0.88);
-  --surface-strong: #ffffff;
-  --surface-muted: #eef3f8;
-  --border: rgba(20, 36, 58, 0.13);
-  --text: #111827;
-  --text-muted: #445166;
-  --text-soft: #667085;
-  --accent: #0f766e;
-  --accent-strong: #115e59;
-  --accent-soft: rgba(15, 118, 110, 0.11);
-  --accent-warm: #b45309;
-  --success: #15803d;
-  --code-bg: #101827;
-  --code-text: #dbeafe;
-  --shadow: 0 24px 70px rgba(18, 32, 52, 0.12);
-  --shadow-soft: 0 14px 36px rgba(18, 32, 52, 0.09);
+/* ==========================================================================
+   CENTRALIZED THEME DESIGN TOKENS
+   ========================================================================== */
+
+/* DARK MODE (Default or data-theme="dark") */
+:root, [data-theme="dark"] {
+  --bg-main: #0B111A;
+  --bg-section: #101722;
+  --bg-card: #141C27;
+  --bg-hover: #182230;
+  --bg-code: #080E16;
+  --border-color: #263241;
+
+  --text-primary: #F5F7FA;
+  --text-secondary: #A8B2C1;
+  --text-muted: #6F7B8B;
+
+  --accent-primary: #3B82F6;
+  --accent-hover: #2563EB;
+  --accent-light: #60A5FA;
+  --accent-soft: #172A46;
+  --nav-bg: rgba(11, 17, 26, 0.85);
+  --nav-scrolled: rgba(11, 17, 26, 0.95);
+  --shadow-color: rgba(0, 0, 0, 0.35);
+  --grid-dot-color: rgba(59, 130, 246, 0.12);
+
+  --arch-node-bg: #141C27;
+  --arch-node-border: #263241;
+  --arch-node-text: #F5F7FA;
 }
 
-.dark {
-  --bg: #0a0f1a;
-  --bg-soft: #111827;
-  --surface: rgba(17, 24, 39, 0.84);
-  --surface-strong: #121b2a;
-  --surface-muted: #182235;
-  --border: rgba(226, 232, 240, 0.14);
-  --text: #f8fafc;
-  --text-muted: #cbd5e1;
-  --text-soft: #94a3b8;
-  --accent: #2dd4bf;
-  --accent-strong: #5eead4;
-  --accent-soft: rgba(45, 212, 191, 0.12);
-  --accent-warm: #fbbf24;
-  --success: #4ade80;
-  --code-bg: #060914;
-  --code-text: #d1fae5;
-  --shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
-  --shadow-soft: 0 16px 44px rgba(0, 0, 0, 0.26);
+/* LIGHT MODE (data-theme="light") */
+[data-theme="light"] {
+  --bg-main: #FFFFFF;
+  --bg-section: #F7F9FC;
+  --bg-card: #FFFFFF;
+  --bg-hover: #F8FAFC;
+  --bg-code: #0A1018; /* Retain dark IDE visual accent */
+  --border-color: #E2E8F0;
+
+  --text-primary: #0B1220;
+  --text-secondary: #526070;
+  --text-muted: #7A8797;
+
+  --accent-primary: #2563EB;
+  --accent-hover: #1D4ED8;
+  --accent-light: #3B82F6;
+  --accent-soft: #EFF6FF;
+  --nav-bg: rgba(255, 255, 255, 0.85);
+  --nav-scrolled: rgba(255, 255, 255, 0.95);
+  --shadow-color: rgba(0, 0, 0, 0.06);
+  --grid-dot-color: rgba(37, 99, 235, 0.08);
+
+  --arch-node-bg: #FFFFFF;
+  --arch-node-border: #CBD5E1;
+  --arch-node-text: #0B1220;
 }
+
+/* ==========================================================================
+   GLOBAL BASE STYLES & TRANSITIONS
+   ========================================================================== */
 
 html {
   scroll-behavior: smooth;
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  transition: background-color 300ms ease, color 300ms ease;
 }
 
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  overflow-x: hidden;
-}
-
-* {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  transition: background-color 300ms ease, color 300ms ease;
 }
 
-::selection {
-  background: var(--accent);
-  color: #ffffff;
-}
-
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
-
 ::-webkit-scrollbar-track {
-  background: var(--bg-soft);
+  background: var(--bg-main);
 }
-
 ::-webkit-scrollbar-thumb {
-  background: var(--text-soft);
-  border-radius: 20px;
+  background: var(--border-color);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary);
 }
 
-.app-shell {
-  min-height: 100vh;
-  background:
-    radial-gradient(circle at top left, var(--accent-soft), transparent 26rem),
-    linear-gradient(180deg, var(--bg), var(--bg-soft));
-  color: var(--text);
-  transition: background 240ms ease, color 240ms ease;
+/* Fine Grid Pattern Texture */
+.bg-grid-pattern {
+  background-image: radial-gradient(var(--grid-dot-color) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
-.page-section {
-  position: relative;
-  min-height: calc(100vh - 5rem);
-  padding: 4rem 0 6rem;
+/* Radial Blue Glow */
+.bg-blue-glow {
+  background: radial-gradient(circle at 50% 0%, var(--grid-dot-color) 0%, transparent 60%);
 }
 
-.surface-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(18px);
+/* ==========================================================================
+   THEME-AWARE COMPONENT UTILITIES
+   ========================================================================== */
+
+/* Universal SaaS Card */
+.theme-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  box-shadow: 0 4px 20px var(--shadow-color);
+  transition: transform 250ms ease, border-color 250ms ease, box-shadow 250ms ease, background-color 250ms ease, color 250ms ease;
 }
 
-.surface-flat {
-  background: var(--surface-strong);
-  border: 1px solid var(--border);
-}
-
-.professional-card {
-  position: relative;
-  overflow: hidden;
-  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
-}
-
-.professional-card:hover {
+.theme-card-hover:hover {
   transform: translateY(-4px);
-  border-color: color-mix(in srgb, var(--accent) 42%, var(--border));
-  box-shadow: var(--shadow-soft);
+  border-color: var(--accent-primary);
+  background-color: var(--bg-hover);
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.12);
 }
 
-.premium-card {
-  position: relative;
-  overflow: hidden;
-}
-
-.premium-card::after,
-.professional-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 34%);
-}
-
-.text-heading {
-  color: var(--text);
-}
-
-.text-muted {
-  color: var(--text-muted);
-}
-
-.text-soft {
-  color: var(--text-soft);
-}
-
-.accent-text {
-  color: var(--accent);
-}
-
-.accent-bg {
-  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-}
-
-.accent-soft {
-  background: var(--accent-soft);
-}
-
-.primary-button,
-.secondary-button {
+/* Buttons */
+.btn-primary-blue {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 0.75rem;
-  font-weight: 800;
-  transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  background-color: var(--accent-primary);
+  color: #FFFFFF !important;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.625rem;
+  transition: all 200ms ease;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
+}
+.btn-primary-blue:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(37, 99, 235, 0.4);
 }
 
-.primary-button {
-  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-  color: #ffffff;
-  box-shadow: 0 14px 30px rgba(15, 118, 110, 0.22);
+.btn-secondary-theme {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.625rem;
+  transition: all 200ms ease;
 }
-
-.primary-button:hover,
-.secondary-button:hover {
+.btn-secondary-theme:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  background-color: var(--bg-hover);
   transform: translateY(-1px);
 }
 
-.secondary-button {
-  border: 1px solid var(--border);
-  color: var(--text);
-  background: var(--surface);
-}
-
-.secondary-button:hover {
-  border-color: var(--accent);
-  background: var(--surface-strong);
-}
-
-.nav-cta {
-  box-shadow: var(--shadow-soft);
-}
-
-.section-kicker {
-  color: var(--accent);
-  font-size: 0.78rem;
-  font-weight: 900;
-  letter-spacing: 0.18em;
+/* Badges */
+.theme-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  background-color: var(--accent-soft);
+  color: var(--accent-primary);
+  border: 1px solid var(--border-color);
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 700;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.focus-ring:focus {
-  border-color: var(--accent) !important;
-  box-shadow: 0 0 0 4px var(--accent-soft);
+.theme-badge-private {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  background-color: var(--bg-hover);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
-.skill-bar {
-  background: linear-gradient(90deg, var(--accent), var(--accent-warm));
+/* Code font */
+.font-code {
+  font-family: 'Fira Code', monospace;
 }
 
-.my-masonry-grid_column {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+/* Marquee Pause on Hover */
+.marquee-container:hover .animate-marquee {
+  animation-play-state: paused;
 }
 
-.shine-effect {
-  position: relative;
-  overflow: hidden;
-}
-
-.shine-effect::before {
-  content: "";
-  position: absolute;
-  inset: -150%;
-  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.24), transparent);
-  transform: rotate(25deg);
-  transition: 0.8s;
-}
-
-.shine-effect:hover::before {
-  inset: -50%;
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none !important;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

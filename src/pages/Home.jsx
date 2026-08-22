@@ -1,20 +1,31 @@
-import { Suspense, lazy } from "react";
-
-// Lazy load components that aren't visible immediately
-const Hero = lazy(() => import("../assets/components/Hero"));
-const Stats = lazy(() => import("../assets/components/stats"));
-const TechOrbit = lazy(() => import("../assets/components/techOrbit"));
-const Services = lazy(() => import("../assets/components/services"));
+import Hero from "../assets/components/Hero";
+import Stats from "../assets/components/stats";
+import TechOrbit from "../assets/components/techOrbit";
+import AboutExperience from "../assets/components/AboutExperience";
+import FeaturedProject from "../assets/components/FeaturedProject";
+import Projects from "./projects";
+import EngineeringProcess from "../assets/components/EngineeringProcess";
+import TechStackGrid from "../assets/components/TechStackGrid";
+import Contact from "./contact";
+import SEO from "../assets/components/SEO";
 
 export default function Home() {
   return (
-    <div className="overflow-hidden">
-      <Suspense fallback={<div className="h-screen bg-black" />}>
-        <Hero />
-        <Stats />
-        <TechOrbit />
-        <Services />
-      </Suspense>
+    <div className="bg-[#0B111A]">
+      <SEO
+        title="Gulrez Sarankar | Java Backend Developer | Spring Boot Developer"
+        description="Portfolio of Gulrez Sarankar, a Java Backend Developer and Associate Software Engineer specializing in Java, Spring Boot, REST APIs, PostgreSQL, MySQL and backend development."
+        canonicalPath="/"
+      />
+      <Hero />
+      <Stats />
+      <TechOrbit />
+      <AboutExperience isStandalonePage={false} />
+      <FeaturedProject />
+      <Projects isStandalonePage={false} />
+      <EngineeringProcess />
+      <TechStackGrid isStandalonePage={false} />
+      <Contact isStandalonePage={false} />
     </div>
   );
 }

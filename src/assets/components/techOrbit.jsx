@@ -1,41 +1,43 @@
-import { motion } from "framer-motion";
-import { SiJavascript, SiMongodb, SiMysql, SiPostman, SiSpringboot } from "react-icons/si";
+import { FaJava, FaDocker, FaGitAlt, FaGithub, FaAws, FaServer } from "react-icons/fa6";
+import { SiSpringboot, SiSpringsecurity, SiHibernate, SiPostgresql, SiMysql, SiRedis, SiReact } from "react-icons/si";
+
+const techItems = [
+  { name: "Java", icon: <FaJava className="text-[#E51F24]" /> },
+  { name: "Spring Boot", icon: <SiSpringboot className="text-[#6DB33F]" /> },
+  { name: "Spring Security", icon: <SiSpringsecurity className="text-[#6DB33F]" /> },
+  { name: "Hibernate", icon: <SiHibernate className="text-[#59666C]" /> },
+  { name: "JPA", icon: <FaServer className="text-[var(--accent-primary)]" /> },
+  { name: "REST APIs", icon: <FaServer className="text-[#60A5FA]" /> },
+  { name: "PostgreSQL", icon: <SiPostgresql className="text-[#4169E1]" /> },
+  { name: "MySQL", icon: <SiMysql className="text-[#4479A1]" /> },
+  { name: "Redis", icon: <SiRedis className="text-[#DC382D]" /> },
+  { name: "Docker", icon: <FaDocker className="text-[#2496ED]" /> },
+  { name: "Git", icon: <FaGitAlt className="text-[#F05032]" /> },
+  { name: "GitHub", icon: <FaGithub className="text-[var(--text-primary)]" /> },
+  { name: "AWS", icon: <FaAws className="text-[#FF9900]" /> },
+  { name: "React", icon: <SiReact className="text-[#61DAFB]" /> },
+];
 
 export default function TechOrbit() {
-  const stack = [
-    { name: "JavaScript", icon: <SiJavascript className="text-yellow-500" /> },
-    { name: "Postman", icon: <SiPostman className="text-orange-500" /> },
-    { name: "Spring Boot", icon: <SiSpringboot className="text-green-500" /> },
-    { name: "MySQL", icon: <SiMysql className="text-blue-500" /> },
-    { name: "MongoDB", icon: <SiMongodb className="text-green-600" /> },
-  ];
-
   return (
-    <section className="px-6 py-16">
-      <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[0.9fr_1.1fr]">
-        <div>
-          <p className="mb-3 text-sm font-bold uppercase tracking-[0.18em] accent-text">Core Stack</p>
-          <h2 className="text-3xl font-extrabold tracking-tight text-heading md:text-4xl">
-            Tools I use to ship reliable products.
-          </h2>
-          <p className="mt-5 max-w-xl leading-7 text-muted">
-            My stack is focused around backend reliability, database correctness, API testing, and clean product interfaces.
-          </p>
-        </div>
+    <section className="bg-[var(--bg-main)] py-8 border-b border-[var(--border-color)] overflow-hidden transition-colors duration-300">
+      <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8 mb-4 text-center">
+        <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">
+          TECHNICAL CAPABILITY STRIP
+        </span>
+      </div>
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-5">
-          {stack.map((item, index) => (
-            <motion.div
-              key={item.name}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.08 }}
-              className="surface-card flex min-h-32 flex-col items-center justify-center rounded-2xl p-5"
+      {/* Marquee Track with Pause on Hover */}
+      <div className="marquee-container relative w-full overflow-hidden">
+        <div className="flex w-max animate-marquee gap-3 sm:gap-4">
+          {[...techItems, ...techItems].map((item, idx) => (
+            <div
+              key={`${item.name}-${idx}`}
+              className="theme-card flex items-center gap-2.5 px-3.5 py-2 sm:px-4 sm:py-2.5 text-xs sm:text-sm font-bold text-[var(--text-primary)] transition-all duration-200 hover:border-[var(--accent-primary)] hover:bg-[var(--bg-hover)]"
             >
-              <div className="text-4xl">{item.icon}</div>
-              <p className="mt-3 text-center text-sm font-bold text-muted">{item.name}</p>
-            </motion.div>
+              <span className="text-sm sm:text-base">{item.icon}</span>
+              <span>{item.name}</span>
+            </div>
           ))}
         </div>
       </div>

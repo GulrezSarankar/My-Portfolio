@@ -1,138 +1,214 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import Tilt from "react-parallax-tilt";
-import Typewriter from "typewriter-effect";
-import { FaArrowRight, FaCheckCircle, FaDownload, FaGithub, FaLinkedin } from "react-icons/fa";
-import { SiMongodb, SiMysql, SiPostman, SiSpringboot } from "react-icons/si";
-import { Link } from "react-router-dom";
-import { projects } from "../../data/projects";
-import { skillCategories } from "../../data/skills";
+import { FaArrowUpRightFromSquare, FaDownload, FaGithub, FaDatabase, FaLayerGroup, FaArrowRight } from "react-icons/fa6";
 
 export default function Hero() {
-  const [greeting, setGreeting] = useState("");
-
-  useEffect(() => {
-    const hour = new Date().getHours();
-    setGreeting(hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening");
-  }, []);
-
-  const highlights = ["Java", "Spring Boot", "REST APIs", "SQL", "MongoDB"];
-  const proof = [
-    { label: "Featured Projects", value: `${projects.length}` },
-    { label: "Skill Areas", value: `${skillCategories.length}` },
-    { label: "Primary Focus", value: "Backend" },
-  ];
+  const scrollToProjects = (e) => {
+    e.preventDefault();
+    const projectsSec = document.querySelector("#projects");
+    if (projectsSec) {
+      projectsSec.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.location.href = "/projects";
+    }
+  };
 
   return (
-    <section className="relative flex min-h-[calc(100vh-5rem)] items-center overflow-hidden px-4 py-16 sm:px-6 lg:px-10">
-      <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.65 }}
-          className="text-center lg:text-left"
-        >
-          <div className="mb-6 inline-flex items-center gap-3 rounded-full border px-4 py-2 text-sm font-semibold text-muted" style={{ borderColor: "var(--border)", background: "var(--surface)" }}>
-            <span className="h-2.5 w-2.5 rounded-full" style={{ background: "var(--success)" }} />
-            {greeting}, open to backend and full-stack opportunities
-          </div>
+    <section className="relative overflow-hidden bg-[var(--bg-main)] pb-12 pt-10 lg:pb-20 lg:pt-16 bg-grid-pattern bg-blue-glow transition-colors duration-300">
+      <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
+        <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-8">
+          {/* LEFT SIDE: Hero Headline & Actions */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="lg:col-span-6 text-left"
+          >
+            {/* Eyebrow badge */}
+            <div className="theme-badge mb-4">
+              <span className="h-2 w-2 rounded-full bg-[var(--accent-primary)] animate-pulse" />
+              JAVA BACKEND DEVELOPER
+            </div>
 
-          <h1 className="max-w-4xl text-4xl font-black leading-tight tracking-tight text-heading sm:text-6xl lg:text-7xl">
-            Java-focused software engineer for clean backend systems.
-          </h1>
+            {/* Headline */}
+            <h1 className="text-3xl font-black tracking-tight text-[var(--text-primary)] sm:text-5xl lg:text-6xl lg:leading-[1.12]">
+              Building scalable, <br />
+              secure & reliable <br />
+              <span className="text-[var(--accent-primary)]">backend systems.</span>
+            </h1>
 
-          <div className="mt-6 text-xl font-semibold text-muted md:text-2xl">
-            <Typewriter
-              options={{
-                strings: ["Java Developer", "Spring Boot Engineer", "Database-focused Builder"],
-                autoStart: true,
-                loop: true,
-                deleteSpeed: 45,
-              }}
-            />
-          </div>
+            {/* Description */}
+            <p className="mt-5 max-w-xl text-sm leading-relaxed text-[var(--text-secondary)] sm:text-base lg:text-lg">
+              I design and develop reliable backend systems using Java and Spring Boot, with a focus on clean architecture, API reliability, database performance and maintainable production code.
+            </p>
 
-          <p className="mx-auto mt-7 max-w-2xl text-base leading-8 text-muted md:text-lg lg:mx-0">
-            I build Spring Boot APIs, database-backed modules, and responsive React
-            interfaces with a focus on structure, clarity, and maintainable handover.
-          </p>
+            {/* Action Buttons */}
+            <div className="mt-7 flex flex-wrap items-center gap-2.5 sm:gap-3">
+              <a
+                href="#projects"
+                onClick={scrollToProjects}
+                aria-label="View portfolio projects"
+                className="btn-primary-blue text-xs sm:text-sm py-2.5 px-4 sm:py-3 sm:px-5"
+              >
+                View My Work
+                <FaArrowUpRightFromSquare className="text-[10px] sm:text-xs" />
+              </a>
 
-          <div className="mt-9 flex flex-col justify-center gap-4 sm:flex-row lg:justify-start">
-            <Link to="/freelance" className="primary-button px-6 py-4">
-              Hire Me <FaArrowRight className="text-sm" />
-            </Link>
-            <a href="/Gulrez-Sarankar.pdf" className="secondary-button px-6 py-4">
-              <FaDownload className="text-sm" /> Download CV
-            </a>
-          </div>
+              <a
+                href="/Gulrez-Sarankar.pdf"
+                download="Gulrez_Sarankar_Resume.pdf"
+                aria-label="Download Gulrez Sarankar Resume PDF"
+                className="btn-secondary-theme text-xs sm:text-sm py-2.5 px-4 sm:py-3 sm:px-5"
+              >
+                <FaDownload className="text-[10px] sm:text-xs" />
+                Download Resume
+              </a>
 
-          <div className="mx-auto mt-9 grid max-w-xl grid-cols-3 gap-3 lg:mx-0">
-            {proof.map((item) => (
-              <div key={item.label} className="surface-card rounded-2xl p-4 text-left">
-                <p className="text-2xl font-black accent-text">{item.value}</p>
-                <p className="mt-1 text-xs font-bold uppercase tracking-wide text-soft">{item.label}</p>
+              <a
+                href="https://github.com/gulrezsarankar"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Gulrez Sarankar GitHub Profile"
+                className="btn-secondary-theme text-xs sm:text-sm py-2.5 px-4 sm:py-3 sm:px-5"
+              >
+                <FaGithub className="text-xs sm:text-sm" />
+                GitHub
+              </a>
+            </div>
+          </motion.div>
+
+          {/* RIGHT SIDE: Dark Code Editor & Data Flow Workspace (Technical Visual Accent) */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="lg:col-span-6 w-full overflow-hidden"
+          >
+            {/* Editor Container */}
+            <div className="overflow-hidden rounded-xl border border-[#263241] bg-[#0A1018] shadow-[0_20px_50px_rgba(0,0,0,0.4)]">
+              {/* Header Bar */}
+              <div className="flex items-center justify-between border-b border-[#263241] bg-[#060A10] px-3 sm:px-4 py-2.5 sm:py-3">
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <div className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-[#EF4444]" />
+                  <div className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-[#F59E0B]" />
+                  <div className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-[#10B981]" />
+                </div>
+                <div className="flex items-center gap-1.5 rounded-t-md bg-[#0A1018] px-2.5 py-1 text-[11px] sm:text-xs font-mono text-[#60A5FA]">
+                  <span>☕</span>
+                  <span>BookingService.java</span>
+                </div>
+                <div className="text-[10px] sm:text-[11px] font-mono text-[#6F7B8B]">UTF-8</div>
               </div>
-            ))}
-          </div>
 
-          <div className="mt-10 flex flex-wrap justify-center gap-3 lg:justify-start">
-            {highlights.map((item) => (
-              <span key={item} className="rounded-full px-4 py-2 text-sm font-bold accent-soft accent-text">
-                {item}
-              </span>
-            ))}
-          </div>
+              {/* Code Snippet */}
+              <div className="overflow-x-auto p-3 sm:p-5 font-code text-[11px] sm:text-xs md:text-sm leading-relaxed text-[#E2E8F0]">
+                <table className="w-full border-collapse min-w-[280px]">
+                  <tbody>
+                    <tr>
+                      <td className="w-6 sm:w-8 select-none text-right font-mono text-[#475569]">01</td>
+                      <td className="pl-3 sm:pl-4">
+                        <span className="text-[#F472B6]">@Service</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="w-6 sm:w-8 select-none text-right font-mono text-[#475569]">02</td>
+                      <td className="pl-3 sm:pl-4">
+                        <span className="text-[#F472B6]">@Transactional</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="w-6 sm:w-8 select-none text-right font-mono text-[#475569]">03</td>
+                      <td className="pl-3 sm:pl-4">
+                        <span className="text-[#60A5FA]">public class</span>{" "}
+                        <span className="font-bold text-[#FACC15]">BookingService</span>{" "}
+                        <span className="text-[#94A3B8]">&#123;</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="w-6 sm:w-8 select-none text-right font-mono text-[#475569]">04</td>
+                      <td className="pl-3 sm:pl-4"></td>
+                    </tr>
+                    <tr>
+                      <td className="w-6 sm:w-8 select-none text-right font-mono text-[#475569]">05</td>
+                      <td className="pl-3 sm:pl-4">
+                        &nbsp;&nbsp;<span className="text-[#60A5FA]">public</span>{" "}
+                        <span className="text-[#4ADE80]">BookingResponse</span>{" "}
+                        <span className="text-[#60A5FA]">createBooking</span>
+                        <span className="text-[#94A3B8]">(</span>
+                        <span className="text-[#4ADE80]">BookingRequest</span>{" "}
+                        <span className="text-[#E2E8F0]">req</span>
+                        <span className="text-[#94A3B8]">) &#123;</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="w-6 sm:w-8 select-none text-right font-mono text-[#475569]">06</td>
+                      <td className="pl-3 sm:pl-4">
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-[#60A5FA]">validateBooking</span>
+                        <span className="text-[#94A3B8]">(req);</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="w-6 sm:w-8 select-none text-right font-mono text-[#475569]">07</td>
+                      <td className="pl-3 sm:pl-4">
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-[#60A5FA]">lockSlot</span>
+                        <span className="text-[#94A3B8]">(redis, req.getSlotId());</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="w-6 sm:w-8 select-none text-right font-mono text-[#475569]">08</td>
+                      <td className="pl-3 sm:pl-4">
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-[#4ADE80]">Booking</span>{" "}
+                        <span className="text-[#E2E8F0]">booking</span> ={" "}
+                        <span className="text-[#60A5FA]">bookingRepo</span>
+                        <span className="text-[#94A3B8]">.</span>
+                        <span className="text-[#60A5FA]">save</span>
+                        <span className="text-[#94A3B8]">(Booking.from(req));</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="w-6 sm:w-8 select-none text-right font-mono text-[#475569]">09</td>
+                      <td className="pl-3 sm:pl-4">
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-[#60A5FA]">return</span>{" "}
+                        <span className="text-[#4ADE80]">BookingResponse</span>
+                        <span className="text-[#94A3B8]">.</span>
+                        <span className="text-[#60A5FA]">from</span>
+                        <span className="text-[#94A3B8]">(booking);</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="w-6 sm:w-8 select-none text-right font-mono text-[#475569]">10</td>
+                      <td className="pl-3 sm:pl-4">
+                        &nbsp;&nbsp;<span className="text-[#94A3B8]">&#125;</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="w-6 sm:w-8 select-none text-right font-mono text-[#475569]">11</td>
+                      <td className="pl-3 sm:pl-4">
+                        <span className="text-[#94A3B8]">&#125;</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
 
-          <div className="mt-9 flex justify-center gap-4 text-2xl lg:justify-start">
-            <a href="https://github.com/gulrezsarankar" target="_blank" rel="noreferrer" className="text-soft transition hover:accent-text" aria-label="GitHub">
-              <FaGithub />
-            </a>
-            <a href="https://linkedin.com/in/gulrez-sarankar" target="_blank" rel="noreferrer" className="text-soft transition hover:accent-text" aria-label="LinkedIn">
-              <FaLinkedin />
-            </a>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.65, delay: 0.1 }}
-          className="relative flex justify-center"
-        >
-          <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} scale={1.01} className="w-full max-w-md">
-            <div className="surface-card premium-card overflow-hidden rounded-3xl p-4">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
-                <img
-                  src="/Gulrez New.png"
-                  alt="Gulrez Sarankar"
-                  className="h-full w-full object-cover"
-                />
-                <div className="absolute bottom-4 left-4 right-4 rounded-2xl p-4" style={{ background: "rgba(15, 23, 42, 0.78)", color: "#fff", backdropFilter: "blur(16px)" }}>
-                  <p className="text-lg font-extrabold">Gulrez Sarankar</p>
-                  <p className="text-sm text-slate-200">Associate Software Engineer</p>
+              {/* Data Flow Pipeline Footer */}
+              <div className="border-t border-[#263241] bg-[#070D15] p-2.5 sm:p-3">
+                <div className="flex items-center justify-between overflow-x-auto gap-2 text-[10px] sm:text-[11px] font-mono text-[#A8B2C1]">
+                  <span className="flex items-center gap-1 text-[#60A5FA] shrink-0">
+                    <FaLayerGroup /> Client
+                  </span>
+                  <FaArrowRight className="text-[8px] sm:text-[9px] text-[#6F7B8B] shrink-0" />
+                  <span className="text-[#38BDF8] shrink-0">REST API</span>
+                  <FaArrowRight className="text-[8px] sm:text-[9px] text-[#6F7B8B] shrink-0" />
+                  <span className="text-[#FACC15] shrink-0">Service</span>
+                  <FaArrowRight className="text-[8px] sm:text-[9px] text-[#6F7B8B] shrink-0" />
+                  <span className="flex items-center gap-1 text-[#4ADE80] shrink-0">
+                    <FaDatabase /> PostgreSQL
+                  </span>
                 </div>
               </div>
-
-              <div className="mt-4 grid grid-cols-4 gap-3">
-                {[SiSpringboot, SiMongodb, SiMysql, SiPostman].map((Icon, index) => (
-                  <div key={index} className="surface-flat flex aspect-square items-center justify-center rounded-2xl text-2xl accent-text">
-                    <Icon />
-                  </div>
-                ))}
-              </div>
-
-              <div className="relative z-10 mt-4 rounded-2xl p-5" style={{ background: "var(--surface-muted)" }}>
-                <p className="mb-3 text-sm font-extrabold text-heading">Currently focused on</p>
-                {["API architecture", "Database performance", "Secure authentication"].map((item) => (
-                  <div key={item} className="mt-2 flex items-center gap-2 text-sm font-semibold text-muted">
-                    <FaCheckCircle className="accent-text" />
-                    {item}
-                  </div>
-                ))}
-              </div>
             </div>
-          </Tilt>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

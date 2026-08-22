@@ -1,61 +1,57 @@
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { projects } from "../../data/projects";
-import { skillCategories } from "../../data/skills";
+import { FaBriefcase, FaCodeBranch, FaLayerGroup, FaServer } from "react-icons/fa6";
 
 const stats = [
-  { label: "Featured Projects", value: projects.length },
-  { label: "Skill Categories", value: skillCategories.length },
   {
-    label: "Backend Projects",
-    value: projects.filter((project) =>
-      project.tech.some((tech) => tech.toLowerCase().includes("spring"))
-    ).length,
+    number: "2+",
+    label: "Years Experience",
+    icon: <FaBriefcase className="text-[var(--accent-primary)]" />,
   },
   {
-    label: "Database Tools",
-    value: skillCategories.find((category) => category.title === "Database")?.skills.length || 0,
+    number: "15+",
+    label: "Projects",
+    icon: <FaCodeBranch className="text-[var(--accent-primary)]" />,
+  },
+  {
+    number: "20+",
+    label: "Technologies",
+    icon: <FaLayerGroup className="text-[var(--accent-primary)]" />,
+  },
+  {
+    number: "250+",
+    label: "APIs Built",
+    icon: <FaServer className="text-[var(--accent-primary)]" />,
   },
 ];
 
 export default function Stats() {
-  const [counts, setCounts] = useState(stats.map(() => 0));
-
-  useEffect(() => {
-    const duration = 1500;
-    const interval = 20;
-    const steps = duration / interval;
-
-    const counter = setInterval(() => {
-      setCounts((prev) =>
-        prev.map((count, index) =>
-          count < stats[index].value
-            ? Math.min(count + stats[index].value / steps, stats[index].value)
-            : count
-        )
-      );
-    }, interval);
-
-    return () => clearInterval(counter);
-  }, []);
-
   return (
-    <section className="relative z-20 py-16">
-      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-5 px-6 text-center md:grid-cols-4">
-        {stats.map((item, i) => (
-          <motion.div
-            key={item.label}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: i * 0.1 }}
-            className="surface-card professional-card rounded-2xl p-6"
-          >
-            <h2 className="text-3xl font-black accent-text md:text-4xl">
-              {Math.floor(counts[i])}
-            </h2>
-            <p className="mt-2 text-sm font-semibold text-muted md:text-base">{item.label}</p>
-          </motion.div>
-        ))}
+    <section className="border-y border-[var(--border-color)] bg-[var(--bg-section)] py-10 transition-colors duration-300">
+      <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
+          {stats.map((stat, index) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              className="theme-card theme-card-hover flex items-center gap-4 p-4 sm:p-5"
+            >
+              <div className="flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-lg bg-[var(--accent-soft)] text-sm sm:text-base border border-[var(--border-color)]">
+                {stat.icon}
+              </div>
+              <div>
+                <div className="text-xl sm:text-2xl lg:text-3xl font-black text-[var(--text-primary)]">
+                  {stat.number}
+                </div>
+                <div className="text-xs font-semibold text-[var(--text-secondary)]">
+                  {stat.label}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

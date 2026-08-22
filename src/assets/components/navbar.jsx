@@ -1,155 +1,224 @@
-import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
-import { FaBars, FaBriefcase, FaMoon, FaSun, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes, FaSun, FaMoon } from "react-icons/fa";
+import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 
-const pages = [
+const navItems = [
   { name: "Home", path: "/" },
-  { name: "About", path: "/about" },
-  { name: "Experience", path: "/experience" },
-  { name: "Skills", path: "/skills" },
-  { name: "Projects", path: "/projects" },
+  { name: "About", path: "/about", hash: "#about" },
+  { name: "Skills", path: "/skills", hash: "#skills" },
+  { name: "Experience", path: "/experience", hash: "#experience" },
+  { name: "Projects", path: "/projects", hash: "#projects" },
   { name: "Blog", path: "/blog" },
-  { name: "Freelance", path: "/freelance", featured: true },
-  { name: "Certificates", path: "/certificates" },
-  { name: "Education", path: "/education" },
-  { name: "Contact", path: "/contact" },
+  { name: "Contact", path: "/contact", hash: "#contact" },
 ];
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
-  const [visible, setVisible] = useState(true);
   const [scrolled, setScrolled] = useState(false);
-  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "dark");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) return savedTheme;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  });
+
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", theme === "dark");
+    const root = document.documentElement;
+    root.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
   }, [theme]);
 
   useEffect(() => {
-    let lastY = window.scrollY;
-
     const handleScroll = () => {
-      const currentY = window.scrollY;
-      setVisible(currentY <= lastY || currentY < 24);
-      setScrolled(currentY > 20);
-      lastY = currentY;
+      setScrolled(window.scrollY > 20);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => setOpen(false), [location.pathname]);
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
 
-  const isActive = (path) =>
-    path === "/blog" ? location.pathname.startsWith("/blog") : location.pathname === path;
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  };
+
+  const handleNavClick = (item, e) => {
+    if (location.pathname === "/" && item.hash) {
+      e.preventDefault();
+      const element = document.querySelector(item.hash);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
+  const handleConnectClick = () => {
+    if (location.pathname === "/") {
+      const contactSection = document.querySelector("#contact");
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: "smooth" });
+        return;
+      }
+    }
+    navigate("/contact");
+  };
+
+  const isActive = (path) => {
+    if (path === "/") return location.pathname === "/";
+    return location.pathname.startsWith(path);
+  };
 
   return (
-    <motion.nav
-      initial={{ y: -60, opacity: 0 }}
-      animate={{ y: visible ? 0 : -82, opacity: visible ? 1 : 0 }}
-      transition={{ duration: 0.3 }}
-      className={`fixed top-0 left-0 z-[9999] w-full transition-all duration-300 ${
-        scrolled ? "py-3" : "py-4"
+    <header
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        scrolled
+          ? "border-b border-[var(--border-color)] bg-[var(--nav-scrolled)] backdrop-blur-md shadow-md py-3"
+          : "border-b border-[var(--border-color)] bg-[var(--nav-bg)] backdrop-blur-md py-3.5"
       }`}
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="surface-card flex items-center justify-between rounded-2xl px-4 py-3">
-          <Link to="/" className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl accent-bg text-sm font-black text-white">
-              GS
+      <div className="mx-auto flex max-w-[1280px] items-center justify-between px-4 sm:px-6 lg:px-8">
+        {/* LEFT: Branding */}
+        <Link to="/" aria-label="Gulrez Sarankar Homepage" className="group flex items-center gap-3">
+          <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-[#2563EB] text-xs sm:text-sm font-bold text-white shadow-md transition-transform duration-200 group-hover:scale-105">
+            GS
+          </div>
+          <div className="flex flex-col">
+            <span className="text-sm sm:text-base font-extrabold leading-tight text-[var(--text-primary)] transition-colors group-hover:text-[#2563EB]">
+              Gulrez Sarankar
             </span>
-            <span>
-              <span className="block text-base font-extrabold leading-tight text-heading">
-                Gulrez Sarankar
-              </span>
-              <span className="block text-xs font-semibold uppercase text-soft">
-                Java Software Engineer
-              </span>
+            <span className="text-[11px] sm:text-xs font-semibold text-[var(--text-secondary)]">
+              Java Backend Developer
             </span>
-          </Link>
+          </div>
+        </Link>
 
-          <ul className="hidden items-center gap-1 xl:flex">
-            {pages.filter((item) => !item.featured).map((item) => (
-              <li key={item.path}>
+        {/* CENTER: Navigation Links (Desktop) */}
+        <nav className="hidden items-center gap-1 lg:flex">
+          {navItems.map((item) => (
+            <Link
+              key={item.name}
+              to={item.path}
+              onClick={(e) => handleNavClick(item, e)}
+              className={`relative rounded-lg px-3.5 py-2 text-sm font-semibold transition-colors duration-200 ${
+                isActive(item.path)
+                  ? "bg-[var(--accent-soft)] text-[var(--accent-primary)]"
+                  : "text-[var(--text-secondary)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)]"
+              }`}
+            >
+              {item.name}
+              {isActive(item.path) && (
+                <span className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-[var(--accent-primary)]" />
+              )}
+            </Link>
+          ))}
+        </nav>
+
+        {/* RIGHT: Theme Switcher, CTA & Mobile Hamburger */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Animated Light/Dark Theme Switcher */}
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="flex h-9 sm:h-10 items-center gap-2 rounded-lg border border-[var(--border-color)] bg-[var(--bg-card)] px-3 text-xs font-bold text-[var(--text-primary)] transition-all duration-300 hover:border-[var(--accent-primary)] hover:bg-[var(--bg-hover)] shadow-xs"
+            aria-label="Toggle light or dark theme"
+            title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
+          >
+            {theme === "dark" ? (
+              <>
+                <FaSun className="text-sm text-[#FACC15] animate-pulse" />
+                <span className="hidden md:inline">Light</span>
+              </>
+            ) : (
+              <>
+                <FaMoon className="text-sm text-[#2563EB]" />
+                <span className="hidden md:inline">Dark</span>
+              </>
+            )}
+          </button>
+
+          {/* Let's Connect CTA */}
+          <button
+            type="button"
+            onClick={handleConnectClick}
+            aria-label="Navigate to contact section"
+            className="btn-primary-blue hidden sm:inline-flex text-xs py-2 px-4"
+          >
+            Let's Connect
+            <FaArrowUpRightFromSquare className="text-[10px]" />
+          </button>
+
+          {/* Mobile Menu Hamburger */}
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="inline-flex items-center justify-center rounded-lg border border-[var(--border-color)] bg-[var(--bg-card)] p-2 text-[var(--text-primary)] transition-colors hover:bg-[var(--bg-hover)] lg:hidden"
+            aria-label="Toggle navigation menu"
+          >
+            {mobileMenuOpen ? <FaTimes className="text-base" /> : <FaBars className="text-base" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Drawer Navigation */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="border-b border-[var(--border-color)] bg-[var(--bg-main)] px-4 py-4 lg:hidden"
+          >
+            <div className="flex flex-col gap-1.5">
+              {navItems.map((item) => (
                 <Link
+                  key={item.name}
                   to={item.path}
-                  className={`inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold transition ${
+                  onClick={(e) => {
+                    handleNavClick(item, e);
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors ${
                     isActive(item.path)
-                      ? "accent-soft accent-text"
-                      : "text-muted hover:accent-soft hover:accent-text"
+                      ? "bg-[var(--accent-soft)] text-[var(--accent-primary)]"
+                      : "text-[var(--text-secondary)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)]"
                   }`}
                 >
                   {item.name}
                 </Link>
-              </li>
-            ))}
-          </ul>
+              ))}
 
-          <div className="flex items-center gap-2">
-            <Link
-              to="/freelance"
-              className={`nav-cta hidden items-center gap-2 rounded-xl px-4 py-2 text-sm font-extrabold transition sm:inline-flex ${
-                isActive("/freelance")
-                  ? "accent-bg text-white"
-                  : "primary-button"
-              }`}
-            >
-              <FaBriefcase className="text-xs" />
-              Hire Me
-            </Link>
+              <div className="mt-3 flex items-center gap-2 border-t border-[var(--border-color)] pt-3">
+                <button
+                  type="button"
+                  onClick={toggleTheme}
+                  className="btn-secondary-theme flex-1 py-2.5 text-xs font-bold"
+                >
+                  {theme === "dark" ? <FaSun className="text-[#FACC15]" /> : <FaMoon className="text-[#2563EB]" />}
+                  {theme === "dark" ? "Light Mode" : "Dark Mode"}
+                </button>
 
-            <button
-              type="button"
-              aria-label="Toggle theme"
-              onClick={() => setTheme((current) => (current === "dark" ? "light" : "dark"))}
-              className="secondary-button h-10 w-10 rounded-xl p-0"
-            >
-              {theme === "dark" ? <FaSun /> : <FaMoon />}
-            </button>
-
-            <button
-              type="button"
-              aria-label="Open menu"
-              className="secondary-button h-10 w-10 rounded-xl p-0 xl:hidden"
-              onClick={() => setOpen((current) => !current)}
-            >
-              {open ? <FaTimes /> : <FaBars />}
-            </button>
-          </div>
-        </div>
-
-        <AnimatePresence>
-          {open && (
-            <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              className="surface-card mt-3 rounded-2xl p-3 xl:hidden"
-            >
-              <div className="grid gap-1">
-                {pages.map((item) => (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    className={`flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold ${
-                      isActive(item.path)
-                        ? "accent-soft accent-text"
-                        : "text-muted hover:accent-soft hover:accent-text"
-                    }`}
-                  >
-                    {item.featured && <FaBriefcase className="text-xs" />}
-                    {item.name}
-                  </Link>
-                ))}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    handleConnectClick();
+                  }}
+                  className="btn-primary-blue flex-1 py-2.5 text-xs font-bold"
+                >
+                  Let's Connect
+                  <FaArrowUpRightFromSquare className="text-xs" />
+                </button>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </motion.nav>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
   );
 }

@@ -1,165 +1,171 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Tilt from "react-parallax-tilt";
-import { FaExternalLinkAlt, FaTimes } from "react-icons/fa";
+import { FaTimes, FaFolder, FaGithub, FaLock } from "react-icons/fa";
+import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { projects } from "../data/projects";
-import SectionTitle from "../assets/components/Sectiontitle";
+import SEO from "../assets/components/SEO";
 
-export default function Projects() {
+export default function Projects({ isStandalonePage = true }) {
   const [selectedProject, setSelectedProject] = useState(null);
-
-  useEffect(() => {
-    document.body.style.overflow = selectedProject ? "hidden" : "unset";
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [selectedProject]);
+  const HeadingTag = isStandalonePage ? "h1" : "h2";
 
   return (
-    <section className="page-section px-4 sm:px-6" id="projects">
-      <div className="mx-auto max-w-7xl px-0 sm:px-6">
-        <SectionTitle title="My Work" />
-        <p className="mx-auto -mt-4 mb-12 max-w-2xl text-center leading-7 text-muted">
-          Selected projects showing backend architecture, database design, API integration,
-          and complete product workflows.
-        </p>
+    <section id="projects" className="bg-[var(--bg-main)] py-12 lg:py-20 transition-colors duration-300">
+      {isStandalonePage && (
+        <SEO
+          title="Projects & Portfolio | Gulrez Sarankar | Java Backend Developer"
+          description="Explore backend and full-stack projects built by Gulrez Sarankar, including Spring Boot microservices, multi-tenant supermarket systems, and e-commerce platforms."
+          canonicalPath="/projects"
+        />
+      )}
+      <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
+        <div className="mb-10 text-center">
+          <span className="text-xs font-bold uppercase tracking-wider text-[var(--accent-primary)]">
+            ENGINEERING PORTFOLIO
+          </span>
+          <HeadingTag className="mt-2 text-2xl sm:text-3xl font-black tracking-tight text-[var(--text-primary)] md:text-4xl">
+            Selected Backend & Full-Stack Projects
+          </HeadingTag>
+          <p className="mx-auto mt-2 max-w-2xl text-sm sm:text-base text-[var(--text-secondary)]">
+            Production applications built with Spring Boot, Java, PostgreSQL, Redis, REST APIs, and modern frontend tools.
+          </p>
+        </div>
 
-        <motion.div layout className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {/* Projects Grid */}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project, idx) => (
-            <ProjectCard
-              key={project.id || project.title || idx}
-              project={project}
-              onClick={() => setSelectedProject(project)}
-            />
+            <motion.div
+              key={project.id || idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: idx * 0.08 }}
+              className="theme-card theme-card-hover flex flex-col justify-between p-5 sm:p-6"
+            >
+              <div>
+                {/* Header: Icon & Category */}
+                <div className="mb-4 flex items-center justify-between">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--accent-soft)] text-[var(--accent-primary)] border border-[var(--border-color)]">
+                    <FaFolder className="text-base sm:text-lg" />
+                  </div>
+                  <span className="rounded-md border border-[var(--border-color)] bg-[var(--bg-section)] px-2.5 py-1 text-[11px] font-bold text-[var(--text-secondary)]">
+                    {project.category}
+                  </span>
+                </div>
+
+                {/* Project Title */}
+                <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)]">
+                  {project.title}
+                </h3>
+
+                {/* Description */}
+                <p className="mt-2.5 text-xs sm:text-sm leading-relaxed text-[var(--text-secondary)] line-clamp-3">
+                  {project.description}
+                </p>
+
+                {/* Tech Badges */}
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {project.tech.map((t) => (
+                    <span
+                      key={t}
+                      className="rounded bg-[var(--accent-soft)] border border-[var(--border-color)] px-2.5 py-1 text-xs font-semibold text-[var(--accent-primary)]"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Card Footer Links / Private Badge */}
+              <div className="mt-6 flex items-center justify-between border-t border-[var(--border-color)] pt-4">
+                {project.isPrivate ? (
+                  <div className="theme-badge-private">
+                    <FaLock className="text-[10px]" /> 🔒 PRIVATE PROJECT
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-4">
+                    {project.link && (
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`View live demo for ${project.title}`}
+                        className="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--accent-primary)] hover:underline"
+                      >
+                        Live Demo
+                        <FaArrowUpRightFromSquare className="text-[10px]" />
+                      </a>
+                    )}
+
+                    {project.github && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`View GitHub repository for ${project.title}`}
+                        className="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--text-primary)] hover:text-[var(--accent-primary)]"
+                      >
+                        <FaGithub className="text-sm" />
+                        GitHub
+                      </a>
+                    )}
+                  </div>
+                )}
+              </div>
+            </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
 
+      {/* Gallery Modal */}
       <AnimatePresence>
         {selectedProject && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedProject(null)}
-              className="absolute inset-0 bg-black/90 backdrop-blur-2xl"
+              className="absolute inset-0 bg-black/70 backdrop-blur-sm"
             />
 
             <motion.div
-              layoutId={`card-${selectedProject.id || selectedProject.title}`}
-              className="surface-card relative flex h-[90vh] w-full max-w-6xl flex-col overflow-hidden rounded-3xl md:flex-row"
-              onClick={(event) => event.stopPropagation()}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="theme-card relative z-10 max-h-[85vh] w-full max-w-4xl overflow-hidden p-6"
             >
-              <div className="custom-scrollbar h-1/2 w-full space-y-4 overflow-y-auto overflow-x-hidden p-4 md:h-full md:w-2/3" style={{ background: "var(--surface-muted)" }}>
-                {selectedProject.images.map((img, index) => (
-                  <motion.img
-                    key={img}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    src={img}
-                    alt={`${selectedProject.title} view ${index + 1}`}
-                    className="h-auto w-full rounded-2xl object-cover"
-                  />
-                ))}
+              <div className="mb-4 flex items-center justify-between border-b border-[var(--border-color)] pb-3">
+                <div>
+                  <h3 className="text-xl font-bold text-[var(--text-primary)]">{selectedProject.title}</h3>
+                  <p className="text-xs text-[var(--text-secondary)]">Gallery View</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedProject(null)}
+                  aria-label="Close project preview modal"
+                  className="rounded-lg p-2 text-[var(--text-secondary)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)]"
+                >
+                  <FaTimes className="text-base" />
+                </button>
               </div>
 
-              <div className="flex w-full flex-col p-6 md:w-1/3 md:p-8" style={{ borderLeft: "1px solid var(--border)" }}>
-                <div className="mb-6 flex items-start justify-between gap-4">
-                  <h3 className="text-3xl font-black tracking-tight text-heading">
-                    {selectedProject.title}
-                  </h3>
-                  <button
-                    type="button"
-                    onClick={() => setSelectedProject(null)}
-                    className="secondary-button h-10 w-10 shrink-0 rounded-full p-0"
-                    aria-label="Close project gallery"
-                  >
-                    <FaTimes />
-                  </button>
-                </div>
-
-                <div className="custom-scrollbar flex-1 overflow-y-auto pr-2">
-                  <p className="mb-6 text-sm leading-7 text-muted">{selectedProject.description}</p>
-
-                  <h4 className="mb-3 text-xs font-black uppercase tracking-widest accent-text">
-                    Tech Stack
-                  </h4>
-                  <div className="mb-8 flex flex-wrap gap-2">
-                    {selectedProject.tech.map((tech) => (
-                      <span key={tech} className="rounded-lg px-3 py-1 text-[10px] font-bold accent-soft accent-text">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <a
-                  href={selectedProject.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="primary-button mt-6 w-full py-4"
-                >
-                  View Project <FaExternalLinkAlt className="text-xs" />
-                </a>
+              <div className="max-h-[60vh] overflow-y-auto space-y-4 pr-1">
+                {selectedProject.images.map((img, i) => (
+                  <img
+                    key={i}
+                    src={img}
+                    alt={`${selectedProject.title} preview ${i + 1}`}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full rounded-lg border border-[var(--border-color)] object-cover"
+                  />
+                ))}
               </div>
             </motion.div>
           </div>
         )}
       </AnimatePresence>
-
-      <style>{`
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--text-soft); border-radius: 10px; }
-      `}</style>
     </section>
-  );
-}
-
-function ProjectCard({ project, onClick }) {
-  return (
-    <motion.div
-      layoutId={`card-${project.id || project.title}`}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      onClick={onClick}
-      className="group"
-    >
-      <Tilt
-        tiltMaxAngleX={5}
-        tiltMaxAngleY={5}
-        glareEnable
-        glareMaxOpacity={0.05}
-        className="surface-card professional-card h-full rounded-2xl p-5"
-      >
-        <div className="relative mb-6 aspect-[16/10] overflow-hidden rounded-xl">
-          <img
-            src={project.images[0]}
-            alt={project.title}
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-          />
-          <div className="absolute inset-0 flex items-center justify-center bg-black/45 opacity-0 transition-opacity group-hover:opacity-100">
-            <span className="rounded-full border border-white/20 bg-white/15 px-5 py-2 text-xs font-bold text-white backdrop-blur-md">
-              View Project
-            </span>
-          </div>
-        </div>
-
-        <div className="px-1">
-          <h3 className="mb-2 text-2xl font-black text-heading">{project.title}</h3>
-          <p className="line-clamp-2 text-sm leading-6 text-muted">{project.description}</p>
-          <div className="mt-5 flex flex-wrap gap-2">
-            {project.tech.slice(0, 4).map((tech) => (
-              <span key={tech} className="rounded-lg px-3 py-1 text-xs font-bold accent-soft accent-text">
-                {tech}
-              </span>
-            ))}
-          </div>
-        </div>
-      </Tilt>
-    </motion.div>
   );
 }
