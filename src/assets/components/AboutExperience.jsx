@@ -1,30 +1,36 @@
 import { motion } from "framer-motion";
 import { FaLocationDot, FaEnvelope, FaLinkedin, FaGithub, FaArrowUpRightFromSquare, FaCircleCheck } from "react-icons/fa6";
+import { FaArrowUp } from "react-icons/fa";
 
 const experiences = [
   {
     company: "ISEES Technologies LLP",
-    role: "Associate Software Engineer",
-    period: "2025 — Present",
-    location: "Remote / Onsite",
+    role: "Software Engineer",
+    period: "Jan 2026 — Present",
+    tenure: "Jul 2024 — Present",
+    location: "Onsite / Remote",
+    isPromoted: true,
     highlights: [
-      "Architected RESTful microservices with Java & Spring Boot handling high concurrency throughput.",
-      "Optimized complex PostgreSQL database queries and indexing strategies, reducing API response times by 32%.",
-      "Implemented stateless authentication using JWT and Spring Security with role-based access control.",
+      "Promoted from Associate Software Engineer to Software Engineer in January 2026.",
+      "Working on Java-based backend development and maintaining REST APIs.",
+      "Working with database integration and application development.",
+      "Contributing to real-world software projects and backend architecture.",
     ],
-    tech: ["Java", "Spring Boot", "PostgreSQL", "Redis", "JWT"],
+    tech: ["Java", "REST APIs", "Databases", "Backend Architecture"],
   },
   {
     company: "ISEES Technologies LLP",
-    role: "Java Developer Intern",
-    period: "2024 — 2025",
-    location: "Remote",
+    role: "Associate Software Engineer",
+    period: "Jul 2024 — Jan 2026",
+    location: "Onsite / Remote",
+    isPromoted: false,
     highlights: [
-      "Developed backend order processing and inventory modules with Spring Boot and MySQL.",
-      "Integrated Redis caching mechanisms to decrease redundant database queries for frequently accessed products.",
-      "Collaborated with cross-functional teams to integrate Swagger/OpenAPI documentation and automated unit tests.",
+      "Worked as a Java Developer building real-world backend applications.",
+      "Gained hands-on experience with Core Java and OOP concepts.",
+      "Worked on backend development, REST APIs, and database integration.",
+      "Contributed to real-world application development projects.",
     ],
-    tech: ["Java", "Spring Boot", "MySQL", "Redis", "Swagger"],
+    tech: ["Core Java", "OOP", "REST APIs", "Databases", "Backend Development"],
   },
 ];
 
@@ -169,6 +175,13 @@ export default function AboutExperience({ isStandalonePage = false, pageType = "
               Professional Experience
             </ExpHeadingTag>
 
+            {/* Company & Overall Tenure */}
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              <span className="text-sm font-bold text-[var(--accent-primary)]">ISEES Technologies LLP</span>
+              <span className="text-xs text-[var(--text-muted)]">·</span>
+              <span className="text-xs font-semibold text-[var(--text-secondary)]">Jul 2024 — Present</span>
+            </div>
+
             <div className="relative mt-6 sm:mt-8 space-y-6 sm:space-y-8 pl-5 sm:pl-6 before:absolute before:bottom-2 before:left-2 before:top-2 before:w-[2px] before:bg-[var(--border-color)]">
               {experiences.map((exp, idx) => (
                 <motion.div
@@ -179,20 +192,28 @@ export default function AboutExperience({ isStandalonePage = false, pageType = "
                   transition={{ duration: 0.4, delay: idx * 0.1 }}
                   className="relative"
                 >
-                  {/* Timeline Indicator Dot */}
-                  <div className="absolute -left-[27px] sm:-left-[31px] top-1.5 flex h-4 w-4 items-center justify-center rounded-full border-2 border-[var(--bg-main)] bg-[var(--accent-primary)] shadow-xs" />
+                  {/* Timeline Indicator Dot — accent for current, muted for past */}
+                  <div className={`absolute -left-[27px] sm:-left-[31px] top-1.5 flex h-4 w-4 items-center justify-center rounded-full border-2 border-[var(--bg-main)] shadow-xs ${exp.isPromoted ? "bg-[var(--accent-primary)]" : "bg-[var(--border-color)]"}`} />
 
                   <div className="theme-card p-4 sm:p-5">
-                    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border-color)] pb-3">
-                      <div>
-                        <h3 className="text-base sm:text-lg font-extrabold text-[var(--text-primary)]">
-                          {exp.role}
-                        </h3>
+                    <div className="flex flex-wrap items-start justify-between gap-2 border-b border-[var(--border-color)] pb-3">
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h3 className="text-base sm:text-lg font-extrabold text-[var(--text-primary)]">
+                            {exp.role}
+                          </h3>
+                          {exp.isPromoted && (
+                            <span className="inline-flex items-center gap-1 rounded-md bg-[#10B981]/15 border border-[#10B981]/30 px-2 py-0.5 text-[10px] font-bold text-[#10B981]">
+                              <FaArrowUp className="text-[8px]" />
+                              PROMOTED
+                            </span>
+                          )}
+                        </div>
                         <p className="text-xs sm:text-sm font-semibold text-[var(--accent-primary)]">
                           {exp.company}
                         </p>
                       </div>
-                      <span className="rounded-md bg-[var(--accent-soft)] border border-[var(--border-color)] px-2.5 py-1 text-[11px] sm:text-xs font-bold text-[var(--accent-primary)]">
+                      <span className="rounded-md bg-[var(--accent-soft)] border border-[var(--border-color)] px-2.5 py-1 text-[11px] sm:text-xs font-bold text-[var(--accent-primary)] whitespace-nowrap">
                         {exp.period}
                       </span>
                     </div>

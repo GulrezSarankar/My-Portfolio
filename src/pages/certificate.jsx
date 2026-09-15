@@ -11,10 +11,10 @@ export default function Certificates() {
   const filteredCertificates =
     filter === "All" ? certificates : certificates.filter((c) => c.category === filter);
 
-  const breakpoints = { default: 3, 900: 2, 600: 1 };
+  const breakpoints = { default: 3, 1024: 3, 768: 2, 500: 1 };
 
   return (
-    <section className="bg-[var(--bg-main)] py-12 lg:py-20 transition-colors duration-300">
+    <section className="bg-[var(--bg-main)] py-12 lg:py-20 transition-colors duration-300 overflow-hidden">
       <SEO
         title="Certifications & Credentials | Gulrez Sarankar | Java Developer"
         description="Professional certifications and verified credentials of Gulrez Sarankar in Java backend engineering, Spring Boot, and database architecture."
@@ -50,7 +50,7 @@ export default function Certificates() {
           ))}
         </div>
 
-        <Masonry breakpointCols={breakpoints} className="flex gap-6" columnClassName="my-masonry-grid_column">
+        <Masonry breakpointCols={breakpoints} className="flex gap-4 sm:gap-6 overflow-hidden" columnClassName="my-masonry-grid_column">
           {filteredCertificates.map((certificate, index) => (
             <motion.button
               key={`${certificate.title}-${index}`}

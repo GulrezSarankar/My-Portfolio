@@ -24,7 +24,7 @@ export default function FeaturedProject() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="lg:col-span-6"
+              className="lg:col-span-6 min-w-0"
             >
               <div className="flex flex-wrap items-center gap-2">
                 <div className="theme-badge">
@@ -88,7 +88,7 @@ export default function FeaturedProject() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.15 }}
-              className="lg:col-span-6 w-full"
+              className="lg:col-span-6 w-full min-w-0"
             >
               <div className="rounded-xl border border-[var(--border-color)] bg-[var(--bg-section)] p-4 sm:p-6 shadow-md transition-colors duration-300">
                 <div className="mb-4 flex items-center justify-between border-b border-[var(--border-color)] pb-3">
@@ -113,9 +113,9 @@ export default function FeaturedProject() {
                   <FaArrowDown className="text-xs sm:text-sm text-[var(--accent-primary)] animate-bounce" />
 
                   {/* Layer 2: API Gateway */}
-                  <div className="flex items-center gap-2 rounded-lg border border-[var(--accent-primary)] bg-[var(--accent-soft)] px-5 sm:px-8 py-2 font-bold text-[var(--accent-primary)] text-[11px] sm:text-xs">
-                    <FaShieldHalved />
-                    <span>API Gateway / Spring Cloud LoadBalancer</span>
+                  <div className="flex items-center gap-2 rounded-lg border border-[var(--accent-primary)] bg-[var(--accent-soft)] px-3 sm:px-8 py-2 font-bold text-[var(--accent-primary)] text-[10px] sm:text-xs text-center">
+                    <FaShieldHalved className="shrink-0" />
+                    <span className="leading-tight">API Gateway / Spring Cloud LoadBalancer</span>
                   </div>
 
                   <FaArrowDown className="text-xs sm:text-sm text-[var(--accent-primary)] animate-bounce" />

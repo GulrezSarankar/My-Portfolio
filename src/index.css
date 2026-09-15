@@ -218,3 +218,82 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ==========================================================================
+   MOBILE RESPONSIVENESS FIXES
+   ========================================================================== */
+
+/* Prevent all horizontal overflow at root level */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Safe horizontal scrolling prevention for all sections */
+section, header, footer, main, [class*="lg:grid-cols"], [class*="md:grid-cols"] {
+  min-width: 0;
+}
+
+/* Responsive image safety — images should never overflow their container */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prevent long words/emails from overflowing cards on mobile */
+.theme-card, .theme-card * {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Ensure flex/grid children don't overflow on small screens */
+[class*="flex-wrap"] > * {
+  min-width: 0;
+}
+
+/* Mobile touch target minimum size for accessibility */
+@media (max-width: 768px) {
+  button, a {
+    min-height: 44px;
+  }
+
+  /* Buttons in nav and small contexts get appropriate sizes */
+  .btn-primary-blue, .btn-secondary-theme {
+    min-height: 44px;
+  }
+
+  /* Prevent the hero code editor from causing horizontal scroll */
+  .font-code table {
+    min-width: unset;
+    width: 100%;
+  }
+
+  /* Architecture diagram scrollable on very small screens */
+  [class*="rounded-xl"][class*="border"][class*="bg-"] {
+    max-width: 100%;
+  }
+
+  /* Masonry grid gap reduction on mobile */
+  .flex.gap-6 {
+    gap: 1rem;
+  }
+}
+
+/* Very small screens (320px) */
+@media (max-width: 375px) {
+  /* Tighten hero heading on very small phones */
+  h1 {
+    word-break: break-word;
+    hyphens: auto;
+  }
+
+  /* Reduce default card padding slightly */
+  .theme-card {
+    border-radius: 10px;
+  }
+
+  /* Period/date badges in experience cards should wrap gracefully */
+  [class*="whitespace-nowrap"] {
+    white-space: normal;
+  }
+}

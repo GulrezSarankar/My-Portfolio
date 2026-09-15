@@ -30,9 +30,9 @@ export default function Hero() {
             </div>
 
             {/* Headline */}
-            <h1 className="text-3xl font-black tracking-tight text-[var(--text-primary)] sm:text-5xl lg:text-6xl lg:leading-[1.12]">
-              Building scalable, <br />
-              secure & reliable <br />
+            <h1 className="text-2xl font-black tracking-tight text-[var(--text-primary)] sm:text-5xl lg:text-6xl lg:leading-[1.12]">
+              Building scalable, <br className="hidden xs:inline" />
+              secure &amp; reliable <br className="hidden xs:inline" />
               <span className="text-[var(--accent-primary)]">backend systems.</span>
             </h1>
 
@@ -81,7 +81,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15 }}
-            className="lg:col-span-6 w-full overflow-hidden"
+            className="lg:col-span-6 w-full min-w-0 overflow-hidden"
           >
             {/* Editor Container */}
             <div className="overflow-hidden rounded-xl border border-[#263241] bg-[#0A1018] shadow-[0_20px_50px_rgba(0,0,0,0.4)]">
@@ -100,8 +100,8 @@ export default function Hero() {
               </div>
 
               {/* Code Snippet */}
-              <div className="overflow-x-auto p-3 sm:p-5 font-code text-[11px] sm:text-xs md:text-sm leading-relaxed text-[#E2E8F0]">
-                <table className="w-full border-collapse min-w-[280px]">
+              <div className="overflow-x-auto p-3 sm:p-5 font-code text-[10px] sm:text-xs md:text-sm leading-relaxed text-[#E2E8F0]">
+                <table className="w-full border-collapse">
                   <tbody>
                     <tr>
                       <td className="w-6 sm:w-8 select-none text-right font-mono text-[#475569]">01</td>

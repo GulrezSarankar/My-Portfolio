@@ -5,8 +5,8 @@ export default function ProfessionalExperience() {
   return (
     <div className="pt-4">
       <SEO
-        title="Professional Experience | Gulrez Sarankar | Associate Software Engineer"
-        description="Professional software engineering experience of Gulrez Sarankar as an Associate Software Engineer and Java Developer in Pune building scalable backend applications."
+        title="Professional Experience | Gulrez Sarankar | Software Engineer"
+        description="Professional experience of Gulrez Sarankar as a Software Engineer at ISEES Technologies LLP, promoted from Associate Software Engineer in January 2026. Java backend development, REST APIs, and application development."
         canonicalPath="/experience"
       />
       <AboutExperience isStandalonePage={true} pageType="experience" />

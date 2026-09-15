@@ -61,13 +61,13 @@ export default function Contact({ isStandalonePage = true }) {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="lg:col-span-5"
+            className="lg:col-span-5 min-w-0"
           >
             <span className="text-xs font-bold uppercase tracking-wider text-[var(--accent-primary)]">
               GET IN TOUCH
             </span>
 
-            <HeadingTag className="mt-2 text-3xl font-black tracking-tight sm:text-4xl lg:text-5xl lg:leading-tight text-[var(--text-primary)]">
+            <HeadingTag className="mt-2 text-2xl font-black tracking-tight sm:text-4xl lg:text-5xl lg:leading-tight text-[var(--text-primary)]">
               Let's build something <br className="hidden sm:inline" />
               great together.
             </HeadingTag>
@@ -131,7 +131,7 @@ export default function Contact({ isStandalonePage = true }) {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.15 }}
-            className="lg:col-span-7"
+            className="lg:col-span-7 min-w-0"
           >
             <div className="theme-card p-6 sm:p-8 shadow-xl">
               <form onSubmit={handleSubmit} className="space-y-4">

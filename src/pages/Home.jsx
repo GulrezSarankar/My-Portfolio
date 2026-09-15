@@ -14,7 +14,7 @@ export default function Home() {
     <div className="bg-[#0B111A]">
       <SEO
         title="Gulrez Sarankar | Java Backend Developer | Spring Boot Developer"
-        description="Portfolio of Gulrez Sarankar, a Java Backend Developer and Associate Software Engineer specializing in Java, Spring Boot, REST APIs, PostgreSQL, MySQL and backend development."
+        description="Portfolio of Gulrez Sarankar, a Software Engineer at ISEES Technologies LLP specializing in Java, Spring Boot, REST APIs, PostgreSQL, MySQL and backend development."
         canonicalPath="/"
       />
       <Hero />
