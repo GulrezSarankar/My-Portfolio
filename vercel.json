@@ -2,7 +2,6 @@
   "version": 2,
   "rewrites": [
     { "source": "/impp-4-sem.docx", "destination": "/impp-4-sem.docx" },
-    { "source": "/Gulrez-Sarankar.pdf", "destination": "/Gulrez-Sarankar.pdf" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
