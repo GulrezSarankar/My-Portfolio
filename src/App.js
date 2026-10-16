@@ -15,6 +15,7 @@ import Freelance from "./pages/Freelance";
 import Blog from "./pages/Blog";
 import BlogDetail from "./pages/BlogDetail";
 import IntroLoader from "./assets/components/IntroLoader";
+import DocViewer from "./pages/DocViewer";
 export default function App() {
   const [loading, setLoading] = useState(true);
 
@@ -39,6 +40,7 @@ export default function App() {
           <Route path="/blog/:slug" element={<BlogDetail />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/education" element={<Education />} />
+          <Route path="/impp-4-sem" element={<DocViewer />} />
         </Routes>
       </MainLayout>
     </BrowserRouter>
