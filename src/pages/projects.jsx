@@ -1,12 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaTimes, FaFolder, FaGithub, FaLock } from "react-icons/fa";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { projects } from "../data/projects";
+import { getAllPublishedProjects } from "../services/projectsService";
 import SEO from "../assets/components/SEO";
 
 export default function Projects({ isStandalonePage = true }) {
   const [selectedProject, setSelectedProject] = useState(null);
+  const [projectList, setProjectList] = useState(projects);
+
+  useEffect(() => {
+    let isMounted = true;
+    getAllPublishedProjects().then((res) => {
+      if (isMounted && res.data && res.data.length > 0) {
+        setProjectList(res.data);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
   const HeadingTag = isStandalonePage ? "h1" : "h2";
 
   return (
@@ -33,7 +47,7 @@ export default function Projects({ isStandalonePage = true }) {
 
         {/* Projects Grid */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project, idx) => (
+          {projectList.map((project, idx) => (
             <motion.div
               key={project.id || idx}
               initial={{ opacity: 0, y: 20 }}

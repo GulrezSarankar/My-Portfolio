@@ -1,10 +1,25 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FaArrowRight, FaClock, FaBookOpen } from "react-icons/fa6";
 import { blogs } from "../data/blogs";
+import { getPublishedPosts } from "../services/blogService";
 import SEO from "../assets/components/SEO";
 
 export default function Blog() {
+  const [blogList, setBlogList] = useState(blogs);
+
+  useEffect(() => {
+    let isMounted = true;
+    getPublishedPosts().then((res) => {
+      if (isMounted && res.data && res.data.length > 0) {
+        setBlogList(res.data);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
   return (
     <section className="bg-[var(--bg-main)] py-12 lg:py-20 transition-colors duration-300">
       <SEO
@@ -26,7 +41,7 @@ export default function Blog() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {blogs.map((blog, idx) => (
+          {blogList.map((blog, idx) => (
             <motion.article
               key={blog.slug}
               initial={{ opacity: 0, y: 20 }}

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 const DocViewer = () => {
   const [src, setSrc] = useState('');
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Build the Office Online Viewer URL
@@ -28,16 +29,22 @@ const DocViewer = () => {
   }
 
   return (
-    <div style={{ width: '100%', minHeight: '80vh' }}>
-      {src ? (
+    <div style={{ width: '100%' }}>
+      {loading && (
+        <p style={{ textAlign: 'center', padding: '2rem' }}>Loading document…</p>
+      )}
+      {src && !error && (
         <iframe
           src={src}
           title="Document Viewer"
-          style={{ border: 'none', width: '100%', height: '100%' }}
+          style={{ border: 'none', width: '100%', height: '80vh' }}
           allowFullScreen
+          onLoad={() => setLoading(false)}
+          onError={() => {
+            setLoading(false);
+            setError(true);
+          }}
         />
-      ) : (
-        <p style={{ textAlign: 'center', padding: '2rem' }}>Loading document…</p>
       )}
     </div>
   );

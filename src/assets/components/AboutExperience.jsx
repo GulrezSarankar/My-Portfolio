@@ -1,4 +1,6 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { getExperience } from "../../services/experienceService";
 import { FaLocationDot, FaEnvelope, FaLinkedin, FaGithub, FaArrowUpRightFromSquare, FaCircleCheck } from "react-icons/fa6";
 import { FaArrowUp } from "react-icons/fa";
 
@@ -35,6 +37,19 @@ const experiences = [
 ];
 
 export default function AboutExperience({ isStandalonePage = false, pageType = "about" }) {
+  const [experienceList, setExperienceList] = useState(experiences);
+
+  useEffect(() => {
+    let isMounted = true;
+    getExperience().then((res) => {
+      if (isMounted && res.data && res.data.length > 0) {
+        setExperienceList(res.data);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
   const scrollToContact = (e) => {
     e.preventDefault();
     const contactSec = document.querySelector("#contact");
@@ -183,7 +198,7 @@ export default function AboutExperience({ isStandalonePage = false, pageType = "
             </div>
 
             <div className="relative mt-6 sm:mt-8 space-y-6 sm:space-y-8 pl-5 sm:pl-6 before:absolute before:bottom-2 before:left-2 before:top-2 before:w-[2px] before:bg-[var(--border-color)]">
-              {experiences.map((exp, idx) => (
+              {experienceList.map((exp, idx) => (
                 <motion.div
                   key={idx}
                   initial={{ opacity: 0, x: 20 }}

@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "rewrites": [
-    { "source": "/impp-4-sem.docx", "destination": "/impp-4-sem.docx" },
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
+  "headers": [
+    {
+      "source": "/impp-4-sem.docx",
+      "headers": [
+        { "key": "Content-Type", "value": "application/vnd.openxmlformats-officedocument.wordprocessingml.document" }
+      ]
+    }
+  ],
 }
 

@@ -1,15 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Masonry from "react-masonry-css";
 import { certificates } from "../data/certificate";
+import { getCertifications } from "../services/certificationsService";
 import SEO from "../assets/components/SEO";
 
 export default function Certificates() {
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [filter, setFilter] = useState("All");
+  const [certificateList, setCertificateList] = useState(certificates);
+
+  useEffect(() => {
+    let isMounted = true;
+    getCertifications().then((res) => {
+      if (isMounted && res.data && res.data.length > 0) {
+        setCertificateList(res.data);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const filteredCertificates =
-    filter === "All" ? certificates : certificates.filter((c) => c.category === filter);
+    filter === "All" ? certificateList : certificateList.filter((c) => c.category === filter);
 
   const breakpoints = { default: 3, 1024: 3, 768: 2, 500: 1 };
 

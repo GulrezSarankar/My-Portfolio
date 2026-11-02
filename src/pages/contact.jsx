@@ -3,9 +3,11 @@ import { motion } from "framer-motion";
 import emailjs from "emailjs-com";
 import { FaEnvelope, FaGithub, FaLinkedin, FaLocationDot, FaPaperPlane } from "react-icons/fa6";
 import SEO from "../assets/components/SEO";
+import { submitContactMessage } from "../services/contactService";
+import { isSupabaseConfigured } from "../services/supabaseClient";
 
 export default function Contact({ isStandalonePage = true }) {
-  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "", website: "" });
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -21,13 +23,27 @@ export default function Contact({ isStandalonePage = true }) {
     return nextErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const nextErrors = validate();
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length !== 0) return;
 
     setSubmitting(true);
+
+    if (isSupabaseConfigured()) {
+      try {
+        const { error } = await submitContactMessage(form);
+        if (error) throw error;
+        setSubmitting(false);
+        setSuccess(true);
+        setForm({ name: "", email: "", subject: "", message: "", website: "" });
+        setTimeout(() => setSuccess(false), 5000);
+        return;
+      } catch (backendError) {
+        console.warn("Supabase contact-submit error; trying emailjs fallback:", backendError);
+      }
+    }
 
     emailjs
       .send("service_j7ot56i", "template_e0405xa", form, "1oWtGWvdpK0HR2ufE")
@@ -135,6 +151,16 @@ export default function Contact({ isStandalonePage = true }) {
           >
             <div className="theme-card p-6 sm:p-8 shadow-xl">
               <form onSubmit={handleSubmit} className="space-y-4">
+                <input
+                  type="text"
+                  name="website"
+                  value={form.website || ""}
+                  onChange={handleChange}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  style={{ display: "none" }}
+                  aria-hidden="true"
+                />
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
                     <label htmlFor="contact-name" className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)]">

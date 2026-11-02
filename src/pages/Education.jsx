@@ -1,4 +1,6 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { getEducation } from "../services/educationService";
 import { FaGraduationCap, FaUniversity } from "react-icons/fa";
 import SEO from "../assets/components/SEO";
 
@@ -22,6 +24,24 @@ const educationData = [
 ];
 
 export default function Education() {
+  const [eduList, setEduList] = useState(educationData);
+
+  useEffect(() => {
+    let isMounted = true;
+    getEducation().then((res) => {
+      if (isMounted && res.data && res.data.length > 0) {
+        const merged = res.data.map((item, idx) => ({
+          ...item,
+          icon: item.icon || educationData[idx]?.icon || educationData[0].icon,
+          subjects: item.subjects && item.subjects.length > 0 ? item.subjects : (educationData[idx]?.subjects || []),
+        }));
+        setEduList(merged);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
   return (
     <section className="bg-[var(--bg-main)] py-12 lg:py-20 transition-colors duration-300">
       <SEO
@@ -43,7 +63,7 @@ export default function Education() {
         </div>
 
         <div className="mx-auto max-w-4xl space-y-6">
-          {educationData.map((item, index) => (
+          {eduList.map((item, index) => (
             <motion.div
               key={item.title}
               initial={{ opacity: 0, y: 20 }}

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 // import MainLayout from "./layout/MainLayout";
@@ -16,6 +16,15 @@ import Blog from "./pages/Blog";
 import BlogDetail from "./pages/BlogDetail";
 import IntroLoader from "./assets/components/IntroLoader";
 import DocViewer from "./pages/DocViewer";
+import { trackPageVisit } from "./services/analyticsService";
+
+function AnalyticsTracker() {
+  const location = useLocation();
+  useEffect(() => {
+    trackPageVisit(location.pathname, typeof document !== "undefined" ? document.referrer : "");
+  }, [location.pathname]);
+  return null;
+}
 export default function App() {
   const [loading, setLoading] = useState(true);
 
@@ -26,6 +35,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
+      <AnalyticsTracker />
       <AnimatePresence>{loading && <IntroLoader />}</AnimatePresence>
       <MainLayout>
         <Routes>

@@ -1,11 +1,25 @@
+import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FaArrowLeft, FaCalendarAlt, FaClock } from "react-icons/fa";
 import { blogs } from "../data/blogs";
+import { getPostBySlug } from "../services/blogService";
 import SEO from "../assets/components/SEO";
 
 export default function BlogDetail() {
   const { slug } = useParams();
-  const blog = blogs.find((item) => item.slug === slug);
+  const [blog, setBlog] = useState(() => blogs.find((item) => item.slug === slug));
+
+  useEffect(() => {
+    let isMounted = true;
+    getPostBySlug(slug).then((res) => {
+      if (isMounted && res.data) {
+        setBlog(res.data);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, [slug]);
 
   if (!blog) {
     return (
