@@ -4,9 +4,21 @@
     {
       "source": "/impp-4-sem.docx",
       "headers": [
-        { "key": "Content-Type", "value": "application/vnd.openxmlformats-officedocument.wordprocessingml.document" }
+        {
+          "key": "Content-Type",
+          "value": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        }
       ]
     }
   ],
+  "rewrites": [
+    {
+      "source": "/impp-4-sem.docx",
+      "destination": "/impp-4-sem.docx"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }
-
