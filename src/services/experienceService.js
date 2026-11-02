@@ -107,3 +107,13 @@ export const deleteExperience = async (id) => {
   return { data, error };
 };
 
+
+
+export const getAllExperienceAdmin = async () => {
+  const { data, error } = await supabase
+    .from("experience")
+    .select("*")
+    .order("display_order", { ascending: true });
+
+  return { data, error };
+};

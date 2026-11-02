@@ -98,3 +98,13 @@ export const deleteEducation = async (id) => {
   return { data, error };
 };
 
+
+
+export const getAllEducationAdmin = async () => {
+  const { data, error } = await supabase
+    .from("education")
+    .select("*")
+    .order("display_order", { ascending: true });
+
+  return { data, error };
+};

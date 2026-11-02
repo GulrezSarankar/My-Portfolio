@@ -144,3 +144,13 @@ export const deleteProject = async (id) => {
   return { data, error };
 };
 
+
+
+export const getAllProjectsAdmin = async () => {
+  const { data, error } = await supabase
+    .from("projects")
+    .select("*, project_images(storage_path, alt_text, display_order)")
+    .order("display_order", { ascending: true });
+
+  return { data, error };
+};

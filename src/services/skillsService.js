@@ -93,3 +93,13 @@ export const deleteSkill = async (id) => {
   return { data, error };
 };
 
+
+
+export const getAllSkillsAdmin = async () => {
+  const { data, error } = await supabase
+    .from("skills")
+    .select("*")
+    .order("display_order", { ascending: true });
+
+  return { data, error };
+};
