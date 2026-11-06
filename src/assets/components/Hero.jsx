@@ -1,7 +1,27 @@
 import { motion } from "framer-motion";
-import { FaArrowUpRightFromSquare, FaDownload, FaGithub, FaDatabase, FaLayerGroup, FaArrowRight } from "react-icons/fa6";
+import {
+  FaArrowUpRightFromSquare,
+  FaArrowRight,
+  FaGithub,
+  FaLinkedin,
+  FaWhatsapp,
+  FaEnvelope,
+  FaServer,
+  FaCheck,
+} from "react-icons/fa6";
+import { SiSpringboot, SiReact } from "react-icons/si";
 
 export default function Hero() {
+  const scrollToContact = (e) => {
+    e.preventDefault();
+    const contactSec = document.querySelector("#contact");
+    if (contactSec) {
+      contactSec.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.location.href = "/contact";
+    }
+  };
+
   const scrollToProjects = (e) => {
     e.preventDefault();
     const projectsSec = document.querySelector("#projects");
@@ -13,201 +33,250 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-[var(--bg-main)] pb-12 pt-10 lg:pb-20 lg:pt-16 bg-grid-pattern bg-blue-glow transition-colors duration-300">
-      <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-8">
-          {/* LEFT SIDE: Hero Headline & Actions */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="lg:col-span-6 text-left"
-          >
-            {/* Eyebrow badge */}
-            <div className="theme-badge mb-4">
-              <span className="h-2 w-2 rounded-full bg-[var(--accent-primary)] animate-pulse" />
-              JAVA BACKEND DEVELOPER
-            </div>
+    <section
+      id="hero"
+      className="relative overflow-hidden bg-[#080612] bg-grid-pattern pt-8 pb-16 sm:pt-12 sm:pb-24 lg:pt-16 lg:pb-32"
+    >
+      {/* Ambient Violet & Purple Radial Backlights */}
+      <div className="pointer-events-none absolute -top-40 left-1/2 h-[500px] w-[700px] -translate-x-1/2 rounded-full bg-gradient-to-b from-[#9B5CFF]/20 via-[#D66BFF]/10 to-transparent blur-[120px]" />
+      <div className="pointer-events-none absolute top-1/3 -right-32 h-[400px] w-[400px] rounded-full bg-[#9B5CFF]/15 blur-[100px]" />
+      <div className="pointer-events-none absolute -bottom-20 -left-20 h-[350px] w-[350px] rounded-full bg-[#7928CA]/15 blur-[100px]" />
 
-            {/* Headline */}
-            <h1 className="text-2xl font-black tracking-tight text-[var(--text-primary)] sm:text-5xl lg:text-6xl lg:leading-[1.12]">
-              Building scalable, <br className="hidden xs:inline" />
-              secure &amp; reliable <br className="hidden xs:inline" />
-              <span className="text-[var(--accent-primary)]">backend systems.</span>
+      <div className="relative mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
+        <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
+          
+          {/* ================================================================
+              LEFT COLUMN: Personal Branding, Pitch, CTAs & Social Links
+              ================================================================ */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-7 text-left"
+          >
+            {/* Status Pill Greeting */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.1, duration: 0.4 }}
+              className="inline-flex items-center gap-2.5 rounded-full border border-[rgba(155,92,255,0.3)] bg-[rgba(155,92,255,0.08)] px-4 py-1.5 backdrop-blur-md shadow-[0_0_20px_rgba(155,92,255,0.15)] mb-6"
+            >
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#9B5CFF] opacity-75" />
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#9B5CFF]" />
+              </span>
+              <span className="text-xs sm:text-sm font-medium tracking-wide text-white">
+                👋 Hey there, I'm
+              </span>
+            </motion.div>
+
+            {/* Animated Name & Headline */}
+            <h1 className="font-heading text-4xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl leading-[1.08]">
+              Gulrez <br className="hidden sm:inline" />
+              <span className="purple-gradient-text">Sarankar</span>
             </h1>
 
-            {/* Description */}
-            <p className="mt-5 max-w-xl text-sm leading-relaxed text-[var(--text-secondary)] sm:text-base lg:text-lg">
-              I design and develop reliable backend systems using Java and Spring Boot, with a focus on clean architecture, API reliability, database performance and maintainable production code.
+            {/* Position & Specialization Tagline */}
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <span className="font-heading text-xl sm:text-2xl lg:text-3xl font-bold text-[#E5E0F8]">
+                Software Engineer
+              </span>
+              <span className="text-xl sm:text-2xl text-[#9B5CFF]">&amp;</span>
+              <span className="font-heading text-xl sm:text-2xl lg:text-3xl font-bold purple-accent-text">
+                Freelance Developer
+              </span>
+            </div>
+
+            {/* High-Impact Elevator Pitch */}
+            <p className="mt-6 max-w-2xl text-base leading-relaxed text-[#AAA5B8] sm:text-lg">
+              Specializing in high-throughput <strong className="text-white font-semibold">Java &amp; Spring Boot</strong> enterprise backend architectures and modern <strong className="text-white font-semibold">Full-Stack Web Development</strong>. 2+ years of professional engineering experience building mission-critical APIs, distributed systems, and converting complex requirements into performant digital products.
             </p>
 
-            {/* Action Buttons */}
-            <div className="mt-7 flex flex-wrap items-center gap-2.5 sm:gap-3">
+            {/* Core Capability Pills */}
+            <div className="mt-6 flex flex-wrap items-center gap-2 sm:gap-2.5 text-xs text-[#E5E0F8]">
+              <span className="inline-flex items-center gap-1.5 rounded-lg border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] px-3 py-1.5 backdrop-blur-md">
+                <FaCheck className="text-[#9B5CFF] text-[10px]" /> Spring Boot Microservices
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-lg border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] px-3 py-1.5 backdrop-blur-md">
+                <FaCheck className="text-[#D66BFF] text-[10px]" /> PostgreSQL &amp; Redis Caching
+              </span>
+              <span className="inline-flex items-center gap-1.5 rounded-lg border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] px-3 py-1.5 backdrop-blur-md">
+                <FaCheck className="text-[#9B5CFF] text-[10px]" /> React.js &amp; TypeScript
+              </span>
+            </div>
+
+            {/* CTAs: Hire Me & View My Work */}
+            <div className="mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
+              <a
+                href="#contact"
+                onClick={scrollToContact}
+                className="btn-primary-purple text-sm sm:text-base py-3 px-6 sm:px-7 shadow-[0_0_25px_rgba(155,92,255,0.45)]"
+              >
+                <span>Hire Me for Your Project</span>
+                <FaArrowUpRightFromSquare className="text-xs" />
+              </a>
+
               <a
                 href="#projects"
                 onClick={scrollToProjects}
-                aria-label="View portfolio projects"
-                className="btn-primary-blue text-xs sm:text-sm py-2.5 px-4 sm:py-3 sm:px-5"
+                className="btn-secondary-glass text-sm sm:text-base py-3 px-6 sm:px-7"
               >
-                View My Work
-                <FaArrowUpRightFromSquare className="text-[10px] sm:text-xs" />
+                <span>View My Work</span>
+                <FaArrowRight className="text-xs text-[#D66BFF]" />
               </a>
+            </div>
 
-              <a
-                href="/Gulrez-Sarankar.pdf"
-                download="Gulrez_Sarankar_Resume.pdf"
-                aria-label="Download Gulrez Sarankar Resume PDF"
-                className="btn-secondary-theme text-xs sm:text-sm py-2.5 px-4 sm:py-3 sm:px-5"
-              >
-                <FaDownload className="text-[10px] sm:text-xs" />
-                Download Resume
-              </a>
+            {/* Direct Social Channels */}
+            <div className="mt-10 pt-8 border-t border-[rgba(255,255,255,0.10)] flex flex-wrap items-center gap-4 sm:gap-6">
+              <span className="text-xs uppercase tracking-wider font-semibold text-[#7E7893]">
+                Connect Directly:
+              </span>
+              <div className="flex items-center gap-3">
+                <a
+                  href="https://github.com/gulrezsarankar"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="GitHub Profile"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] text-base text-[#AAA5B8] backdrop-blur-md transition-all duration-300 hover:scale-110 hover:border-[#9B5CFF] hover:bg-[rgba(155,92,255,0.18)] hover:text-white"
+                  title="GitHub"
+                >
+                  <FaGithub />
+                </a>
 
-              <a
-                href="https://github.com/gulrezsarankar"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Gulrez Sarankar GitHub Profile"
-                className="btn-secondary-theme text-xs sm:text-sm py-2.5 px-4 sm:py-3 sm:px-5"
-              >
-                <FaGithub className="text-xs sm:text-sm" />
-                GitHub
-              </a>
+                <a
+                  href="https://linkedin.com/in/gulrez-sarankar"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="LinkedIn Profile"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] text-base text-[#AAA5B8] backdrop-blur-md transition-all duration-300 hover:scale-110 hover:border-[#9B5CFF] hover:bg-[rgba(155,92,255,0.18)] hover:text-white"
+                  title="LinkedIn"
+                >
+                  <FaLinkedin />
+                </a>
+
+                <a
+                  href="https://wa.me/918459464676"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="WhatsApp Message"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] text-base text-[#AAA5B8] backdrop-blur-md transition-all duration-300 hover:scale-110 hover:border-[#10B981] hover:bg-emerald-500/20 hover:text-emerald-400"
+                  title="WhatsApp (+91 8459464676)"
+                >
+                  <FaWhatsapp />
+                </a>
+
+                <a
+                  href="mailto:gulrezsarankar24@gmail.com"
+                  aria-label="Email Gulrez"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] text-base text-[#AAA5B8] backdrop-blur-md transition-all duration-300 hover:scale-110 hover:border-[#D66BFF] hover:bg-[rgba(214,107,255,0.18)] hover:text-white"
+                  title="gulrezsarankar24@gmail.com"
+                >
+                  <FaEnvelope />
+                </a>
+              </div>
             </div>
           </motion.div>
 
-          {/* RIGHT SIDE: Dark Code Editor & Data Flow Workspace (Technical Visual Accent) */}
+          {/* ================================================================
+              RIGHT COLUMN: Profile Photo with Ambient Violet Glow & Floating Cards
+              ================================================================ */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.15 }}
-            className="lg:col-span-6 w-full min-w-0 overflow-hidden"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-5 relative flex justify-center items-center"
           >
-            {/* Editor Container */}
-            <div className="overflow-hidden rounded-xl border border-[#263241] bg-[#0A1018] shadow-[0_20px_50px_rgba(0,0,0,0.4)]">
-              {/* Header Bar */}
-              <div className="flex items-center justify-between border-b border-[#263241] bg-[#060A10] px-3 sm:px-4 py-2.5 sm:py-3">
-                <div className="flex items-center gap-1.5 sm:gap-2">
-                  <div className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-[#EF4444]" />
-                  <div className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-[#F59E0B]" />
-                  <div className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-[#10B981]" />
+            {/* Violet Ambient Backlight Sphere */}
+            <div className="absolute inset-0 m-auto h-[320px] w-[320px] sm:h-[400px] sm:w-[400px] rounded-full bg-gradient-to-tr from-[#9B5CFF]/30 to-[#D66BFF]/25 blur-[70px] pointer-events-none" />
+
+            {/* Main Portrait Glass Card Frame */}
+            <div className="relative group p-2 rounded-3xl border border-[rgba(255,255,255,0.15)] bg-gradient-to-b from-[rgba(255,255,255,0.08)] to-[rgba(255,255,255,0.02)] backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
+              {/* Inner Decorative Border */}
+              <div className="relative overflow-hidden rounded-[22px] bg-[#100B20] max-w-[340px] sm:max-w-[380px]">
+                <img
+                  src="/Gulrez.png"
+                  alt="Gulrez Sarankar — Software Engineer & Freelance Developer"
+                  className="w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  loading="eager"
+                  width="380"
+                  height="450"
+                />
+
+                {/* Bottom Gradient Overlay on Image for seamless blending */}
+                <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#080612] via-[#080612]/60 to-transparent" />
+
+                {/* Image Label Overlay */}
+                <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between">
+                  <div>
+                    <p className="font-heading text-sm font-bold text-white">
+                      Gulrez Sarankar
+                    </p>
+                    <p className="text-[11px] font-medium text-[#D66BFF]">
+                      ISEES Technologies LLP
+                    </p>
+                  </div>
+                  <span className="flex h-3 w-3 rounded-full bg-emerald-500 ring-4 ring-[#080612] shadow-[0_0_10px_#10B981]" />
                 </div>
-                <div className="flex items-center gap-1.5 rounded-t-md bg-[#0A1018] px-2.5 py-1 text-[11px] sm:text-xs font-mono text-[#60A5FA]">
-                  <span>☕</span>
-                  <span>BookingService.java</span>
-                </div>
-                <div className="text-[10px] sm:text-[11px] font-mono text-[#6F7B8B]">UTF-8</div>
               </div>
 
-              {/* Code Snippet */}
-              <div className="overflow-x-auto p-3 sm:p-5 font-code text-[10px] sm:text-xs md:text-sm leading-relaxed text-[#E2E8F0]">
-                <table className="w-full border-collapse">
-                  <tbody>
-                    <tr>
-                      <td className="w-6 sm:w-8 select-none text-right font-mono text-[#475569]">01</td>
-                      <td className="pl-3 sm:pl-4">
-                        <span className="text-[#F472B6]">@Service</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="w-6 sm:w-8 select-none text-right font-mono text-[#475569]">02</td>
-                      <td className="pl-3 sm:pl-4">
-                        <span className="text-[#F472B6]">@Transactional</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="w-6 sm:w-8 select-none text-right font-mono text-[#475569]">03</td>
-                      <td className="pl-3 sm:pl-4">
-                        <span className="text-[#60A5FA]">public class</span>{" "}
-                        <span className="font-bold text-[#FACC15]">BookingService</span>{" "}
-                        <span className="text-[#94A3B8]">&#123;</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="w-6 sm:w-8 select-none text-right font-mono text-[#475569]">04</td>
-                      <td className="pl-3 sm:pl-4"></td>
-                    </tr>
-                    <tr>
-                      <td className="w-6 sm:w-8 select-none text-right font-mono text-[#475569]">05</td>
-                      <td className="pl-3 sm:pl-4">
-                        &nbsp;&nbsp;<span className="text-[#60A5FA]">public</span>{" "}
-                        <span className="text-[#4ADE80]">BookingResponse</span>{" "}
-                        <span className="text-[#60A5FA]">createBooking</span>
-                        <span className="text-[#94A3B8]">(</span>
-                        <span className="text-[#4ADE80]">BookingRequest</span>{" "}
-                        <span className="text-[#E2E8F0]">req</span>
-                        <span className="text-[#94A3B8]">) &#123;</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="w-6 sm:w-8 select-none text-right font-mono text-[#475569]">06</td>
-                      <td className="pl-3 sm:pl-4">
-                        &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-[#60A5FA]">validateBooking</span>
-                        <span className="text-[#94A3B8]">(req);</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="w-6 sm:w-8 select-none text-right font-mono text-[#475569]">07</td>
-                      <td className="pl-3 sm:pl-4">
-                        &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-[#60A5FA]">lockSlot</span>
-                        <span className="text-[#94A3B8]">(redis, req.getSlotId());</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="w-6 sm:w-8 select-none text-right font-mono text-[#475569]">08</td>
-                      <td className="pl-3 sm:pl-4">
-                        &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-[#4ADE80]">Booking</span>{" "}
-                        <span className="text-[#E2E8F0]">booking</span> ={" "}
-                        <span className="text-[#60A5FA]">bookingRepo</span>
-                        <span className="text-[#94A3B8]">.</span>
-                        <span className="text-[#60A5FA]">save</span>
-                        <span className="text-[#94A3B8]">(Booking.from(req));</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="w-6 sm:w-8 select-none text-right font-mono text-[#475569]">09</td>
-                      <td className="pl-3 sm:pl-4">
-                        &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-[#60A5FA]">return</span>{" "}
-                        <span className="text-[#4ADE80]">BookingResponse</span>
-                        <span className="text-[#94A3B8]">.</span>
-                        <span className="text-[#60A5FA]">from</span>
-                        <span className="text-[#94A3B8]">(booking);</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="w-6 sm:w-8 select-none text-right font-mono text-[#475569]">10</td>
-                      <td className="pl-3 sm:pl-4">
-                        &nbsp;&nbsp;<span className="text-[#94A3B8]">&#125;</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="w-6 sm:w-8 select-none text-right font-mono text-[#475569]">11</td>
-                      <td className="pl-3 sm:pl-4">
-                        <span className="text-[#94A3B8]">&#125;</span>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Data Flow Pipeline Footer */}
-              <div className="border-t border-[#263241] bg-[#070D15] p-2.5 sm:p-3">
-                <div className="flex items-center justify-between overflow-x-auto gap-2 text-[10px] sm:text-[11px] font-mono text-[#A8B2C1]">
-                  <span className="flex items-center gap-1 text-[#60A5FA] shrink-0">
-                    <FaLayerGroup /> Client
-                  </span>
-                  <FaArrowRight className="text-[8px] sm:text-[9px] text-[#6F7B8B] shrink-0" />
-                  <span className="text-[#38BDF8] shrink-0">REST API</span>
-                  <FaArrowRight className="text-[8px] sm:text-[9px] text-[#6F7B8B] shrink-0" />
-                  <span className="text-[#FACC15] shrink-0">Service</span>
-                  <FaArrowRight className="text-[8px] sm:text-[9px] text-[#6F7B8B] shrink-0" />
-                  <span className="flex items-center gap-1 text-[#4ADE80] shrink-0">
-                    <FaDatabase /> PostgreSQL
-                  </span>
+              {/* ============================================================
+                  FLOATING GLASS CARD 1: 2+ Years Experience (Top Left)
+                  ============================================================ */}
+              <motion.div
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -top-4 -left-6 sm:-left-8 rounded-2xl border border-[rgba(255,255,255,0.18)] bg-[rgba(16,11,32,0.85)] p-3 sm:p-3.5 backdrop-blur-xl shadow-[0_12px_30px_rgba(0,0,0,0.5)] flex items-center gap-3"
+              >
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#9B5CFF] to-[#7928CA] text-white shadow-[0_0_15px_rgba(155,92,255,0.4)]">
+                  <FaServer className="text-base" />
                 </div>
-              </div>
+                <div>
+                  <p className="font-heading text-base sm:text-lg font-bold text-white leading-none">
+                    2+ Years
+                  </p>
+                  <p className="text-[10px] sm:text-xs font-medium text-[#AAA5B8] mt-0.5">
+                    Engineering Experience
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* ============================================================
+                  FLOATING GLASS CARD 2: Java & Spring Boot Architect (Bottom Right)
+                  ============================================================ */}
+              <motion.div
+                animate={{ y: [0, 8, 0] }}
+                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+                className="absolute -bottom-5 -right-6 sm:-right-8 rounded-2xl border border-[rgba(255,255,255,0.18)] bg-[rgba(16,11,32,0.85)] p-3 sm:p-3.5 backdrop-blur-xl shadow-[0_12px_30px_rgba(0,0,0,0.5)] flex items-center gap-3"
+              >
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#10B981] to-[#047857] text-white shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+                  <SiSpringboot className="text-lg" />
+                </div>
+                <div>
+                  <p className="font-heading text-xs sm:text-sm font-bold text-white leading-none">
+                    Spring Boot Architect
+                  </p>
+                  <p className="text-[10px] sm:text-xs font-medium text-[#AAA5B8] mt-0.5">
+                    REST APIs &amp; Microservices
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* ============================================================
+                  FLOATING GLASS CARD 3: Full-Stack Web Solutions (Mid Right)
+                  ============================================================ */}
+              <motion.div
+                animate={{ x: [0, 6, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
+                className="hidden sm:flex absolute top-1/2 -right-12 -translate-y-1/2 rounded-2xl border border-[rgba(255,255,255,0.18)] bg-[rgba(16,11,32,0.85)] px-3 py-2 backdrop-blur-xl shadow-[0_12px_30px_rgba(0,0,0,0.5)] items-center gap-2"
+              >
+                <SiReact className="text-[#61DAFB] text-base animate-spin" style={{ animationDuration: "12s" }} />
+                <span className="text-[11px] font-semibold text-white">
+                  Full-Stack Architecture
+                </span>
+              </motion.div>
             </div>
           </motion.div>
+
         </div>
       </div>
     </section>

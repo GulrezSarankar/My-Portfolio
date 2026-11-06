@@ -2,24 +2,27 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { getEducation } from "../services/educationService";
 import { FaGraduationCap, FaUniversity } from "react-icons/fa";
+import { FaAward } from "react-icons/fa6";
 import SEO from "../assets/components/SEO";
 
 const educationData = [
   {
     title: "Master of Science in Computer Science (M.Sc CS)",
-    year: "2024 - 2026",
-    gpa: "Current",
-    icon: <FaGraduationCap className="text-[var(--accent-primary)]" />,
-    desc: "Advanced postgraduate program focused on algorithms, cloud computing, distributed system design, and backend software engineering.",
-    subjects: ["Advanced Algorithms", "Cloud Architecture", "System Design", "Advanced DBMS", "Data Analytics"],
+    institution: "Savitribai Phule Pune University",
+    year: "2022 - 2024",
+    gpa: "First Class with Distinction",
+    icon: <FaGraduationCap className="text-[#9B5CFF]" />,
+    desc: "Postgraduate specialization in distributed algorithms, system design, enterprise Java architectures, advanced database management systems (DBMS), and cloud computing.",
+    subjects: ["Advanced Distributed Systems", "Software Architecture & Design Patterns", "Advanced Database Systems", "Cloud Computing & DevOps", "Algorithm Complexity Analysis"],
   },
   {
     title: "Bachelor of Science in Information Technology (B.Sc IT)",
+    institution: "Savitribai Phule Pune University",
     year: "2019 - 2022",
     gpa: "8.14 CGPA",
-    icon: <FaUniversity className="text-[var(--accent-primary)]" />,
-    desc: "Strong IT foundation covering computer science fundamentals, networking, relational databases, Java programming, and software engineering.",
-    subjects: ["Database Systems", "Operating Systems", "Software Engineering", "Java Programming", "Web Development"],
+    icon: <FaUniversity className="text-[#D66BFF]" />,
+    desc: "Undergraduate degree establishing rigorous foundations in object-oriented programming (Core Java, C++), data structures, operating systems, networking protocols, and web development.",
+    subjects: ["Core Java & OOP", "Relational Database Management (RDBMS)", "Data Structures & Algorithms", "Operating Systems", "Computer Networks & Security"],
   },
 ];
 
@@ -42,23 +45,30 @@ export default function Education() {
       isMounted = false;
     };
   }, []);
+
   return (
-    <section className="bg-[var(--bg-main)] py-12 lg:py-20 transition-colors duration-300">
+    <section className="relative overflow-hidden bg-[#080612] py-16 sm:py-20 lg:py-28">
       <SEO
-        title="Education & Degrees | Gulrez Sarankar | M.Sc Computer Science"
-        description="Academic background of Gulrez Sarankar, holding an M.Sc in Computer Science and B.Sc in IT with focus on algorithms and system design."
+        title="Education & Academic Qualifications | Gulrez Sarankar"
+        description="Academic background of Gulrez Sarankar: M.Sc in Computer Science and B.Sc in IT from Savitribai Phule Pune University."
         canonicalPath="/education"
       />
-      <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
-        <div className="mb-10 text-center">
-          <span className="text-xs font-bold uppercase tracking-wider text-[var(--accent-primary)]">
-            ACADEMIC BACKGROUND
-          </span>
-          <h1 className="mt-2 text-2xl sm:text-3xl font-black tracking-tight text-[var(--text-primary)] md:text-4xl">
-            Education & Degrees
+
+      {/* Ambient background glow */}
+      <div className="pointer-events-none absolute top-1/3 left-1/2 h-[450px] w-[450px] -translate-x-1/2 rounded-full bg-[#9B5CFF]/10 blur-[130px]" />
+
+      <div className="relative mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
+        <div className="mb-12 text-center max-w-3xl mx-auto">
+          <div className="glass-pill mb-3">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#9B5CFF]" />
+            ACADEMIC QUALIFICATIONS
+          </div>
+          <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+            Academic Degrees &amp; <br className="hidden sm:inline" />
+            <span className="purple-gradient-text">Computer Science Foundations</span>
           </h1>
-          <p className="mx-auto mt-2 max-w-xl text-sm sm:text-base text-[var(--text-secondary)]">
-            Computer Science and Information Technology academic foundation.
+          <p className="mt-4 text-base text-[#AAA5B8]">
+            Theoretical rigor combined with applied software engineering practice from Savitribai Phule Pune University.
           </p>
         </div>
 
@@ -70,33 +80,56 @@ export default function Education() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
-              className="theme-card p-6 sm:p-8 flex flex-col sm:flex-row gap-6 items-start"
+              className="glass-card p-6 sm:p-8 hover:border-[#9B5CFF]/50"
             >
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-[var(--accent-soft)] text-xl border border-[var(--border-color)]">
-                {item.icon}
-              </div>
+              <div className="flex flex-wrap items-start justify-between gap-4">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[rgba(155,92,255,0.25)] bg-[rgba(155,92,255,0.08)] text-2xl">
+                    {item.icon}
+                  </div>
+                  <div>
+                    <h2 className="font-heading text-xl sm:text-2xl font-bold text-white">
+                      {item.title}
+                    </h2>
+                    <p className="text-sm font-semibold text-[#D66BFF] mt-0.5">
+                      {item.institution || "Savitribai Phule Pune University"}
+                    </p>
+                  </div>
+                </div>
 
-              <div className="flex-1">
-                <div className="mb-2 flex items-center gap-2">
-                  <span className="theme-badge">
+                <div className="flex items-center gap-2">
+                  <span className="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] px-3 py-1 text-xs font-semibold text-white">
                     {item.year}
                   </span>
-                  <span className="rounded border border-[var(--border-color)] bg-[var(--bg-section)] px-2.5 py-1 text-xs font-bold text-[var(--text-secondary)]">
-                    {item.gpa}
-                  </span>
-                </div>
-
-                <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)]">{item.title}</h3>
-                <p className="mt-2 text-xs sm:text-sm leading-relaxed text-[var(--text-secondary)]">{item.desc}</p>
-
-                <div className="mt-4 flex flex-wrap gap-1.5">
-                  {item.subjects.map((sub) => (
-                    <span key={sub} className="rounded bg-[var(--bg-section)] border border-[var(--border-color)] px-2.5 py-1 text-xs font-semibold text-[var(--text-primary)]">
-                      {sub}
+                  {item.gpa && (
+                    <span className="glass-pill text-xs py-1 px-3 bg-emerald-500/10 border-emerald-500/30 text-emerald-400">
+                      <FaAward className="text-[11px]" /> {item.gpa}
                     </span>
-                  ))}
+                  )}
                 </div>
               </div>
+
+              <p className="mt-4 text-sm leading-relaxed text-[#AAA5B8]">
+                {item.desc}
+              </p>
+
+              {item.subjects && item.subjects.length > 0 && (
+                <div className="mt-5 pt-4 border-t border-[rgba(255,255,255,0.08)]">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#7E7893]">
+                    Core Focus Areas:
+                  </span>
+                  <div className="mt-2.5 flex flex-wrap gap-2">
+                    {item.subjects.map((sub) => (
+                      <span
+                        key={sub}
+                        className="rounded-lg border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] px-2.5 py-1 text-xs font-medium text-[#E5E0F8]"
+                      >
+                        {sub}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
             </motion.div>
           ))}
         </div>

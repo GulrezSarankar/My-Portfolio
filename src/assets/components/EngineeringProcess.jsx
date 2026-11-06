@@ -1,82 +1,128 @@
 import { motion } from "framer-motion";
-import { FaMagnifyingGlass, FaSitemap, FaCode, FaVial, FaRocket } from "react-icons/fa6";
+import {
+  FaMagnifyingGlass,
+  FaSitemap,
+  FaPenRuler,
+  FaCode,
+  FaVial,
+  FaRocket,
+} from "react-icons/fa6";
 
 const steps = [
   {
     num: "01",
-    title: "Understand the Problem",
-    icon: <FaMagnifyingGlass className="text-[var(--accent-primary)]" />,
-    desc: "Analyze business goals, domain entities, user requirements, throughput needs, and boundary constraints before writing code.",
+    title: "Discovery & Scope",
+    icon: <FaMagnifyingGlass className="text-[#9B5CFF]" />,
+    phase: "Phase 1: Analysis",
+    desc: "In-depth requirements gathering, domain analysis, technical feasibility audit, and defining concrete deliverable milestones.",
   },
   {
     num: "02",
-    title: "Design the Architecture",
-    icon: <FaSitemap className="text-[var(--accent-primary)]" />,
-    desc: "Model database schemas, package boundaries, REST endpoints, DTO contracts, authentication rules, and caching strategies.",
+    title: "Architecture & Planning",
+    icon: <FaSitemap className="text-[#D66BFF]" />,
+    phase: "Phase 2: Blueprint",
+    desc: "Designing 3NF relational schemas, microservice package structures, OpenAPI contracts, and Redis caching topologies.",
   },
   {
     num: "03",
-    title: "Build Reliable APIs",
-    icon: <FaCode className="text-[var(--accent-primary)]" />,
-    desc: "Implement clean Spring Boot services, transactional persistence, input validations, error handling, and security wrappers.",
+    title: "UI/UX & Prototyping",
+    icon: <FaPenRuler className="text-[#61DAFB]" />,
+    phase: "Phase 3: Design",
+    desc: "Crafting modern glassmorphic component hierarchies, responsive fluid typography, and frictionless user flows.",
   },
   {
     num: "04",
-    title: "Test & Validate",
-    icon: <FaVial className="text-[var(--accent-primary)]" />,
-    desc: "Run unit tests with JUnit/Mockito, inspect performance bottlenecks, tune SQL queries, and verify API edge cases.",
+    title: "Full-Stack Development",
+    icon: <FaCode className="text-emerald-400" />,
+    phase: "Phase 4: Build",
+    desc: "Clean Spring Boot backend development, type-safe React & TypeScript UI, and transaction-safe concurrency handles.",
   },
   {
     num: "05",
-    title: "Deploy & Improve",
-    icon: <FaRocket className="text-[var(--accent-primary)]" />,
-    desc: "Package containerized builds with Docker, generate OpenAPI/Swagger docs, and refine systems based on operational feedback.",
+    title: "Testing & Security Audit",
+    icon: <FaVial className="text-amber-400" />,
+    phase: "Phase 5: Verification",
+    desc: "Rigorous unit testing (JUnit, Mockito), slow query profiling, JWT & CSRF security audits, and cross-browser QA.",
+  },
+  {
+    num: "06",
+    title: "Deployment & Handover",
+    icon: <FaRocket className="text-[#D66BFF]" />,
+    phase: "Phase 6: Launch",
+    desc: "Docker containerization, CI/CD automated deployment, DNS & SSL setup, and comprehensive code handover documentation.",
   },
 ];
 
 export default function EngineeringProcess() {
   return (
-    <section className="bg-[var(--bg-section)] py-12 lg:py-20 border-b border-[var(--border-color)] transition-colors duration-300">
-      <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
-        <div className="mb-10 text-center">
-          <span className="text-xs font-bold uppercase tracking-wider text-[var(--accent-primary)]">
-            ENGINEERING METHODOLOGY
-          </span>
-          <h2 className="mt-2 text-2xl sm:text-3xl font-black tracking-tight text-[var(--text-primary)] md:text-4xl">
-            HOW I BUILD
+    <section
+      id="process"
+      className="relative overflow-hidden bg-[#100B20]/95 py-16 sm:py-20 lg:py-28 border-b border-[rgba(255,255,255,0.08)]"
+    >
+      {/* Background Soft Glow */}
+      <div className="pointer-events-none absolute top-1/2 left-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#9B5CFF]/10 blur-[130px]" />
+
+      <div className="relative mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-18">
+          <div className="glass-pill mb-3">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#D66BFF]" />
+            DEVELOPMENT LIFECYCLE
+          </div>
+          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+            A Disciplined, 6-Step <br className="hidden sm:inline" />
+            <span className="purple-gradient-text">Engineering Methodology</span>
           </h2>
-          <p className="mx-auto mt-2 max-w-xl text-sm sm:text-base text-[var(--text-secondary)]">
-            A disciplined, production-focused approach to software development from problem discovery to deployment handover.
+          <p className="mt-4 text-base sm:text-lg leading-relaxed text-[#AAA5B8]">
+            Predictable delivery, zero technical debt, and transparent communication from initial concept to live production scaling.
           </p>
         </div>
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        {/* 6-Step Timeline Grid with Connecting Line Concept */}
+        <div className="relative grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {steps.map((step, idx) => (
             <motion.div
               key={step.num}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: idx * 0.08 }}
-              className="theme-card theme-card-hover flex flex-col justify-between p-5 sm:p-6"
+              transition={{ duration: 0.45, delay: idx * 0.08 }}
+              className="glass-card group relative p-6 sm:p-7 flex flex-col justify-between overflow-hidden hover:border-[#9B5CFF]/50"
             >
+              {/* Subtle top indicator bar */}
+              <div className="pointer-events-none absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#9B5CFF]/40 to-transparent group-hover:via-[#D66BFF] transition-colors" />
+
               <div>
-                <div className="mb-4 flex items-center justify-between">
-                  <span className="font-mono text-2xl font-black text-[var(--accent-primary)]">
+                {/* Step Number & Icon */}
+                <div className="mb-5 flex items-center justify-between">
+                  <span className="font-heading text-3xl font-black purple-gradient-text tracking-tight">
                     {step.num}
                   </span>
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--accent-soft)] text-sm border border-[var(--border-color)]">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] text-base backdrop-blur-md transition-transform duration-300 group-hover:scale-110 group-hover:border-[#9B5CFF]/50">
                     {step.icon}
                   </div>
                 </div>
 
-                <h3 className="text-base sm:text-lg font-extrabold text-[var(--text-primary)]">
+                {/* Phase tag */}
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#9B5CFF]">
+                  {step.phase}
+                </span>
+
+                {/* Step Title */}
+                <h3 className="font-heading text-lg sm:text-xl font-bold text-white mt-1 group-hover:text-[#D66BFF] transition-colors">
                   {step.title}
                 </h3>
 
-                <p className="mt-2.5 text-xs sm:text-sm leading-relaxed text-[var(--text-secondary)]">
+                {/* Description */}
+                <p className="mt-3 text-xs sm:text-sm leading-relaxed text-[#AAA5B8]">
                   {step.desc}
                 </p>
+              </div>
+
+              {/* Step footer index pill */}
+              <div className="mt-6 pt-4 border-t border-[rgba(255,255,255,0.06)] flex items-center justify-between text-[11px] font-mono text-[#7E7893]">
+                <span>Milestone {step.num}/06</span>
+                <span className="group-hover:text-[#9B5CFF] transition-colors">Step Verified →</span>
               </div>
             </motion.div>
           ))}
