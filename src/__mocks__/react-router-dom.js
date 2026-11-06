@@ -10,3 +10,4 @@ module.exports = {
   Routes: ({ children }) => React.createElement("div", null, children),
   Route: ({ element }) => element,
 };
+
