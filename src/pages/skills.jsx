@@ -5,9 +5,13 @@ export default function Skills() {
   return (
     <div className="pt-4">
       <SEO
-        title="Skills & Tech Stack | Gulrez Sarankar | Java Spring Boot Developer"
-        description="Explore the technical skills of Gulrez Sarankar: Java, Spring Boot, Spring Security, Hibernate, PostgreSQL, MySQL, Redis, Docker, and REST APIs."
+        title="Skills & Technical Capabilities | Gulrez Sarankar"
+        description="Technical skills of Gulrez Sarankar across Backend Development, Databases, Security, Caching & Performance, Testing, DevOps, and Frontend."
         canonicalPath="/skills"
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Skills", url: "/skills" },
+        ]}
       />
       <TechStackGrid isStandalonePage={true} />
     </div>

@@ -67,6 +67,16 @@ export default function BlogDetail() {
         description={blog.excerpt || blog.summary}
         canonicalPath={`/blog/${blog.slug}`}
         ogType="article"
+        ogImage={
+          blog.cover_image_url
+            ? (blog.cover_image_url.startsWith("http") ? blog.cover_image_url : `https://gulrezsarankar.info${blog.cover_image_url}`)
+            : "https://gulrezsarankar.info/og-image.jpg"
+        }
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Blog", url: "/blog" },
+          { name: blog.title, url: `/blog/${blog.slug}` },
+        ]}
         jsonLd={blogJsonLd}
       />
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">

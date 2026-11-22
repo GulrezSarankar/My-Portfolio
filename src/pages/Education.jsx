@@ -75,6 +75,10 @@ export default function Education() {
         title="Education & Academic Qualifications | Gulrez Sarankar"
         description="Academic background of Gulrez Sarankar: M.Sc in Computer Science from Abeda Inamdar Senior College and B.Sc in Information Technology from Hirval Education, Mahad (Mumbai University)."
         canonicalPath="/education"
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Education", url: "/education" },
+        ]}
       />
 
       <div className="relative mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">

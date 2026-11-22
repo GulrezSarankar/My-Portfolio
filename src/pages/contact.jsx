@@ -97,6 +97,10 @@ export default function Contact({ isStandalonePage = true }) {
           title="Contact Gulrez Sarankar | Java Backend & Software Engineer"
           description="Get in touch with Gulrez Sarankar for Java Spring Boot backend engineering, API architecture, full-stack web applications, and consulting."
           canonicalPath="/contact"
+          breadcrumbs={[
+            { name: "Home", url: "/" },
+            { name: "Contact", url: "/contact" },
+          ]}
         />
       )}
 

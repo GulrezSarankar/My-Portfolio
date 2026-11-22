@@ -2,20 +2,57 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 const BASE_URL = "https://gulrezsarankar.info";
-const DEFAULT_IMAGE = `${BASE_URL}/Gulrez.png`;
+const DEFAULT_IMAGE = `${BASE_URL}/og-image.jpg`;
+const DEFAULT_TITLE = "Gulrez Sarankar | Software Engineer | Java Backend Developer";
+const DEFAULT_DESC =
+  "Portfolio of Gulrez Sarankar, Software Engineer at ISEES Technologies LLP specializing in Java 17/21, Spring Boot microservices, PostgreSQL, Redis caching, and resilient RESTful API engineering.";
 
 export default function SEO({
-  title = "Gulrez Sarankar | Java Backend Developer | Spring Boot Developer",
-  description = "Portfolio of Gulrez Sarankar, a Java Backend Developer and Associate Software Engineer specializing in Java, Spring Boot, REST APIs, PostgreSQL, MySQL and backend development.",
+  title = DEFAULT_TITLE,
+  description = DEFAULT_DESC,
   canonicalPath,
   ogType = "website",
   ogImage = DEFAULT_IMAGE,
+  ogImageAlt = "Gulrez Sarankar — Software Engineer | Java Backend Developer",
+  ogImageWidth = "1200",
+  ogImageHeight = "630",
+  ogImageType = "image/jpeg",
+  twitterCard = "summary_large_image",
+  breadcrumbs,
   jsonLd,
 }) {
   const location = useLocation();
   const canonicalUrl = canonicalPath
-    ? `${BASE_URL}${canonicalPath}`
+    ? `${BASE_URL}${canonicalPath.startsWith("/") ? canonicalPath : `/${canonicalPath}`}`
     : `${BASE_URL}${location.pathname === "/" ? "/" : location.pathname}`;
+
+  // Assemble JSON-LD graph if breadcrumbs or custom schema are provided
+  const schemas = [];
+  if (breadcrumbs && Array.isArray(breadcrumbs) && breadcrumbs.length > 0) {
+    schemas.push({
+      "@type": "BreadcrumbList",
+      "itemListElement": breadcrumbs.map((b, idx) => ({
+        "@type": "ListItem",
+        "position": idx + 1,
+        "name": b.name,
+        "item": b.url.startsWith("http") ? b.url : `${BASE_URL}${b.url.startsWith("/") ? b.url : `/${b.url}`}`,
+      })),
+    });
+  }
+  if (jsonLd) {
+    if (Array.isArray(jsonLd)) {
+      schemas.push(...jsonLd);
+    } else {
+      schemas.push(jsonLd);
+    }
+  }
+
+  const effectiveJsonLd =
+    schemas.length > 1
+      ? { "@context": "https://schema.org", "@graph": schemas }
+      : schemas.length === 1
+      ? { "@context": "https://schema.org", ...schemas[0] }
+      : null;
 
   useEffect(() => {
     // 1. Update Document Title
@@ -48,51 +85,53 @@ export default function SEO({
     updateMetaTag("meta[property='og:url']", "property", "og:url", canonicalUrl);
     updateMetaTag("meta[property='og:type']", "property", "og:type", ogType);
     updateMetaTag("meta[property='og:image']", "property", "og:image", ogImage);
+    updateMetaTag("meta[property='og:image:width']", "property", "og:image:width", ogImageWidth);
+    updateMetaTag("meta[property='og:image:height']", "property", "og:image:height", ogImageHeight);
+    updateMetaTag("meta[property='og:image:type']", "property", "og:image:type", ogImageType);
+    updateMetaTag("meta[property='og:image:alt']", "property", "og:image:alt", ogImageAlt);
+    updateMetaTag("meta[property='og:site_name']", "property", "og:site_name", "Gulrez Sarankar Portfolio");
 
+    updateMetaTag("meta[name='twitter:card']", "name", "twitter:card", twitterCard);
     updateMetaTag("meta[name='twitter:title']", "name", "twitter:title", title);
     updateMetaTag("meta[name='twitter:description']", "name", "twitter:description", description);
     updateMetaTag("meta[name='twitter:url']", "name", "twitter:url", canonicalUrl);
     updateMetaTag("meta[name='twitter:image']", "name", "twitter:image", ogImage);
+    updateMetaTag("meta[name='twitter:image:alt']", "name", "twitter:image:alt", ogImageAlt);
 
     // 5. Dynamic JSON-LD Structured Data
-    if (jsonLd) {
-      let scriptTag = document.getElementById("dynamic-seo-jsonld");
+    let scriptTag = document.getElementById("dynamic-seo-jsonld");
+    if (effectiveJsonLd) {
       if (!scriptTag) {
         scriptTag = document.createElement("script");
         scriptTag.id = "dynamic-seo-jsonld";
         scriptTag.type = "application/ld+json";
         document.head.appendChild(scriptTag);
       }
-      scriptTag.textContent = JSON.stringify(jsonLd);
+      scriptTag.textContent = JSON.stringify(effectiveJsonLd);
+    } else if (scriptTag) {
+      scriptTag.remove();
     }
 
     return () => {
       // Cleanup custom JSON-LD when unmounting route
-      const scriptTag = document.getElementById("dynamic-seo-jsonld");
-      if (scriptTag) {
-        scriptTag.remove();
+      const dynamicScript = document.getElementById("dynamic-seo-jsonld");
+      if (dynamicScript) {
+        dynamicScript.remove();
       }
     };
-  }, [title, description, canonicalUrl, ogType, ogImage, jsonLd]);
+  }, [
+    title,
+    description,
+    canonicalUrl,
+    ogType,
+    ogImage,
+    ogImageAlt,
+    ogImageWidth,
+    ogImageHeight,
+    ogImageType,
+    twitterCard,
+    effectiveJsonLd,
+  ]);
 
-  return (
-    <>
-      <title>{title}</title>
-      <meta name="description" content={description} />
-      <link rel="canonical" href={canonicalUrl} />
-
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="og:url" content={canonicalUrl} />
-      <meta property="og:type" content={ogType} />
-      <meta property="og:image" content={ogImage} />
-      <meta property="og:site_name" content="Gulrez Sarankar Portfolio" />
-
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:url" content={canonicalUrl} />
-      <meta name="twitter:image" content={ogImage} />
-    </>
-  );
+  return null;
 }

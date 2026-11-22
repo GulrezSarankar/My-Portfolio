@@ -5,9 +5,13 @@ export default function ProfessionalExperience() {
   return (
     <div className="bg-[#0D0D0D] min-h-screen text-[#F5F5F5]">
       <SEO
-        title="Professional Experience | Gulrez Sarankar | Software Engineer"
-        description="Professional experience of Gulrez Sarankar as a Software Engineer at ISEES Technologies LLP, promoted from Associate Software Engineer in January 2026. Java backend development, REST APIs, and application development."
+        title="Professional Engineering Experience | Gulrez Sarankar"
+        description="Professional software engineering career of Gulrez Sarankar at ISEES Technologies LLP: Java backend architecture, RESTful APIs, PostgreSQL, and Spring Boot."
         canonicalPath="/experience"
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Experience", url: "/experience" },
+        ]}
       />
       <AboutExperience isStandalonePage={true} pageType="experience" />
     </div>

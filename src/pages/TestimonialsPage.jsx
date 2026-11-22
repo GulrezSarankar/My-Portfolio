@@ -39,6 +39,10 @@ export default function TestimonialsPage() {
         title="Testimonials & Endorsements | Gulrez Sarankar"
         description="Verified recommendations and feedback from engineering leaders, product owners, and collaborators on Java backend architecture, system reliability, and delivery execution."
         canonicalPath="/testimonials"
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Testimonials", url: "/testimonials" },
+        ]}
       />
 
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">

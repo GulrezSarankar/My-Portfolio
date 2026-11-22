@@ -139,6 +139,16 @@ export default function ProjectDetail() {
         title={`${projectTitle} — Engineering Case Study | Gulrez Sarankar`}
         description={projectDesc.slice(0, 160)}
         canonicalPath={`/projects/${project.slug || slug}`}
+        ogImage={
+          project.images && project.images[0] && !project.images[0].endsWith(".svg")
+            ? (project.images[0].startsWith("http") ? project.images[0] : `https://gulrezsarankar.info${project.images[0]}`)
+            : "https://gulrezsarankar.info/og-image.jpg"
+        }
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Projects", url: "/projects" },
+          { name: projectTitle, url: `/projects/${project.slug || slug}` },
+        ]}
         jsonLd={jsonLd}
       />
 

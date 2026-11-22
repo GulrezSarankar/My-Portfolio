@@ -69,9 +69,13 @@ export default function Projects({ isStandalonePage = true }) {
     >
       {isStandalonePage && (
         <SEO
-          title="Projects & Engineering Portfolio | Gulrez Sarankar"
-          description="Explore enterprise backend systems, e-commerce platforms, and full-stack applications engineered by Gulrez Sarankar using Java, Spring Boot, PostgreSQL, and React."
+          title="Engineering Projects & Architecture Case Studies | Gulrez Sarankar"
+          description="Explore high-throughput retail ERPs, concurrency-safe sports venue reservation engines, and farm-to-table platforms engineered with Spring Boot, PostgreSQL, and Redis."
           canonicalPath="/projects"
+          breadcrumbs={[
+            { name: "Home", url: "/" },
+            { name: "Projects", url: "/projects" },
+          ]}
         />
       )}
 

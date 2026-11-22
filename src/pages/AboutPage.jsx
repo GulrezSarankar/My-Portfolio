@@ -5,9 +5,13 @@ export default function About() {
   return (
     <div className="bg-[#0D0D0D] min-h-screen text-[#F5F5F5]">
       <SEO
-        title="About Gulrez Sarankar | Java Backend Developer & Software Engineer"
-        description="Learn about Gulrez Sarankar, a Java Backend Developer and Associate Software Engineer in Pune specializing in Spring Boot, PostgreSQL, microservices, and distributed architecture."
+        title="About Gulrez Sarankar | Software Engineer & Java Backend Developer"
+        description="Discover the engineering background, development philosophy, and technical track record of Gulrez Sarankar, Software Engineer at ISEES Technologies LLP."
         canonicalPath="/about"
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "About", url: "/about" },
+        ]}
       />
       <AboutExperience isStandalonePage={true} pageType="about" />
     </div>

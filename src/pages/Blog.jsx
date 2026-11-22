@@ -26,6 +26,10 @@ export default function Blog() {
         title="Java & Spring Boot Blog | Technical Articles by Gulrez Sarankar"
         description="Engineering insights, Spring Boot architecture notes, DTO patterns, and database performance optimization articles by Gulrez Sarankar."
         canonicalPath="/blog"
+        breadcrumbs={[
+          { name: "Home", url: "/" },
+          { name: "Blog", url: "/blog" },
+        ]}
       />
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
         {/* Header */}
