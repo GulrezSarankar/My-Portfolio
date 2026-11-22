@@ -12,7 +12,7 @@
 
 <br />
 
-[![Portfolio](https://img.shields.io/badge/Portfolio-gulrezsarankar.info-0ea5e9?style=for-the-badge&logo=google-chrome&logoColor=white)](https://gulrezsarankar.info)&nbsp;
+[![Portfolio](https://img.shields.io/badge/Portfolio-gulrezsarankar.info-0ea5e9?style=for-the-badge&logo=google-chrome&logoColor=white)](https://www.gulrezsarankar.info)&nbsp;
 [![GitHub](https://img.shields.io/badge/GitHub-GulrezSarankar-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/GulrezSarankar)&nbsp;
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-gulrez--sarankar-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/gulrez-sarankar)&nbsp;
 [![Email](https://img.shields.io/badge/Email-Contact-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:gulrezsarankar39@gmail.com)
@@ -260,9 +260,9 @@ Writing about backend architecture, Spring Boot patterns, and lessons from real 
 
 | Article | Topic |
 |---------|-------|
-| **[Java Folder Structure Best Practices](https://gulrezsarankar.info/blog/java-folder-structure-best-practices)** | Clean package design for Spring Boot projects |
-| **[Entity vs DTO in Spring Boot](https://gulrezsarankar.info/blog/entity-vs-dto-in-spring-boot)** | Why separating persistence and API contracts matters |
-| **[Clean Backend Architecture for Java](https://gulrezsarankar.info/blog/clean-backend-architecture-java)** | Structuring Controller, Service, Repository, and DTO layers |
+| **[Java Folder Structure Best Practices](https://www.gulrezsarankar.info/blog/java-folder-structure-best-practices)** | Clean package design for Spring Boot projects |
+| **[Entity vs DTO in Spring Boot](https://www.gulrezsarankar.info/blog/entity-vs-dto-in-spring-boot)** | Why separating persistence and API contracts matters |
+| **[Clean Backend Architecture for Java](https://www.gulrezsarankar.info/blog/clean-backend-architecture-java)** | Structuring Controller, Service, Repository, and DTO layers |
 
 ---
 
@@ -288,7 +288,7 @@ Writing about backend architecture, Spring Boot patterns, and lessons from real 
 
 <br />
 
-[![Portfolio](https://img.shields.io/badge/Visit_Portfolio-0ea5e9?style=for-the-badge&logo=google-chrome&logoColor=white)](https://gulrezsarankar.info)&nbsp;
+[![Portfolio](https://img.shields.io/badge/Visit_Portfolio-0ea5e9?style=for-the-badge&logo=google-chrome&logoColor=white)](https://www.gulrezsarankar.info)&nbsp;
 [![LinkedIn](https://img.shields.io/badge/Connect_on_LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/gulrez-sarankar)&nbsp;
 [![Email](https://img.shields.io/badge/Send_an_Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:gulrezsarankar39@gmail.com)
 

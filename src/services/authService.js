@@ -85,7 +85,7 @@ export const resetPassword = async (email, redirectTo = null) => {
 export const requestAdminPasswordReset = async (email, redirectTo = null) => {
   const defaultRedirect = typeof window !== "undefined"
     ? `${window.location.origin}/admin/reset-password`
-    : "https://gulrezsarankar.info/admin/reset-password";
+    : "https://www.gulrezsarankar.info/admin/reset-password";
   
   const options = {
     redirectTo: redirectTo || defaultRedirect,

@@ -35,7 +35,7 @@ export default function AdminForgotPassword() {
     try {
       const redirectUrl = typeof window !== "undefined"
         ? `${window.location.origin}/admin/reset-password`
-        : "https://gulrezsarankar.info/admin/reset-password";
+        : "https://www.gulrezsarankar.info/admin/reset-password";
 
       const { error } = await requestPasswordReset(trimmedEmail, redirectUrl);
 

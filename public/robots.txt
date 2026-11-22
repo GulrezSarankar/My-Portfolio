@@ -1,4 +1,4 @@
-# Robots.txt for https://gulrezsarankar.info
+# Robots.txt for https://www.gulrezsarankar.info
 User-agent: *
 Allow: /
 
@@ -10,4 +10,4 @@ Disallow: /forgot-password
 Disallow: /reset-password
 
 # Canonical XML Sitemap
-Sitemap: https://gulrezsarankar.info/sitemap.xml
+Sitemap: https://www.gulrezsarankar.info/sitemap.xml

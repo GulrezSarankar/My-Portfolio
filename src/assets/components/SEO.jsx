@@ -7,7 +7,7 @@ export const _resetSeoOwnerForTesting = () => {
   currentSeoOwnerId = 0;
 };
 
-const BASE_URL = "https://gulrezsarankar.info";
+const BASE_URL = "https://www.gulrezsarankar.info";
 const DEFAULT_IMAGE = `${BASE_URL}/og-image.jpg`;
 const DEFAULT_TITLE = "Gulrez Sarankar | Software Engineer | Java Backend Developer";
 const DEFAULT_DESC =

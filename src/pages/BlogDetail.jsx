@@ -54,10 +54,10 @@ export default function BlogDetail() {
     "author": {
       "@type": "Person",
       "name": "Gulrez Sarankar",
-      "url": "https://gulrezsarankar.info/"
+      "url": "https://www.gulrezsarankar.info/"
     },
-    "url": `https://gulrezsarankar.info/blog/${blog.slug}`,
-    "mainEntityOfPage": `https://gulrezsarankar.info/blog/${blog.slug}`,
+    "url": `https://www.gulrezsarankar.info/blog/${blog.slug}`,
+    "mainEntityOfPage": `https://www.gulrezsarankar.info/blog/${blog.slug}`,
     "articleSection": blog.category
   };
 
@@ -70,8 +70,8 @@ export default function BlogDetail() {
         ogType="article"
         ogImage={
           blog.cover_image_url
-            ? (blog.cover_image_url.startsWith("http") ? blog.cover_image_url : `https://gulrezsarankar.info${blog.cover_image_url}`)
-            : "https://gulrezsarankar.info/og-image.jpg"
+            ? (blog.cover_image_url.startsWith("http") ? blog.cover_image_url : `https://www.gulrezsarankar.info${blog.cover_image_url}`)
+            : "https://www.gulrezsarankar.info/og-image.jpg"
         }
         breadcrumbs={[
           { name: "Home", url: "/" },

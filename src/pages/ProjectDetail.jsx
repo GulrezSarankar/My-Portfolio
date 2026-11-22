@@ -127,11 +127,11 @@ export default function ProjectDetail() {
     "author": {
       "@type": "Person",
       "name": "Gulrez Sarankar",
-      "url": "https://gulrezsarankar.info/"
+      "url": "https://www.gulrezsarankar.info/"
     },
     ...(project.github ? { codeRepository: project.github } : {}),
     "programmingLanguage": techStack,
-    "url": `https://gulrezsarankar.info/projects/${project.slug || slug}`
+    "url": `https://www.gulrezsarankar.info/projects/${project.slug || slug}`
   };
 
   return (
@@ -142,8 +142,8 @@ export default function ProjectDetail() {
         canonicalPath={`/projects/${project.slug || slug}`}
         ogImage={
           project.images && project.images[0] && !project.images[0].endsWith(".svg")
-            ? (project.images[0].startsWith("http") ? project.images[0] : `https://gulrezsarankar.info${project.images[0]}`)
-            : "https://gulrezsarankar.info/og-image.jpg"
+            ? (project.images[0].startsWith("http") ? project.images[0] : `https://www.gulrezsarankar.info${project.images[0]}`)
+            : "https://www.gulrezsarankar.info/og-image.jpg"
         }
         breadcrumbs={[
           { name: "Home", url: "/" },
