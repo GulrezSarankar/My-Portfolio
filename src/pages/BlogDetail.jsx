@@ -4,6 +4,7 @@ import { FaArrowLeft, FaCalendarDays, FaClock } from "react-icons/fa6";
 import { blogs } from "../data/blogs";
 import { getPostBySlug } from "../services/blogService";
 import SEO from "../assets/components/SEO";
+import MarkdownRenderer from "../assets/components/MarkdownRenderer";
 
 export default function BlogDetail() {
   const { slug } = useParams();
@@ -124,8 +125,10 @@ export default function BlogDetail() {
           </p>
         </header>
 
-        {/* Article Body Sections */}
-        {blog.sections && blog.sections.length > 0 && (
+        {/* Article Body Content */}
+        {blog.content ? (
+          <MarkdownRenderer content={blog.content} />
+        ) : blog.sections && blog.sections.length > 0 ? (
           <div className="mt-8 space-y-6">
             {blog.sections.map((section, idx) => (
               <section
@@ -150,7 +153,7 @@ export default function BlogDetail() {
               </section>
             ))}
           </div>
-        )}
+        ) : null}
 
         {/* Back Link at bottom */}
         <div className="mt-10 pt-6 border-t border-[#262626] flex items-center justify-between">
