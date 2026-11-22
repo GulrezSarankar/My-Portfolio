@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FaArrowRight, FaBriefcase, FaCalendarDays } from "react-icons/fa6";
+import { FaArrowRight, FaCalendarDays } from "react-icons/fa6";
 import { getExperience } from "../../services/experienceService";
+import { experiences as staticExperiences } from "../../data/experience";
 
 export default function HomeExperience() {
-  const [experiences, setExperiences] = useState([]);
+  const [experiences, setExperiences] = useState(staticExperiences);
 
   useEffect(() => {
     let isMounted = true;

@@ -1,16 +1,37 @@
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { FaServer, FaCheck } from "react-icons/fa6";
+import {
+  FaServer,
+  FaDatabase,
+  FaShieldHalved,
+  FaBolt,
+  FaVial,
+  FaTerminal,
+  FaLaptopCode,
+  FaCircleCheck,
+} from "react-icons/fa6";
 import { skillCategories } from "../../data/skills";
 import { getSkills } from "../../services/skillsService";
 
 const categoryFilters = [
-  { id: "all", label: "All Technologies" },
-  { id: "backend", label: "Backend & Microservices" },
-  { id: "frontend", label: "Frontend & UI/UX" },
-  { id: "database", label: "Database Engineering" },
-  { id: "tools", label: "DevOps & Tools" },
+  { id: "all", label: "All Domains" },
+  { id: "backend", label: "Backend Core" },
+  { id: "database", label: "Databases" },
+  { id: "security", label: "Security" },
+  { id: "caching", label: "Caching & Perf" },
+  { id: "testing", label: "Testing & QA" },
+  { id: "devops", label: "DevOps & Tools" },
+  { id: "frontend", label: "Frontend (Secondary)" },
 ];
+
+const categoryIcons = {
+  backend: <FaServer className="text-sm" />,
+  database: <FaDatabase className="text-sm" />,
+  security: <FaShieldHalved className="text-sm" />,
+  caching: <FaBolt className="text-sm" />,
+  testing: <FaVial className="text-sm" />,
+  devops: <FaTerminal className="text-sm" />,
+  frontend: <FaLaptopCode className="text-sm" />,
+};
 
 export default function TechStackGrid({ isStandalonePage = false }) {
   const [activeFilter, setActiveFilter] = useState("all");
@@ -20,20 +41,21 @@ export default function TechStackGrid({ isStandalonePage = false }) {
     let isMounted = true;
     getSkills().then((res) => {
       if (isMounted && res.data && res.data.length > 0) {
-        // Group by category if backend returns flat skill array
-        const grouped = {};
-        res.data.forEach((s) => {
-          const cat = s.category || "General";
-          if (!grouped[cat]) grouped[cat] = [];
-          grouped[cat].push(s);
-        });
-        const mapped = Object.keys(grouped).map((catName) => ({
-          title: catName,
-          category: catName.toLowerCase(),
-          skills: grouped[catName],
-        }));
-        if (mapped.length > 0) {
-          setCategories(mapped);
+        // If Supabase returned data, map it; otherwise staticSkillCategories is used
+        if (res.source === "supabase") {
+          const grouped = {};
+          res.data.forEach((catGroup) => {
+            const key = catGroup.title || "Backend Development";
+            grouped[key] = catGroup.skills;
+          });
+          // Merge with static metadata for rich descriptions
+          const merged = skillCategories.map((sc) => ({
+            ...sc,
+            skills: grouped[sc.title] || sc.skills,
+          }));
+          setCategories(merged);
+        } else {
+          setCategories(res.data);
         }
       }
     });
@@ -45,7 +67,7 @@ export default function TechStackGrid({ isStandalonePage = false }) {
   const filteredCategories = categories.filter((cat) => {
     if (activeFilter === "all") return true;
     const catLower = (cat.category || cat.title || "").toLowerCase();
-    return catLower.includes(activeFilter);
+    return catLower.includes(activeFilter.toLowerCase());
   });
 
   const HeadingTag = isStandalonePage ? "h1" : "h2";
@@ -53,37 +75,38 @@ export default function TechStackGrid({ isStandalonePage = false }) {
   return (
     <section
       id="skills"
-      className="relative overflow-hidden bg-[#080612] py-16 sm:py-20 lg:py-28 border-b border-[rgba(255,255,255,0.08)]"
+      className="relative bg-[#0D0D0D] py-16 sm:py-20 lg:py-24 border-b border-[#262626] text-[#F5F5F5]"
     >
-      {/* Ambient background glow */}
-      <div className="pointer-events-none absolute bottom-1/4 right-1/3 h-[450px] w-[450px] rounded-full bg-[#9B5CFF]/10 blur-[130px]" />
-
       <div className="relative mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-          <div className="glass-pill mb-3">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#9B5CFF]" />
-            TECHNICAL DOMAIN MASTERY
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#262626] bg-[#141414] px-3 py-1 mb-4">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#A3E635]" />
+            <span className="text-[11px] font-mono uppercase tracking-wider text-[#A1A1A1]">
+              Technical Skills &amp; Domain Expertise
+            </span>
           </div>
-          <HeadingTag className="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
-            Specialized Tech Stack &amp; <br className="hidden sm:inline" />
-            <span className="purple-gradient-text">Production Proficiency</span>
+
+          <HeadingTag className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#F5F5F5] leading-tight">
+            Specialized Backend Stack &amp; <br className="hidden sm:inline" />
+            <span className="text-[#A3E635]">Production Capabilities</span>
           </HeadingTag>
-          <p className="mt-4 text-base sm:text-lg leading-relaxed text-[#AAA5B8]">
-            Battle-tested technologies applied across commercial enterprise backends, high-throughput microservices, and interactive modern web applications.
+
+          <p className="mt-4 text-base sm:text-lg leading-relaxed text-[#A1A1A1]">
+            Curated technical domains honed across commercial enterprise backends, high-concurrency booking engines, and database-intensive applications.
           </p>
 
-          {/* Interactive Category Filter Tabs */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+          {/* Interactive Category Filter Pills */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-2 sm:gap-2.5">
             {categoryFilters.map((tab) => (
               <button
                 key={tab.id}
                 type="button"
                 onClick={() => setActiveFilter(tab.id)}
-                className={`rounded-xl px-4 py-2 text-xs sm:text-sm font-semibold transition-all duration-200 ${
+                className={`rounded-lg px-3.5 py-1.5 text-xs sm:text-sm font-mono transition-colors ${
                   activeFilter === tab.id
-                    ? "bg-gradient-to-r from-[#9B5CFF] to-[#7928CA] text-white shadow-[0_0_20px_rgba(155,92,255,0.35)] border border-[rgba(255,255,255,0.2)]"
-                    : "glass-panel text-[#AAA5B8] hover:text-white hover:border-[#9B5CFF]/40"
+                    ? "bg-[#A3E635] text-[#0D0D0D] font-semibold"
+                    : "border border-[#262626] bg-[#141414] text-[#A1A1A1] hover:border-[#383838] hover:text-[#F5F5F5]"
                 }`}
               >
                 {tab.label}
@@ -92,78 +115,83 @@ export default function TechStackGrid({ isStandalonePage = false }) {
           </div>
         </div>
 
-        {/* 4 Category Columns Grid */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
-          {filteredCategories.map((col, idx) => (
-            <motion.div
-              key={col.title}
-              layout
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: idx * 0.08 }}
-              className="glass-card flex flex-col justify-between p-6 sm:p-7 hover:border-[#9B5CFF]/50"
-            >
-              <div>
-                {/* Category Header */}
-                <div className="mb-6 flex items-center justify-between border-b border-[rgba(255,255,255,0.08)] pb-4">
-                  <div>
-                    <h3 className="font-heading text-lg sm:text-xl font-bold text-white">
-                      {col.title}
-                    </h3>
-                    <span className="text-[11px] font-medium text-[#D66BFF]">
-                      {col.skills.length} Core Technologies
-                    </span>
-                  </div>
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[rgba(155,92,255,0.25)] bg-[rgba(155,92,255,0.08)] text-base text-[#9B5CFF]">
-                    <FaServer />
-                  </div>
-                </div>
+        {/* Categories Grid */}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+          {filteredCategories.map((col) => {
+            const icon = categoryIcons[col.category] || <FaServer className="text-sm" />;
+            const isFrontend = col.category === "frontend";
 
-                {/* Skills with Meter / Badges */}
-                <div className="space-y-4">
-                  {col.skills.map((skill) => (
-                    <div key={skill.name} className="group/item">
-                      <div className="flex items-center justify-between text-xs sm:text-sm">
-                        <span className="font-semibold text-white group-hover/item:text-[#D66BFF] transition-colors">
-                          {skill.name}
-                        </span>
-                        <span className="text-[11px] font-mono text-[#AAA5B8]">
-                          {skill.level ? `${skill.level}%` : "Advanced"}
-                        </span>
+            return (
+              <div
+                key={col.title}
+                className={`rounded-xl border border-[#262626] bg-[#141414] p-6 sm:p-7 flex flex-col justify-between transition-colors hover:border-[#383838] ${
+                  isFrontend ? "border-dashed" : ""
+                }`}
+              >
+                <div>
+                  {/* Category Card Header */}
+                  <div className="mb-5 flex items-start justify-between border-b border-[#262626] pb-4 gap-3">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-heading text-lg font-bold text-[#F5F5F5]">
+                          {col.title}
+                        </h3>
+                        {isFrontend && (
+                          <span className="rounded bg-[#1A1A1A] border border-[#262626] px-1.5 py-0.5 text-[9px] font-mono text-[#A1A1A1]">
+                            Secondary
+                          </span>
+                        )}
                       </div>
-
-                      {/* Animated Progress Meter */}
-                      <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-[rgba(255,255,255,0.06)]">
-                        <motion.div
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${skill.level || 85}%` }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.8, delay: 0.2 }}
-                          className="h-full rounded-full bg-gradient-to-r from-[#9B5CFF] to-[#D66BFF]"
-                        />
-                      </div>
-
-                      {/* Tag / Description under skill */}
-                      {skill.tag && (
-                        <div className="mt-1 flex items-center justify-between text-[10px] text-[#7E7893]">
-                          <span>{skill.tag}</span>
-                          {skill.experience && <span>{skill.experience}</span>}
-                        </div>
+                      {col.description && (
+                        <p className="text-xs text-[#A1A1A1] mt-1 leading-relaxed">
+                          {col.description}
+                        </p>
                       )}
                     </div>
-                  ))}
+
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#262626] bg-[#1A1A1A] text-[#A3E635]">
+                      {icon}
+                    </div>
+                  </div>
+
+                  {/* Skills List without Percentage Bars */}
+                  <div className="space-y-3.5">
+                    {col.skills.map((skill) => (
+                      <div
+                        key={skill.name}
+                        className="rounded-lg border border-[#262626] bg-[#1A1A1A] p-3 transition-colors hover:border-[#383838]"
+                      >
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-xs sm:text-sm font-semibold text-[#F5F5F5]">
+                            {skill.name}
+                          </span>
+                          {skill.tag && (
+                            <span className="shrink-0 rounded bg-[#141414] border border-[#262626] px-2 py-0.5 text-[10px] font-mono text-[#A3E635]">
+                              {skill.tag}
+                            </span>
+                          )}
+                        </div>
+
+                        {skill.focus && (
+                          <p className="mt-1.5 text-xs text-[#A1A1A1] leading-relaxed">
+                            {skill.focus}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Card Footer */}
+                <div className="mt-6 pt-4 border-t border-[#262626] flex items-center justify-between text-[11px] font-mono text-[#A1A1A1]">
+                  <span className="flex items-center gap-1.5 text-[#A3E635]">
+                    <FaCircleCheck className="text-[10px]" /> Verified Competency
+                  </span>
+                  <span>{col.skills.length} Technical Items</span>
                 </div>
               </div>
-
-              {/* Bottom Card Footer */}
-              <div className="mt-6 pt-4 border-t border-[rgba(255,255,255,0.06)] flex items-center justify-between text-[11px] text-[#AAA5B8]">
-                <span className="flex items-center gap-1.5 text-emerald-400">
-                  <FaCheck className="text-[10px]" /> Production Verified
-                </span>
-              </div>
-            </motion.div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

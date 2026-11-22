@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getExperience } from "../../services/experienceService";
+import { experiences } from "../../data/experience";
 import {
   FaLocationDot,
   FaEnvelope,
@@ -15,37 +16,6 @@ import {
   FaShieldHalved,
 } from "react-icons/fa6";
 import { SiSpringboot, SiPostgresql, SiRedis, SiReact } from "react-icons/si";
-
-const experiences = [
-  {
-    company: "ISEES Technologies LLP",
-    role: "Software Engineer",
-    period: "Jan 2026 — Present",
-    tenure: "Full-Time • Pune, India",
-    isPromoted: true,
-    highlights: [
-      "Promoted to Software Engineer following strong architectural contributions to high-concurrency production backends.",
-      "Architect and maintain mission-critical Spring Boot microservices and RESTful API endpoints for enterprise clients.",
-      "Design normalized PostgreSQL and MySQL schemas with optimized composite indexing and Redis caching.",
-      "Lead full-stack feature development integrating React.js and TypeScript frontends with secure backend services.",
-    ],
-    tech: ["Java", "Spring Boot", "PostgreSQL", "Redis", "REST APIs", "Docker"],
-  },
-  {
-    company: "ISEES Technologies LLP",
-    role: "Associate Software Engineer",
-    period: "Jul 2024 — Jan 2026",
-    tenure: "Full-Time • Pune, India",
-    isPromoted: false,
-    highlights: [
-      "Developed Core Java backend logic, implementing OOP principles and database integration layers.",
-      "Constructed REST APIs with automated payload validation, error mapping, and Swagger documentation.",
-      "Collaborated in sprint planning, Git branching workflows, peer code reviews, and integration testing.",
-      "Implemented security controls including BCrypt password encryption and stateless JWT token verification.",
-    ],
-    tech: ["Core Java", "Spring Boot", "MySQL", "REST APIs", "Git", "Maven"],
-  },
-];
 
 export default function AboutExperience({ isStandalonePage = false, pageType = "about" }) {
   const [experienceList, setExperienceList] = useState(experiences);
