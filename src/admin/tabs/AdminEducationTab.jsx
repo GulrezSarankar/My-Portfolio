@@ -279,7 +279,7 @@ export default function AdminEducationTab() {
                   required
                   value={institution}
                   onChange={(e) => setInstitution(e.target.value)}
-                  placeholder="e.g. Savitribai Phule Pune University"
+                  placeholder="e.g. Abeda Inamdar Senior College / Hirval Education"
                   className="w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
