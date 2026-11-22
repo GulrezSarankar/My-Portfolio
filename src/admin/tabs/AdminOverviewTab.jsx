@@ -12,6 +12,7 @@ import {
   FaEnvelopeOpenText,
   FaChartLine,
   FaRotate,
+  FaComments,
 } from "react-icons/fa6";
 
 export default function AdminOverviewTab({ setActiveTab }) {
@@ -96,6 +97,14 @@ export default function AdminOverviewTab({ setActiveTab }) {
       icon: <FaNewspaper className="w-5 h-5 text-rose-400" />,
       color: "border-rose-500/20 bg-rose-500/10",
       tab: "blogs",
+    },
+    {
+      title: "Testimonials",
+      value: stats?.testimonials?.total ?? "—",
+      subtext: `${stats?.testimonials?.visible ?? 0} Visible`,
+      icon: <FaComments className="w-5 h-5 text-fuchsia-400" />,
+      color: "border-fuchsia-500/20 bg-fuchsia-500/10",
+      tab: "testimonials",
     },
     {
       title: "Contact Messages",

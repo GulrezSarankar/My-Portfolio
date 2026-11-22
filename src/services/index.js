@@ -10,4 +10,5 @@ export * from "./analyticsService";
 export * from "./storageService";
 export * from "./authService";
 export * from "./adminService";
+export * from "./testimonialsService";
 

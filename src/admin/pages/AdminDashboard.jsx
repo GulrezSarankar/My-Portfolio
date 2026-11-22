@@ -8,6 +8,7 @@ import AdminExperienceTab from "../tabs/AdminExperienceTab";
 import AdminEducationTab from "../tabs/AdminEducationTab";
 import AdminCertificationsTab from "../tabs/AdminCertificationsTab";
 import AdminBlogsTab from "../tabs/AdminBlogsTab";
+import AdminTestimonialsTab from "../tabs/AdminTestimonialsTab";
 import AdminMessagesTab from "../tabs/AdminMessagesTab";
 
 export default function AdminDashboard() {
@@ -35,6 +36,8 @@ export default function AdminDashboard() {
         return <AdminCertificationsTab />;
       case "blogs":
         return <AdminBlogsTab />;
+      case "testimonials":
+        return <AdminTestimonialsTab />;
       case "messages":
         return <AdminMessagesTab />;
       case "overview":

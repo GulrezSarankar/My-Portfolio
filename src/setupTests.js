@@ -7,9 +7,11 @@ vi.mock('react-router-dom', () => ({
   useNavigate: () => () => {},
   useLocation: () => ({ pathname: '/admin/login', state: {} }),
   useSearchParams: () => [new URLSearchParams(), () => {}],
+  useParams: () => ({ slug: 'grandmart' }),
   Link: ({ children, to, ...props }) => React.createElement('a', { href: to, ...props }, children),
   Navigate: ({ to }) => React.createElement('div', { 'data-testid': 'navigated-to' }, to),
   BrowserRouter: ({ children }) => React.createElement('div', null, children),
+  MemoryRouter: ({ children }) => React.createElement('div', null, children),
   Routes: ({ children }) => React.createElement('div', null, children),
   Route: ({ element }) => element,
 }));

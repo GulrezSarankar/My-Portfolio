@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FaTimes,
@@ -149,14 +150,24 @@ export default function Projects({ isStandalonePage = true }) {
                 </div>
 
                 {/* Quick Case Study Button Overlay */}
-                <button
-                  type="button"
-                  onClick={() => setSelectedCaseStudy(project)}
-                  className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-lg border border-[rgba(255,255,255,0.15)] bg-[#080612]/80 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur-md transition-all hover:bg-[#9B5CFF] hover:border-[#9B5CFF]"
-                >
-                  <FaFileLines className="text-[10px] text-[#D66BFF]" />
-                  <span>Case Study</span>
-                </button>
+                {project.has_case_study ? (
+                  <Link
+                    to={`/projects/${project.slug || project.id}`}
+                    className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-lg border border-[rgba(255,255,255,0.15)] bg-[#080612]/80 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur-md transition-all hover:bg-[#9B5CFF] hover:border-[#9B5CFF]"
+                  >
+                    <FaFileLines className="text-[10px] text-[#D66BFF]" />
+                    <span>Case Study</span>
+                  </Link>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setSelectedCaseStudy(project)}
+                    className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-lg border border-[rgba(255,255,255,0.15)] bg-[#080612]/80 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur-md transition-all hover:bg-[#9B5CFF] hover:border-[#9B5CFF]"
+                  >
+                    <FaFileLines className="text-[10px] text-[#D66BFF]" />
+                    <span>Quick View</span>
+                  </button>
+                )}
               </div>
 
               {/* Card Body */}
@@ -185,14 +196,24 @@ export default function Projects({ isStandalonePage = true }) {
 
                 {/* Card Footer: Links */}
                 <div className="mt-6 pt-4 border-t border-[rgba(255,255,255,0.08)] flex items-center justify-between">
-                  <button
-                    type="button"
-                    onClick={() => setSelectedCaseStudy(project)}
-                    className="text-xs font-semibold text-[#AAA5B8] hover:text-white transition-colors flex items-center gap-1"
-                  >
-                    <span>View Details</span>
-                    <FaArrowRight className="text-[10px] text-[#9B5CFF]" />
-                  </button>
+                  {project.has_case_study ? (
+                    <Link
+                      to={`/projects/${project.slug || project.id}`}
+                      className="text-xs font-semibold text-[#D66BFF] hover:text-white transition-colors flex items-center gap-1"
+                    >
+                      <span>View Case Study</span>
+                      <FaArrowRight className="text-[10px] text-[#9B5CFF]" />
+                    </Link>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => setSelectedCaseStudy(project)}
+                      className="text-xs font-semibold text-[#AAA5B8] hover:text-white transition-colors flex items-center gap-1"
+                    >
+                      <span>View Details</span>
+                      <FaArrowRight className="text-[10px] text-[#9B5CFF]" />
+                    </button>
+                  )}
 
                   <div className="flex items-center gap-3">
                     {project.github && (
@@ -358,7 +379,15 @@ export default function Projects({ isStandalonePage = true }) {
                 </div>
 
                 {/* Action CTA */}
-                <div className="pt-4 border-t border-[rgba(255,255,255,0.08)] flex items-center justify-end gap-3">
+                <div className="pt-4 border-t border-[rgba(255,255,255,0.08)] flex flex-wrap items-center justify-end gap-3">
+                  <Link
+                    to={`/projects/${selectedCaseStudy.slug || selectedCaseStudy.id}`}
+                    className="btn-secondary-glass text-xs py-2 px-3.5 flex items-center gap-1.5"
+                  >
+                    <span>Full Case Study Page</span>
+                    <FaArrowRight className="text-[10px] text-[#D66BFF]" />
+                  </Link>
+
                   {selectedCaseStudy.github && (
                     <a
                       href={selectedCaseStudy.github}

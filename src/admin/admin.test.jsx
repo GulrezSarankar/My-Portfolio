@@ -1,11 +1,14 @@
 import React from "react";
 import { vi } from "vitest";
+import { BrowserRouter } from "react-router-dom";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import AdminLogin from "./pages/AdminLogin";
 import AdminForgotPassword from "./pages/AdminForgotPassword";
 import AdminResetPassword from "./pages/AdminResetPassword";
 import { AdminAuthProvider } from "./context/AdminAuthContext";
 import AdminProtectedRoute from "./components/AdminProtectedRoute";
+import AdminLayout from "./components/AdminLayout";
+import AdminTestimonialsTab from "./tabs/AdminTestimonialsTab";
 import ConfirmModal from "./components/ConfirmModal";
 
 // Mock authService with vi.mock so Vitest can hoist it properly
@@ -17,6 +20,28 @@ vi.mock("../services/authService", () => ({
   requestAdminPasswordReset: vi.fn().mockResolvedValue({ data: {}, error: null }),
   updateAdminPassword: vi.fn().mockResolvedValue({ data: {}, error: null }),
   getActiveSession: vi.fn().mockResolvedValue({ session: { user: { id: "test-admin" } }, error: null }),
+}));
+
+vi.mock("../services/testimonialsService", () => ({
+  getAllTestimonialsAdmin: vi.fn().mockResolvedValue({
+    data: [
+      {
+        id: "t-1",
+        client_name: "Farhan Shaikh",
+        designation: "Project Manager",
+        company: "ISEES Technologies LLP",
+        feedback: "Outstanding backend engineering command.",
+        is_visible: true,
+        display_order: 1,
+      },
+    ],
+    error: null,
+  }),
+  createTestimonial: vi.fn().mockResolvedValue({ data: {}, error: null }),
+  updateTestimonial: vi.fn().mockResolvedValue({ data: {}, error: null }),
+  deleteTestimonial: vi.fn().mockResolvedValue({ data: {}, error: null }),
+  toggleTestimonialVisibility: vi.fn().mockResolvedValue({ data: {}, error: null }),
+  validateTestimonial: vi.fn().mockReturnValue({ valid: true, error: null }),
 }));
 
 
@@ -130,5 +155,46 @@ describe("Admin Dashboard & Authentication", () => {
     });
 
     expect(screen.getByText(/Password Updated!/i)).toBeInTheDocument();
+  });
+
+  test("AdminLayout renders Testimonials navigation option", async () => {
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <AdminAuthProvider>
+            <AdminLayout activeTab="overview" setActiveTab={vi.fn()}>
+              <div>Content</div>
+            </AdminLayout>
+          </AdminAuthProvider>
+        </BrowserRouter>
+      );
+    });
+
+    expect(screen.getByRole("button", { name: /Testimonials/i })).toBeInTheDocument();
+  });
+
+  test("AdminTestimonialsTab renders management interface and modal triggers", async () => {
+    await act(async () => {
+      render(<AdminTestimonialsTab />);
+    });
+
+    expect(screen.getByText("Client Testimonials")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /New Testimonial/i })).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText(/Search testimonials by client/i)
+    ).toBeInTheDocument();
+
+    // Verify fetched record appears
+    expect(screen.getByText("Farhan Shaikh")).toBeInTheDocument();
+    expect(screen.getByText("ISEES Technologies LLP")).toBeInTheDocument();
+
+    // Open modal
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: /New Testimonial/i }));
+    });
+
+    expect(screen.getByText("Add Client Testimonial")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/e.g. Farhan Shaikh/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/Enter the client's verified statement/i)).toBeInTheDocument();
   });
 });

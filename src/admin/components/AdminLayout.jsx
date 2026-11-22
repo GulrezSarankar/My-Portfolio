@@ -15,6 +15,7 @@ import {
   FaBars,
   FaXmark,
   FaShieldHalved,
+  FaComments,
 } from "react-icons/fa6";
 
 export default function AdminLayout({ activeTab, setActiveTab, children }) {
@@ -29,6 +30,7 @@ export default function AdminLayout({ activeTab, setActiveTab, children }) {
     { id: "education", label: "Education", icon: <FaGraduationCap className="w-4 h-4" /> },
     { id: "certifications", label: "Certifications", icon: <FaAward className="w-4 h-4" /> },
     { id: "blogs", label: "Blog Posts", icon: <FaNewspaper className="w-4 h-4" /> },
+    { id: "testimonials", label: "Testimonials", icon: <FaComments className="w-4 h-4" /> },
     { id: "messages", label: "Messages", icon: <FaEnvelope className="w-4 h-4" /> },
   ];
 
