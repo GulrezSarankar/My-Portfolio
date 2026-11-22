@@ -5,6 +5,7 @@ import { projects } from "./data/projects";
 import Navbar from "./assets/components/navbar";
 import Footer from "./assets/components/footer";
 import TestimonialsPage from "./pages/TestimonialsPage";
+import Home from "./pages/Home";
 
 test("portfolio data includes projects and blog detail content", () => {
   expect(projects.length).toBeGreaterThan(0);
@@ -46,5 +47,29 @@ test("TestimonialsPage renders editorial heading and content", async () => {
   await waitFor(() => {
     expect(screen.getByText(/Social Proof & Peer Endorsements/i)).toBeInTheDocument();
   });
+});
+
+test("Home page renders all 8 editorial sections with real content", async () => {
+  render(<Home />);
+  // Section A: Hero
+  expect(screen.getByRole("heading", { level: 1, name: /Architecting Resilient/i })).toBeInTheDocument();
+  expect(screen.getByText(/ISEES Technologies LLP/i)).toBeInTheDocument();
+
+  // Section B: Engineering Expertise
+  expect(screen.getByText(/Engineering Expertise & Core Stack/i)).toBeInTheDocument();
+  expect(screen.getByText(/Java & Spring Boot Core/i)).toBeInTheDocument();
+
+  // Section C: Featured Case Study
+  expect(screen.getByText(/High-Throughput Retail Architecture/i)).toBeInTheDocument();
+  expect(screen.getByText(/GrandMart — Multi-Outlet Enterprise ERP/i)).toBeInTheDocument();
+
+  // Section D: Selected Projects
+  expect(screen.getByText(/Selected Engineering Projects/i)).toBeInTheDocument();
+
+  // Section E: Professional Experience
+  expect(screen.getByRole("heading", { level: 2, name: /Professional Experience/i })).toBeInTheDocument();
+
+  // Section H: Contact CTA
+  expect(screen.getByText(/Let's Build Resilient Backend Systems/i)).toBeInTheDocument();
 });
 
