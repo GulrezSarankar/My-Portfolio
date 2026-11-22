@@ -14,6 +14,7 @@ import ProfessionalExperience from "./pages/ProfessionalExperience";
 import Freelance from "./pages/Freelance";
 import Blog from "./pages/Blog";
 import BlogDetail from "./pages/BlogDetail";
+import TestimonialsPage from "./pages/TestimonialsPage";
 import IntroLoader from "./assets/components/IntroLoader";
 import DocViewer from "./pages/DocViewer";
 import { trackPageVisit } from "./services/analyticsService";
@@ -81,6 +82,7 @@ function AppContent() {
             <Route path="/freelance" element={<Freelance />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogDetail />} />
+            <Route path="/testimonials" element={<TestimonialsPage />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/education" element={<Education />} />
             <Route path="/impp-4-sem" element={<DocViewer />} />

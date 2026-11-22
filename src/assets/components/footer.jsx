@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { FaGithub, FaLinkedin, FaWhatsapp, FaEnvelope, FaArrowUp } from "react-icons/fa6";
+import { FaGithub, FaLinkedin, FaWhatsapp, FaEnvelope, FaArrowUp, FaArrowUpRightFromSquare } from "react-icons/fa6";
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -7,90 +7,106 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative overflow-hidden border-t border-[rgba(255,255,255,0.08)] bg-[#080612] pt-14 pb-8">
-      {/* Background radial glow */}
-      <div className="pointer-events-none absolute bottom-0 left-1/2 h-64 w-[600px] -translate-x-1/2 rounded-full bg-[#9B5CFF]/10 blur-[120px]" />
-
+    <footer className="relative border-t border-[#262626] bg-[#0D0D0D] pt-14 pb-10 text-[#A1A1A1]">
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12 pb-12 border-b border-[rgba(255,255,255,0.08)]">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12 pb-12 border-b border-[#262626]">
 
-          {/* COL 1: Brand & Bio */}
+          {/* COL 1: Brand & Professional Summary */}
           <div className="lg:col-span-5 space-y-4">
-            <Link to="/" aria-label="Gulrez Sarankar" className="inline-flex items-center gap-3 group">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#9B5CFF] to-[#7928CA] p-[1px] shadow-[0_0_20px_rgba(155,92,255,0.4)]">
-                <div className="flex h-full w-full items-center justify-center rounded-[11px] bg-[#080612]">
-                  <span className="font-heading text-base font-extrabold text-white">
-                    GS<span className="text-[#D66BFF]">.</span>
-                  </span>
-                </div>
+            <Link
+              to="/"
+              aria-label="Gulrez Sarankar Homepage"
+              className="inline-flex items-center gap-3 group select-none"
+            >
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#262626] bg-[#141414] transition-colors group-hover:border-[#383838]">
+                <span className="font-heading text-sm font-bold tracking-tight text-[#F5F5F5]">
+                  GS<span className="text-[#A3E635]">.</span>
+                </span>
               </div>
-              <span className="font-heading text-lg font-bold text-white group-hover:text-[#D66BFF] transition-colors">
+              <span className="font-heading text-base font-semibold text-[#F5F5F5] group-hover:text-[#A3E635] transition-colors">
                 Gulrez Sarankar
               </span>
             </Link>
 
-            <p className="text-xs sm:text-sm leading-relaxed text-[#AAA5B8] max-w-sm">
-              Software Engineer &amp; Freelance Developer with 2+ years of enterprise experience. Architecting resilient Java &amp; Spring Boot backends and building high-performance modern web applications.
+            <p className="text-xs sm:text-sm leading-relaxed text-[#A1A1A1] max-w-sm">
+              Software Engineer specializing in Java, Spring Boot microservices, high-throughput backend architecture, and modern full-stack web engineering.
             </p>
 
-            {/* Live Availability status pill */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] px-3 py-1.5 backdrop-blur-md">
+            {/* Live Availability Status Pill */}
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#262626] bg-[#141414] px-3 py-1.5">
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#A3E635] opacity-60" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#A3E635]" />
               </span>
-              <span className="text-xs font-medium text-emerald-300">
-                Available for contract roles &amp; freelance projects
+              <span className="text-xs font-mono text-[#A1A1A1]">
+                Available for contract roles &amp; engineering engagements
               </span>
             </div>
           </div>
 
-          {/* COL 2: Navigation Links */}
+          {/* COL 2: Primary Navigation Links */}
           <div className="lg:col-span-3 space-y-3">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#9B5CFF]">
+            <span className="text-xs font-mono uppercase tracking-wider text-[#F5F5F5]">
               Navigation
             </span>
-            <ul className="space-y-2 text-xs sm:text-sm text-[#AAA5B8]">
+            <ul className="space-y-2 text-xs sm:text-sm text-[#A1A1A1]">
               <li>
-                <Link to="/" className="hover:text-white transition-colors">Home</Link>
+                <Link to="/" className="hover:text-[#F5F5F5] transition-colors">
+                  Home
+                </Link>
               </li>
               <li>
-                <Link to="/about" className="hover:text-white transition-colors">About &amp; Journey</Link>
+                <Link to="/about" className="hover:text-[#F5F5F5] transition-colors">
+                  About
+                </Link>
               </li>
               <li>
-                <Link to="/freelance" className="hover:text-white transition-colors">Freelance &amp; Services</Link>
+                <Link to="/projects" className="hover:text-[#F5F5F5] transition-colors">
+                  Projects &amp; Case Studies
+                </Link>
               </li>
               <li>
-                <Link to="/projects" className="hover:text-white transition-colors">Engineering Portfolio</Link>
+                <Link to="/experience" className="hover:text-[#F5F5F5] transition-colors">
+                  Experience
+                </Link>
               </li>
               <li>
-                <Link to="/skills" className="hover:text-white transition-colors">Skills &amp; Architecture</Link>
+                <Link to="/blog" className="hover:text-[#F5F5F5] transition-colors">
+                  Engineering Blog
+                </Link>
               </li>
               <li>
-                <Link to="/contact" className="hover:text-white transition-colors">Contact &amp; Hire</Link>
+                <Link to="/testimonials" className="hover:text-[#F5F5F5] transition-colors">
+                  Testimonials
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="hover:text-[#F5F5F5] transition-colors">
+                  Contact
+                </Link>
               </li>
             </ul>
           </div>
 
-          {/* COL 3: Social & Direct Reach */}
+          {/* COL 3: Connect & Social Channels */}
           <div className="lg:col-span-4 space-y-3">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#D66BFF]">
+            <span className="text-xs font-mono uppercase tracking-wider text-[#F5F5F5]">
               Connect &amp; Collaborate
             </span>
-            <p className="text-xs text-[#AAA5B8] leading-relaxed">
-              Based in Pune, India. Available for worldwide remote contracts, consulting, and full-time engineering engagements.
+            <p className="text-xs text-[#A1A1A1] leading-relaxed">
+              Based in Pune, India. Open to distributed remote contracts, technical consulting, and high-impact engineering roles.
             </p>
 
-            <div className="flex items-center gap-3 pt-2">
+            <div className="flex items-center gap-2.5 pt-2">
               <a
                 href="https://github.com/gulrezsarankar"
                 target="_blank"
                 rel="noreferrer"
                 aria-label="GitHub Profile"
-                className="flex h-9 w-9 items-center justify-center rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] text-sm text-[#AAA5B8] hover:border-[#9B5CFF] hover:bg-[rgba(155,92,255,0.15)] hover:text-white transition-all"
+                className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#262626] bg-[#141414] text-[#A1A1A1] hover:border-[#383838] hover:text-[#F5F5F5] transition-colors"
                 title="GitHub"
               >
-                <FaGithub />
+                <FaGithub className="text-sm" />
               </a>
 
               <a
@@ -98,10 +114,10 @@ export default function Footer() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="LinkedIn Profile"
-                className="flex h-9 w-9 items-center justify-center rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] text-sm text-[#AAA5B8] hover:border-[#9B5CFF] hover:bg-[rgba(155,92,255,0.15)] hover:text-white transition-all"
+                className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#262626] bg-[#141414] text-[#A1A1A1] hover:border-[#383838] hover:text-[#F5F5F5] transition-colors"
                 title="LinkedIn"
               >
-                <FaLinkedin />
+                <FaLinkedin className="text-sm" />
               </a>
 
               <a
@@ -109,39 +125,57 @@ export default function Footer() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="WhatsApp"
-                className="flex h-9 w-9 items-center justify-center rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] text-sm text-[#AAA5B8] hover:border-emerald-500 hover:bg-emerald-500/15 hover:text-emerald-400 transition-all"
+                className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#262626] bg-[#141414] text-[#A1A1A1] hover:border-[#383838] hover:text-[#A3E635] transition-colors"
                 title="WhatsApp"
               >
-                <FaWhatsapp />
+                <FaWhatsapp className="text-sm" />
               </a>
 
               <a
                 href="mailto:gulrezsarankar24@gmail.com"
-                aria-label="Email Gulrez"
-                className="flex h-9 w-9 items-center justify-center rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(255,255,255,0.04)] text-sm text-[#AAA5B8] hover:border-[#D66BFF] hover:bg-[rgba(214,107,255,0.15)] hover:text-white transition-all"
+                aria-label="Email Gulrez Sarankar"
+                className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#262626] bg-[#141414] text-[#A1A1A1] hover:border-[#383838] hover:text-[#A3E635] transition-colors"
                 title="Email"
               >
-                <FaEnvelope />
+                <FaEnvelope className="text-sm" />
+              </a>
+
+              <a
+                href="/Gulrez-Sarankar.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Official Resume"
+                className="flex h-9 items-center gap-1.5 px-3 rounded-lg border border-[#262626] bg-[#141414] text-xs font-mono text-[#A1A1A1] hover:border-[#383838] hover:text-[#F5F5F5] transition-colors"
+                title="Download Resume"
+              >
+                <span>CV</span>
+                <FaArrowUpRightFromSquare className="text-[10px]" />
               </a>
             </div>
 
-            <div className="pt-2 text-[11px] text-[#7E7893]">
-              Direct Phone / WhatsApp: <strong className="text-white">+91 8421090063</strong>
+            <div className="pt-2 text-xs font-mono text-[#666666]">
+              Direct Email:{" "}
+              <a
+                href="mailto:gulrezsarankar24@gmail.com"
+                className="text-[#A1A1A1] hover:text-[#A3E635] transition-colors"
+              >
+                gulrezsarankar24@gmail.com
+              </a>
             </div>
           </div>
 
         </div>
 
         {/* BOTTOM ROW: Copyright & Back-to-Top */}
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#7E7893]">
-          <div>
-            © {new Date().getFullYear()} Gulrez Sarankar. All rights reserved. Handcrafted with React &amp; Tailwind CSS.
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#666666]">
+          <div className="text-center sm:text-left">
+            © {new Date().getFullYear()} Gulrez Sarankar. Built with React &amp; Tailwind CSS.
           </div>
 
           <button
             type="button"
             onClick={scrollToTop}
-            className="flex items-center gap-1.5 text-xs text-[#AAA5B8] hover:text-[#9B5CFF] transition-colors"
+            className="flex items-center gap-1.5 text-xs text-[#A1A1A1] hover:text-[#F5F5F5] transition-colors"
           >
             <span>Back to top</span>
             <FaArrowUp className="text-[10px]" />

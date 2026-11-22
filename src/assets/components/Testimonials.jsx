@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FaStar, FaQuoteLeft } from "react-icons/fa6";
+import { FaStar, FaQuoteLeft, FaArrowRight } from "react-icons/fa6";
 import { getAllPublishedTestimonials } from "../../services/testimonialsService";
 
 export default function Testimonials() {
@@ -164,6 +165,19 @@ export default function Testimonials() {
                 </div>
               </motion.div>
             ))}
+          </div>
+        )}
+
+        {/* View All Endorsements Link */}
+        {!loading && testimonials.length > 0 && (
+          <div className="mt-10 text-center">
+            <Link
+              to="/testimonials"
+              className="inline-flex items-center gap-2 rounded-lg border border-[rgba(255,255,255,0.12)] bg-[#141414] px-4 py-2 text-xs font-mono text-[#F5F5F5] hover:border-[#383838] hover:text-[#A3E635] transition-colors"
+            >
+              <span>View All Testimonials &amp; Endorsements</span>
+              <FaArrowRight className="text-[10px]" />
+            </Link>
           </div>
         )}
       </div>
