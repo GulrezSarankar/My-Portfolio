@@ -44,7 +44,7 @@ export default function Hero() {
 
       <div className="relative mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
-          
+
           {/* ================================================================
               LEFT COLUMN: Personal Branding, Pitch, CTAs & Social Links
               ================================================================ */}
@@ -155,12 +155,12 @@ export default function Hero() {
                 </a>
 
                 <a
-                  href="https://wa.me/918459464676"
+                  href="https://wa.me/918421090063"
                   target="_blank"
                   rel="noreferrer"
                   aria-label="WhatsApp Message"
                   className="flex h-10 w-10 items-center justify-center rounded-xl border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] text-base text-[#AAA5B8] backdrop-blur-md transition-all duration-300 hover:scale-110 hover:border-[#10B981] hover:bg-emerald-500/20 hover:text-emerald-400"
-                  title="WhatsApp (+91 8459464676)"
+                  title="WhatsApp (+91 8421090063)"
                 >
                   <FaWhatsapp />
                 </a>

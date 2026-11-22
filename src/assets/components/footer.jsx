@@ -13,7 +13,7 @@ export default function Footer() {
 
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12 pb-12 border-b border-[rgba(255,255,255,0.08)]">
-          
+
           {/* COL 1: Brand & Bio */}
           <div className="lg:col-span-5 space-y-4">
             <Link to="/" aria-label="Gulrez Sarankar" className="inline-flex items-center gap-3 group">
@@ -105,7 +105,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://wa.me/918459464676"
+                href="https://wa.me/918421090063"
                 target="_blank"
                 rel="noreferrer"
                 aria-label="WhatsApp"
@@ -126,7 +126,7 @@ export default function Footer() {
             </div>
 
             <div className="pt-2 text-[11px] text-[#7E7893]">
-              Direct Phone / WhatsApp: <strong className="text-white">+91 8459464676</strong>
+              Direct Phone / WhatsApp: <strong className="text-white">+91 8421090063</strong>
             </div>
           </div>
 

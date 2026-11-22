@@ -72,3 +72,4 @@ export const servicesData = [
     turnaround: "Ongoing / Sprint-based",
   },
 ];
+

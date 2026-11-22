@@ -106,11 +106,11 @@ export default function Contact({ isStandalonePage = true }) {
       <div className="pointer-events-none absolute bottom-10 left-10 h-72 w-72 rounded-full bg-[#D66BFF]/10 blur-[100px]" />
 
       <div className="relative mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
-        
+
         {/* Purple Glassmorphism Contact Banner */}
         <div className="glass-panel p-8 sm:p-12 mb-14 text-center max-w-4xl mx-auto border-[rgba(155,92,255,0.3)] shadow-[0_15px_40px_rgba(155,92,255,0.15)] relative overflow-hidden">
           <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-[#9B5CFF]/20 blur-2xl" />
-          
+
           <div className="glass-pill mb-3">
             <span className="h-1.5 w-1.5 rounded-full bg-[#D66BFF]" />
             HAVE A PROJECT IN MIND?
@@ -140,7 +140,7 @@ export default function Contact({ isStandalonePage = true }) {
 
         {/* Form & Direct Channels Split Layout */}
         <div className="grid items-start gap-10 lg:grid-cols-12 lg:gap-12">
-          
+
           {/* LEFT: Direct Channels & Guarantee */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -160,7 +160,7 @@ export default function Contact({ isStandalonePage = true }) {
               <div className="space-y-4">
                 {/* WhatsApp */}
                 <a
-                  href="https://wa.me/918459464676"
+                  href="https://wa.me/918421090063"
                   target="_blank"
                   rel="noreferrer"
                   className="flex items-center gap-3.5 p-3.5 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] hover:border-emerald-500/40 hover:bg-emerald-500/10 transition-all group"
@@ -173,7 +173,7 @@ export default function Contact({ isStandalonePage = true }) {
                       WhatsApp (Fastest Response)
                     </div>
                     <div className="text-sm font-semibold text-white group-hover:text-emerald-300">
-                      +91 8459464676
+                      +91 8421090063
                     </div>
                   </div>
                 </a>
