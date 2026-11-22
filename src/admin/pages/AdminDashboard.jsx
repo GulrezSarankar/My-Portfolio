@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import SEO from "../../assets/components/SEO";
 import AdminLayout from "../components/AdminLayout";
 import AdminOverviewTab from "../tabs/AdminOverviewTab";
 import AdminProjectsTab from "../tabs/AdminProjectsTab";
@@ -48,6 +49,12 @@ export default function AdminDashboard() {
 
   return (
     <AdminLayout activeTab={activeTab} setActiveTab={setActiveTabState}>
+      <SEO
+        title="Admin Dashboard | Gulrez Sarankar"
+        description="Restricted administrator control center."
+        canonicalPath="/admin/dashboard"
+        noindex
+      />
       {renderActiveTab()}
     </AdminLayout>
   );

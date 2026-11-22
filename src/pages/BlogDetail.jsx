@@ -28,6 +28,7 @@ export default function BlogDetail() {
           title="Article Not Found | Gulrez Sarankar"
           description="The requested Java backend engineering article could not be found."
           canonicalPath="/blog"
+          noindex
         />
         <div className="mx-auto max-w-3xl text-center px-4">
           <h1 className="font-heading text-3xl font-bold text-[#F5F5F5]">Article not found.</h1>

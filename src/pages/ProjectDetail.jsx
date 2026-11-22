@@ -85,6 +85,7 @@ export default function ProjectDetail() {
           title="Case Study Not Found | Gulrez Sarankar"
           description="The requested project engineering case study could not be located."
           canonicalPath="/projects"
+          noindex
         />
         <div className="mx-auto max-w-lg px-4 text-center">
           <div className="w-14 h-14 rounded-xl bg-[#141414] border border-[#262626] text-[#A3E635] flex items-center justify-center mx-auto mb-6 text-2xl">

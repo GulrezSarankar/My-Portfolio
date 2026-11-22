@@ -11,11 +11,12 @@ export default function SEO({
   title = DEFAULT_TITLE,
   description = DEFAULT_DESC,
   canonicalPath,
+  noindex = false,
   ogType = "website",
   ogImage = DEFAULT_IMAGE,
   ogImageAlt = "Gulrez Sarankar — Software Engineer | Java Backend Developer",
-  ogImageWidth = "1200",
-  ogImageHeight = "630",
+  ogImageWidth = "1376",
+  ogImageHeight = "768",
   ogImageType = "image/jpeg",
   twitterCard = "summary_large_image",
   breadcrumbs,
@@ -78,7 +79,8 @@ export default function SEO({
     }
     canonicalLink.setAttribute("href", canonicalUrl);
 
-    // 4. Update Meta Description & Open Graph / Twitter Tags
+    // 4. Update Meta Description & Open Graph / Twitter / Robots Tags
+    updateMetaTag("meta[name='robots']", "name", "robots", noindex ? "noindex, nofollow" : "index, follow");
     updateMetaTag("meta[name='description']", "name", "description", description);
     updateMetaTag("meta[property='og:title']", "property", "og:title", title);
     updateMetaTag("meta[property='og:description']", "property", "og:description", description);
@@ -118,11 +120,16 @@ export default function SEO({
       if (dynamicScript) {
         dynamicScript.remove();
       }
+      // Revert robots meta to index, follow if route was noindex
+      if (noindex) {
+        updateMetaTag("meta[name='robots']", "name", "robots", "index, follow");
+      }
     };
   }, [
     title,
     description,
     canonicalUrl,
+    noindex,
     ogType,
     ogImage,
     ogImageAlt,

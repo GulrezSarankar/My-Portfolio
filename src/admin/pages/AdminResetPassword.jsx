@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAdminAuth } from "../context/AdminAuthContext";
+import SEO from "../../assets/components/SEO";
 import { onAuthStateChange, getActiveSession } from "../../services/authService";
 import {
   FaLock,
@@ -167,6 +168,12 @@ export default function AdminResetPassword() {
 
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col justify-center py-12 sm:px-6 lg:px-8 text-slate-100 font-sans selection:bg-indigo-500 selection:text-white">
+      <SEO
+        title="Admin Password Reset | Gulrez Sarankar"
+        description="Restricted administrative password update."
+        canonicalPath="/admin/reset-password"
+        noindex
+      />
       <div className="sm:mx-auto sm:w-full sm:max-w-md px-4">
         <div className="flex justify-center mb-4">
           <div className="w-14 h-14 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 shadow-lg shadow-indigo-500/10">
