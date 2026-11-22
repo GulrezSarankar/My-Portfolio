@@ -17,6 +17,28 @@ export default defineConfig({
     outDir: "dist",
     sourcemap: false,
     emptyOutDir: true,
+    chunkSizeWarningLimit: 600,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            if (
+              id.includes("react-router-dom") ||
+              id.includes("react-dom") ||
+              id.includes("/react/")
+            ) {
+              return "vendor-react";
+            }
+            if (id.includes("framer-motion")) {
+              return "vendor-framer";
+            }
+            if (id.includes("@supabase")) {
+              return "vendor-supabase";
+            }
+          }
+        },
+      },
+    },
   },
   test: {
     globals: true,
@@ -26,6 +48,3 @@ export default defineConfig({
     testTimeout: 15000,
   },
 });
-
-
-
