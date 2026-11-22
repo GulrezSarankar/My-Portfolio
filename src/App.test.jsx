@@ -6,6 +6,10 @@ import Navbar from "./assets/components/navbar";
 import Footer from "./assets/components/footer";
 import TestimonialsPage from "./pages/TestimonialsPage";
 import Home from "./pages/Home";
+import Projects from "./pages/projects";
+import Blog from "./pages/Blog";
+import About from "./pages/AboutPage";
+import Contact from "./pages/contact";
 
 test("portfolio data includes projects and blog detail content", () => {
   expect(projects.length).toBeGreaterThan(0);
@@ -53,7 +57,7 @@ test("Home page renders all 8 editorial sections with real content", async () =>
   render(<Home />);
   // Section A: Hero
   expect(screen.getByRole("heading", { level: 1, name: /Architecting Resilient/i })).toBeInTheDocument();
-  expect(screen.getByText(/ISEES Technologies LLP/i)).toBeInTheDocument();
+  expect(screen.getAllByText(/ISEES Technologies LLP/i).length).toBeGreaterThan(0);
 
   // Section B: Engineering Expertise
   expect(screen.getByText(/Engineering Expertise & Core Stack/i)).toBeInTheDocument();
@@ -71,5 +75,25 @@ test("Home page renders all 8 editorial sections with real content", async () =>
 
   // Section H: Contact CTA
   expect(screen.getByText(/Let's Build Resilient Backend Systems/i)).toBeInTheDocument();
+});
+
+test("Public pages render with editorial headers and consistent structure", async () => {
+  // Projects listing page
+  render(<Projects isStandalonePage={true} />);
+  expect(screen.getByRole("heading", { level: 1, name: /Featured Engineering/i })).toBeInTheDocument();
+  expect(screen.getByText("All Projects")).toBeInTheDocument();
+
+  // Blog listing page
+  render(<Blog />);
+  expect(screen.getByRole("heading", { level: 1, name: /Engineering Insights/i })).toBeInTheDocument();
+
+  // About page
+  render(<About />);
+  expect(screen.getByRole("heading", { level: 1, name: /Engineering scalable backends/i })).toBeInTheDocument();
+
+  // Contact page
+  render(<Contact isStandalonePage={true} />);
+  expect(screen.getByRole("heading", { level: 1, name: /Let's discuss your next/i })).toBeInTheDocument();
+  expect(screen.getByText("Direct Communication Channels")).toBeInTheDocument();
 });
 
