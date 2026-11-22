@@ -1,5 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { signInAdmin, signOutAdmin, getCurrentAdmin, onAuthStateChange } from "../../services/authService";
+import {
+  signInAdmin,
+  signOutAdmin,
+  getCurrentAdmin,
+  onAuthStateChange,
+  requestAdminPasswordReset,
+  updateAdminPassword
+} from "../../services/authService";
 
 const AdminAuthContext = createContext(null);
 
@@ -69,8 +76,25 @@ export const AdminAuthProvider = ({ children }) => {
     setAdmin(null);
   };
 
+  const requestPasswordReset = async (email, redirectTo = null) => {
+    return await requestAdminPasswordReset(email, redirectTo);
+  };
+
+  const updatePassword = async (newPassword) => {
+    return await updateAdminPassword(newPassword);
+  };
+
   return (
-    <AdminAuthContext.Provider value={{ admin, loading, login, logout }}>
+    <AdminAuthContext.Provider
+      value={{
+        admin,
+        loading,
+        login,
+        logout,
+        requestPasswordReset,
+        updatePassword,
+      }}
+    >
       {children}
     </AdminAuthContext.Provider>
   );

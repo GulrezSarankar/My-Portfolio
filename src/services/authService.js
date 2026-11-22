@@ -78,6 +78,42 @@ export const resetPassword = async (email, redirectTo = null) => {
   return { data, error };
 };
 
+/**
+ * Request an administrator password reset email.
+ * Includes explicit redirectTo parameter pointing to the dedicated admin reset page.
+ */
+export const requestAdminPasswordReset = async (email, redirectTo = null) => {
+  const defaultRedirect = typeof window !== "undefined"
+    ? `${window.location.origin}/admin/reset-password`
+    : "https://gulrezsarankar.info/admin/reset-password";
+  
+  const options = {
+    redirectTo: redirectTo || defaultRedirect,
+  };
+
+  const { data, error } = await supabase.auth.resetPasswordForEmail(email.trim(), options);
+  return { data, error };
+};
+
+/**
+ * Update an administrator's password during an active recovery session.
+ */
+export const updateAdminPassword = async (newPassword) => {
+  const { data, error } = await supabase.auth.updateUser({
+    password: newPassword,
+  });
+  return { data, error };
+};
+
+/**
+ * Safely retrieve the current active Supabase auth session.
+ */
+export const getActiveSession = async () => {
+  const { data, error } = await supabase.auth.getSession();
+  return { session: data?.session || null, error };
+};
+
+
 export const onAuthStateChange = (callback) => {
   const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
     callback(event, session);

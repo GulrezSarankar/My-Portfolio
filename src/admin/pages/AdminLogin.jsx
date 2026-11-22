@@ -93,9 +93,17 @@ export default function AdminLogin() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
-                Password
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+                  Password
+                </label>
+                <Link
+                  to="/admin/forgot-password"
+                  className="text-xs text-indigo-400 hover:text-indigo-300 font-medium transition focus:outline-none focus:underline"
+                >
+                  Forgot Password?
+                </Link>
+              </div>
               <div className="relative rounded-lg shadow-inner">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
                   <FaLock className="w-4 h-4" />

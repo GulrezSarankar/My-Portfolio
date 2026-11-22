@@ -19,6 +19,8 @@ import { trackPageVisit } from "./services/analyticsService";
 import { AdminAuthProvider } from "./admin/context/AdminAuthContext";
 import AdminProtectedRoute from "./admin/components/AdminProtectedRoute";
 import AdminLogin from "./admin/pages/AdminLogin";
+import AdminForgotPassword from "./admin/pages/AdminForgotPassword";
+import AdminResetPassword from "./admin/pages/AdminResetPassword";
 import AdminDashboard from "./admin/pages/AdminDashboard";
 
 function AnalyticsTracker() {
@@ -53,6 +55,8 @@ function AppContent() {
       {isAdminRoute ? (
         <Routes>
           <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/forgot-password" element={<AdminForgotPassword />} />
+          <Route path="/admin/reset-password" element={<AdminResetPassword />} />
           <Route
             path="/admin/dashboard"
             element={
