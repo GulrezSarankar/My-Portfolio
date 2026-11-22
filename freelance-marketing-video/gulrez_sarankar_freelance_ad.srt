@@ -1,0 +1,47 @@
+1
+00:00:00,000 --> 00:00:03,800
+Looking for a developer who can turn your business ideas into powerful digital products?
+
+2
+00:00:03,800 --> 00:00:07,000
+Meet Gulrez Sarankar, a Software Engineer.
+
+3
+00:00:07,000 --> 00:00:10,500
+Specializing in Java, Spring Boot, modern web applications,
+
+4
+00:00:10,500 --> 00:00:14,000
+backend architecture and scalable software solutions.
+
+5
+00:00:14,000 --> 00:00:19,200
+From AamZone's e-commerce platform
+
+6
+00:00:19,200 --> 00:00:25,000
+to GrandMart's multi-outlet management system, I build complete solutions designed for real business operations.
+
+7
+00:00:25,000 --> 00:00:28,500
+With projects like DOOB, I also develop booking platforms
+
+8
+00:00:28,500 --> 00:00:32,000
+with smart scheduling, availability management and reliable transaction workflows.
+
+9
+00:00:32,000 --> 00:00:35,000
+From understanding requirements to architecture,
+
+10
+00:00:35,000 --> 00:00:38,000
+development, testing and deployment, I deliver software from idea to execution.
+
+11
+00:00:38,000 --> 00:00:41,200
+I'm Gulrez Sarankar, and I'm open to freelance projects.
+
+12
+00:00:41,200 --> 00:00:44,000
+Have an idea? Let's build something great together.

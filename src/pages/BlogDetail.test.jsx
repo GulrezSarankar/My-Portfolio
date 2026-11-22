@@ -135,3 +135,4 @@ describe("BlogDetail Page Rendering", () => {
     expect(screen.getByRole("link", { name: /Back to Blog/i })).toBeInTheDocument();
   });
 });
+
