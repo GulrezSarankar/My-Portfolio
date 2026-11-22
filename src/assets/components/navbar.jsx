@@ -1,164 +1,139 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaBars, FaTimes, FaSun, FaMoon } from "react-icons/fa";
+import { FaBars, FaTimes } from "react-icons/fa";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 
 const navItems = [
   { name: "Home", path: "/" },
-  { name: "About", path: "/about", hash: "#about" },
-  { name: "Skills", path: "/skills", hash: "#skills" },
-  { name: "Experience", path: "/experience", hash: "#experience" },
-  { name: "Projects", path: "/projects", hash: "#projects" },
+  { name: "About", path: "/about" },
+  { name: "Projects", path: "/projects" },
+  { name: "Experience", path: "/experience" },
   { name: "Blog", path: "/blog" },
-  { name: "Contact", path: "/contact", hash: "#contact" },
+  { name: "Testimonials", path: "/testimonials" },
+  { name: "Contact", path: "/contact" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [theme, setTheme] = useState(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) return savedTheme;
-    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-  });
-
   const location = useLocation();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const root = document.documentElement;
-    root.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 15);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close mobile drawer on route transition
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
 
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
-  };
-
-  const handleNavClick = (item, e) => {
-    if (location.pathname === "/" && item.hash) {
-      e.preventDefault();
-      const element = document.querySelector(item.hash);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
+  const isActive = (item) => {
+    if (item.path === "/") {
+      return location.pathname === "/";
     }
-  };
-
-  const handleConnectClick = () => {
-    if (location.pathname === "/") {
-      const contactSection = document.querySelector("#contact");
-      if (contactSection) {
-        contactSection.scrollIntoView({ behavior: "smooth" });
-        return;
-      }
-    }
-    navigate("/contact");
-  };
-
-  const isActive = (path) => {
-    if (path === "/") return location.pathname === "/";
-    return location.pathname.startsWith(path);
+    return location.pathname === item.path || location.pathname.startsWith(`${item.path}/`);
   };
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+      className={`sticky top-0 z-50 w-full transition-all duration-200 ${
         scrolled
-          ? "border-b border-[var(--border-color)] bg-[var(--nav-scrolled)] backdrop-blur-md shadow-md py-3"
-          : "border-b border-[var(--border-color)] bg-[var(--nav-bg)] backdrop-blur-md py-3.5"
+          ? "border-b border-[#262626] bg-[#0D0D0D]/95 backdrop-blur-md py-3 shadow-[0_4px_20px_rgba(0,0,0,0.4)]"
+          : "border-b border-[#262626]/80 bg-[#0D0D0D]/85 backdrop-blur-sm py-3.5"
       }`}
     >
       <div className="mx-auto flex max-w-[1280px] items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* LEFT: Branding */}
-        <Link to="/" aria-label="Gulrez Sarankar Homepage" className="group flex items-center gap-3">
-          <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-[#2563EB] text-xs sm:text-sm font-bold text-white shadow-md transition-transform duration-200 group-hover:scale-105">
-            GS
+        {/* Brand / Logo */}
+        <Link
+          to="/"
+          aria-label="Gulrez Sarankar Homepage"
+          className="group flex items-center gap-3 select-none"
+        >
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#262626] bg-[#141414] transition-colors group-hover:border-[#383838]">
+            <span className="font-heading text-sm font-bold tracking-tight text-[#F5F5F5]">
+              GS<span className="text-[#A3E635]">.</span>
+            </span>
           </div>
           <div className="flex flex-col">
-            <span className="text-sm sm:text-base font-extrabold leading-tight text-[var(--text-primary)] transition-colors group-hover:text-[#2563EB]">
+            <span className="font-heading text-sm font-semibold leading-tight text-[#F5F5F5] transition-colors group-hover:text-[#A3E635]">
               Gulrez Sarankar
             </span>
-            <span className="text-[11px] sm:text-xs font-semibold text-[var(--text-secondary)]">
-              Java Backend Developer
+            <span className="text-[11px] font-mono text-[#A1A1A1]">
+              Java Backend &amp; Distributed Systems
             </span>
           </div>
         </Link>
 
-        {/* CENTER: Navigation Links (Desktop) */}
-        <nav className="hidden items-center gap-1 lg:flex">
-          {navItems.map((item) => (
-            <Link
-              key={item.name}
-              to={item.path}
-              onClick={(e) => handleNavClick(item, e)}
-              className={`relative rounded-lg px-3.5 py-2 text-sm font-semibold transition-colors duration-200 ${
-                isActive(item.path)
-                  ? "bg-[var(--accent-soft)] text-[var(--accent-primary)]"
-                  : "text-[var(--text-secondary)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)]"
-              }`}
-            >
-              {item.name}
-              {isActive(item.path) && (
-                <span className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-[var(--accent-primary)]" />
-              )}
-            </Link>
-          ))}
+        {/* Live Availability Status Pill (Desktop only) */}
+        <div className="hidden xl:flex items-center gap-2 rounded-full border border-[#262626] bg-[#141414] px-3 py-1">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#A3E635] opacity-60" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#A3E635]" />
+          </span>
+          <span className="text-[11px] font-mono text-[#A1A1A1]">
+            Available for new opportunities
+          </span>
+        </div>
+
+        {/* Center: Desktop Navigation */}
+        <nav className="hidden items-center gap-1 lg:flex" aria-label="Main Navigation">
+          {navItems.map((item) => {
+            const active = isActive(item);
+            return (
+              <Link
+                key={item.name}
+                to={item.path}
+                className={`relative rounded-md px-3 py-1.5 text-xs sm:text-sm font-medium transition-colors ${
+                  active
+                    ? "bg-[#1A1A1A] text-[#F5F5F5] border border-[#262626]"
+                    : "text-[#A1A1A1] hover:text-[#F5F5F5] hover:bg-[#141414]"
+                }`}
+                aria-current={active ? "page" : undefined}
+              >
+                {item.name}
+                {active && (
+                  <span className="absolute -bottom-1.5 left-2.5 right-2.5 h-[2px] rounded-full bg-[#A3E635]" />
+                )}
+              </Link>
+            );
+          })}
+
+          {/* Official Resume Link */}
+          <a
+            href="/Gulrez-Sarankar.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs sm:text-sm font-medium text-[#A1A1A1] transition-colors hover:text-[#F5F5F5] hover:bg-[#141414]"
+            title="Download Official Resume (PDF)"
+          >
+            <span>Resume</span>
+            <FaArrowUpRightFromSquare className="text-[10px] text-[#A1A1A1]" />
+          </a>
         </nav>
 
-        {/* RIGHT: Theme Switcher, CTA & Mobile Hamburger */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          {/* Animated Light/Dark Theme Switcher */}
-          <button
-            type="button"
-            onClick={toggleTheme}
-            className="flex h-9 sm:h-10 items-center gap-2 rounded-lg border border-[var(--border-color)] bg-[var(--bg-card)] px-3 text-xs font-bold text-[var(--text-primary)] transition-all duration-300 hover:border-[var(--accent-primary)] hover:bg-[var(--bg-hover)] shadow-xs"
-            aria-label="Toggle light or dark theme"
-            title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
+        {/* Right Action CTA & Mobile Toggle */}
+        <div className="flex items-center gap-3">
+          <Link
+            to="/contact"
+            className="btn-primary hidden sm:inline-flex text-xs py-2 px-3.5"
+            aria-label="Contact Gulrez Sarankar"
           >
-            {theme === "dark" ? (
-              <>
-                <FaSun className="text-sm text-[#FACC15] animate-pulse" />
-                <span className="hidden md:inline">Light</span>
-              </>
-            ) : (
-              <>
-                <FaMoon className="text-sm text-[#2563EB]" />
-                <span className="hidden md:inline">Dark</span>
-              </>
-            )}
-          </button>
-
-          {/* Let's Connect CTA */}
-          <button
-            type="button"
-            onClick={handleConnectClick}
-            aria-label="Navigate to contact section"
-            className="btn-primary-blue hidden sm:inline-flex text-xs py-2 px-4"
-          >
-            Let's Connect
+            <span>Get in Touch</span>
             <FaArrowUpRightFromSquare className="text-[10px]" />
-          </button>
+          </Link>
 
-          {/* Mobile Menu Hamburger */}
+          {/* Mobile Hamburger Button */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="inline-flex items-center justify-center rounded-lg border border-[var(--border-color)] bg-[var(--bg-card)] p-2 text-[var(--text-primary)] transition-colors hover:bg-[var(--bg-hover)] lg:hidden"
+            className="inline-flex items-center justify-center rounded-lg border border-[#262626] bg-[#141414] p-2 text-[#F5F5F5] transition-colors hover:border-[#383838] hover:text-[#A3E635] lg:hidden"
             aria-label="Toggle navigation menu"
+            aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? <FaTimes className="text-base" /> : <FaBars className="text-base" />}
           </button>
@@ -172,48 +147,68 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="border-b border-[var(--border-color)] bg-[var(--bg-main)] px-4 py-4 lg:hidden"
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+            className="overflow-hidden border-b border-[#262626] bg-[#0D0D0D] px-4 py-4 lg:hidden"
           >
             <div className="flex flex-col gap-1.5">
-              {navItems.map((item) => (
+              {/* Mobile Availability indicator */}
+              <div className="mb-2 flex items-center gap-2 rounded-lg border border-[#262626] bg-[#141414] px-3 py-2">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#A3E635] opacity-60" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-[#A3E635]" />
+                </span>
+                <span className="text-xs font-mono text-[#A1A1A1]">
+                  Available for new opportunities
+                </span>
+              </div>
+
+              {/* Navigation links */}
+              {navItems.map((item) => {
+                const active = isActive(item);
+                return (
+                  <Link
+                    key={item.name}
+                    to={item.path}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`rounded-lg px-3.5 py-2 text-sm font-medium transition-colors ${
+                      active
+                        ? "bg-[#1A1A1A] text-[#F5F5F5] border border-[#262626]"
+                        : "text-[#A1A1A1] hover:bg-[#141414] hover:text-[#F5F5F5]"
+                    }`}
+                    aria-current={active ? "page" : undefined}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span>{item.name}</span>
+                      {active && (
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#A3E635]" />
+                      )}
+                    </div>
+                  </Link>
+                );
+              })}
+
+              {/* Resume link in mobile */}
+              <a
+                href="/Gulrez-Sarankar.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-between rounded-lg px-3.5 py-2 text-sm font-medium text-[#A1A1A1] transition-colors hover:bg-[#141414] hover:text-[#F5F5F5]"
+              >
+                <span>Download Resume (PDF)</span>
+                <FaArrowUpRightFromSquare className="text-xs text-[#A1A1A1]" />
+              </a>
+
+              {/* Mobile CTA */}
+              <div className="mt-3 border-t border-[#262626] pt-3">
                 <Link
-                  key={item.name}
-                  to={item.path}
-                  onClick={(e) => {
-                    handleNavClick(item, e);
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors ${
-                    isActive(item.path)
-                      ? "bg-[var(--accent-soft)] text-[var(--accent-primary)]"
-                      : "text-[var(--text-secondary)] hover:bg-[var(--bg-hover)] hover:text-[var(--text-primary)]"
-                  }`}
+                  to="/contact"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="btn-primary w-full justify-center py-2.5 text-xs"
                 >
-                  {item.name}
-                </Link>
-              ))}
-
-              <div className="mt-3 flex items-center gap-2 border-t border-[var(--border-color)] pt-3">
-                <button
-                  type="button"
-                  onClick={toggleTheme}
-                  className="btn-secondary-theme flex-1 py-2.5 text-xs font-bold"
-                >
-                  {theme === "dark" ? <FaSun className="text-[#FACC15]" /> : <FaMoon className="text-[#2563EB]" />}
-                  {theme === "dark" ? "Light Mode" : "Dark Mode"}
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    handleConnectClick();
-                  }}
-                  className="btn-primary-blue flex-1 py-2.5 text-xs font-bold"
-                >
-                  Let's Connect
+                  <span>Get in Touch</span>
                   <FaArrowUpRightFromSquare className="text-xs" />
-                </button>
+                </Link>
               </div>
             </div>
           </motion.div>

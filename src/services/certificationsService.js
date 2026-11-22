@@ -79,3 +79,13 @@ export const deleteCertification = async (id) => {
   return { data, error };
 };
 
+
+
+export const getAllCertificationsAdmin = async () => {
+  const { data, error } = await supabase
+    .from("certifications")
+    .select("*")
+    .order("display_order", { ascending: true });
+
+  return { data, error };
+};

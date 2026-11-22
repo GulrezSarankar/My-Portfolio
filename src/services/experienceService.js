@@ -1,36 +1,5 @@
 import { supabase, isSupabaseConfigured } from "./supabaseClient";
-
-const staticExperiences = [
-  {
-    company: "ISEES Technologies LLP",
-    role: "Software Engineer",
-    period: "Jan 2026 — Present",
-    tenure: "Jul 2024 — Present",
-    location: "Onsite / Remote",
-    isPromoted: true,
-    highlights: [
-      "Promoted from Associate Software Engineer to Software Engineer in January 2026.",
-      "Working on Java-based backend development and maintaining REST APIs.",
-      "Working with database integration and application development.",
-      "Contributing to real-world software projects and backend architecture.",
-    ],
-    tech: ["Java", "REST APIs", "Databases", "Backend Architecture"],
-  },
-  {
-    company: "ISEES Technologies LLP",
-    role: "Associate Software Engineer",
-    period: "Jul 2024 — Jan 2026",
-    location: "Onsite / Remote",
-    isPromoted: false,
-    highlights: [
-      "Worked as a Java Developer building real-world backend applications.",
-      "Gained hands-on experience with Core Java and OOP concepts.",
-      "Worked on backend development, REST APIs, and database integration.",
-      "Contributed to real-world application development projects.",
-    ],
-    tech: ["Core Java", "OOP", "REST APIs", "Databases", "Backend Development"],
-  },
-];
+import { experiences as staticExperiences } from "../data/experience";
 
 export const getExperience = async () => {
   if (!isSupabaseConfigured()) {
@@ -107,3 +76,11 @@ export const deleteExperience = async (id) => {
   return { data, error };
 };
 
+export const getAllExperienceAdmin = async () => {
+  const { data, error } = await supabase
+    .from("experience")
+    .select("*")
+    .order("display_order", { ascending: true });
+
+  return { data, error };
+};

@@ -2,22 +2,33 @@ import { supabase, isSupabaseConfigured } from "./supabaseClient";
 
 const staticEducation = [
   {
-    institution: "Savitribai Phule Pune University / PG Institute",
-    qualification: "Master of Science in Computer Science (M.Sc CS)",
+    id: "msc-cs",
+    qualification: "M.Sc. Computer Science",
+    title: "M.Sc. Computer Science",
+    institution: "Abeda Inamdar Senior College",
     field_of_study: "Computer Science",
-    year: "2024 - 2026",
-    grade: "Current",
-    description: "Advanced postgraduate program focused on algorithms, cloud computing, distributed system design, and backend software engineering.",
-    subjects: ["Advanced Algorithms", "Cloud Architecture", "System Design", "Advanced DBMS", "Data Analytics"],
+    grade: "6.73 / 10 CGPA",
+    gpa: "6.73 / 10 CGPA",
+    status: "Completed",
+    year: "Completed",
+    desc: "Postgraduate program focused on advanced algorithms, distributed system design, enterprise Java architectures, and relational database management.",
+    description: "Postgraduate program focused on advanced algorithms, distributed system design, enterprise Java architectures, and relational database management.",
+    subjects: ["Advanced Algorithms", "System Design", "Enterprise Java Architectures", "Advanced Database Systems", "Distributed Computing"],
   },
   {
-    institution: "Savitribai Phule Pune University",
-    qualification: "Bachelor of Science in Information Technology (B.Sc IT)",
+    id: "bsc-it",
+    qualification: "B.Sc. Information Technology",
+    title: "B.Sc. Information Technology",
+    institution: "Hirval Education, Mahad",
+    affiliation: "Mumbai University",
     field_of_study: "Information Technology",
     year: "2019 - 2022",
-    grade: "8.14 CGPA",
-    description: "Strong IT foundation covering computer science fundamentals, networking, relational databases, Java programming, and software engineering.",
-    subjects: ["Database Systems", "Operating Systems", "Software Engineering", "Java Programming", "Web Development"],
+    grade: "8.14 / 10 CGPA",
+    gpa: "8.14 / 10 CGPA",
+    status: "Completed",
+    desc: "Undergraduate degree establishing rigorous foundations in object-oriented programming (Core Java), data structures, operating systems, and relational databases.",
+    description: "Undergraduate degree establishing rigorous foundations in object-oriented programming (Core Java), data structures, operating systems, and relational databases.",
+    subjects: ["Core Java & OOP", "Relational Database Management (RDBMS)", "Data Structures & Algorithms", "Operating Systems", "Software Engineering"],
   },
 ];
 
@@ -38,13 +49,18 @@ export const getEducation = async () => {
     }
 
     const formatted = data.map((edu) => {
-      const match = staticEducation.find((s) => s.qualification === edu.qualification);
+      const match = staticEducation.find(
+        (s) => s.qualification === edu.qualification || s.title === edu.qualification
+      );
       return {
         ...edu,
         title: edu.qualification,
-        year: `${edu.start_date ? edu.start_date.slice(0, 4) : "2024"} - ${edu.end_date ? edu.end_date.slice(0, 4) : "2026"}`,
-        gpa: edu.grade,
-        desc: edu.description,
+        institution: edu.institution || match?.institution || "Abeda Inamdar Senior College",
+        affiliation: edu.affiliation || match?.affiliation || null,
+        year: edu.is_current ? "Current" : edu.end_date ? `${edu.start_date ? edu.start_date.slice(0, 4) : ""} - ${edu.end_date.slice(0, 4)}` : (edu.year || match?.year || "Completed"),
+        gpa: edu.grade || match?.gpa || "6.73 / 10 CGPA",
+        status: edu.status || match?.status || "Completed",
+        desc: edu.description || match?.desc || "",
         subjects: match ? match.subjects : (edu.field_of_study ? [edu.field_of_study] : []),
       };
     });
@@ -63,9 +79,10 @@ export const createEducation = async (eduData) => {
       institution: eduData.institution,
       qualification: eduData.qualification,
       field_of_study: eduData.field_of_study ?? null,
+      grade: eduData.grade ?? null,
       start_date: eduData.start_date ?? null,
       end_date: eduData.end_date ?? null,
-      grade: eduData.grade ?? null,
+      is_current: Boolean(eduData.is_current),
       description: eduData.description ?? null,
       display_order: eduData.display_order ?? 0,
       is_visible: eduData.is_visible !== false,
@@ -98,3 +115,11 @@ export const deleteEducation = async (id) => {
   return { data, error };
 };
 
+export const getAllEducationAdmin = async () => {
+  const { data, error } = await supabase
+    .from("education")
+    .select("*")
+    .order("display_order", { ascending: true });
+
+  return { data, error };
+};

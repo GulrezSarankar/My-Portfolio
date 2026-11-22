@@ -1,31 +1,45 @@
-import Hero from "../assets/components/Hero";
-import Stats from "../assets/components/stats";
-import TechOrbit from "../assets/components/techOrbit";
-import AboutExperience from "../assets/components/AboutExperience";
-import FeaturedProject from "../assets/components/FeaturedProject";
-import Projects from "./projects";
-import EngineeringProcess from "../assets/components/EngineeringProcess";
-import TechStackGrid from "../assets/components/TechStackGrid";
-import Contact from "./contact";
 import SEO from "../assets/components/SEO";
+import Hero from "../assets/components/Hero";
+import EngineeringExpertise from "../assets/components/EngineeringExpertise";
+import FeaturedProject from "../assets/components/FeaturedProject";
+import SelectedProjects from "../assets/components/SelectedProjects";
+import HomeExperience from "../assets/components/HomeExperience";
+import HomeBlog from "../assets/components/HomeBlog";
+import Testimonials from "../assets/components/Testimonials";
+import HomeContactCta from "../assets/components/HomeContactCta";
 
 export default function Home() {
   return (
-    <div className="bg-[#0B111A]">
+    <div className="bg-[#0D0D0D] min-h-screen text-[#F5F5F5]">
       <SEO
-        title="Gulrez Sarankar | Java Backend Developer | Spring Boot Developer"
-        description="Portfolio of Gulrez Sarankar, a Software Engineer at ISEES Technologies LLP specializing in Java, Spring Boot, REST APIs, PostgreSQL, MySQL and backend development."
+        title="Gulrez Sarankar | Software Engineer — Java Backend & Distributed Architecture"
+        description="Portfolio of Gulrez Sarankar, Software Engineer at ISEES Technologies LLP specializing in Java 17/21, Spring Boot microservices, PostgreSQL, Redis caching, and resilient RESTful API engineering."
         canonicalPath="/"
       />
+
+      {/* Section A: Professional Hero */}
       <Hero />
-      <Stats />
-      <TechOrbit />
-      <AboutExperience isStandalonePage={false} />
+
+      {/* Section B: Engineering Expertise */}
+      <EngineeringExpertise />
+
+      {/* Section C: Featured Enterprise Project Case Study (GrandMart) */}
       <FeaturedProject />
-      <Projects isStandalonePage={false} />
-      <EngineeringProcess />
-      <TechStackGrid isStandalonePage={false} />
-      <Contact isStandalonePage={false} />
+
+      {/* Section D: Selected Projects (AamZone, NeoKart, DOOB) */}
+      <SelectedProjects />
+
+      {/* Section E: Professional Experience (ISEES Technologies LLP) */}
+      <HomeExperience />
+
+      {/* Section F: Technical Writing (Spring Boot & Java Architecture) */}
+      <HomeBlog />
+
+      {/* Section G: Verified Testimonials (Conditionally rendered only when published records exist) */}
+      <Testimonials />
+
+      {/* Section H: Contact CTA */}
+      <HomeContactCta />
     </div>
   );
 }

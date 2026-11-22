@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { FaArrowLeft, FaCalendarAlt, FaClock } from "react-icons/fa";
+import { FaArrowLeft, FaCalendarDays, FaClock } from "react-icons/fa6";
 import { blogs } from "../data/blogs";
 import { getPostBySlug } from "../services/blogService";
 import SEO from "../assets/components/SEO";
@@ -23,17 +23,22 @@ export default function BlogDetail() {
 
   if (!blog) {
     return (
-      <section className="bg-[var(--bg-main)] py-12 lg:py-20 transition-colors duration-300">
+      <section className="bg-[#0D0D0D] py-16 sm:py-24 text-[#F5F5F5]">
         <SEO
           title="Article Not Found | Gulrez Sarankar"
           description="The requested Java backend engineering article could not be found."
           canonicalPath="/blog"
         />
-        <div className="mx-auto max-w-3xl text-center">
-          <h1 className="text-3xl font-black text-[var(--text-primary)]">Article not found.</h1>
-          <Link to="/blog" className="btn-secondary-theme mt-6">
-            <FaArrowLeft /> Back to Blog
-          </Link>
+        <div className="mx-auto max-w-3xl text-center px-4">
+          <h1 className="font-heading text-3xl font-bold text-[#F5F5F5]">Article not found.</h1>
+          <p className="mt-3 text-sm text-[#A1A1A1]">
+            The requested technical article could not be found or has been moved.
+          </p>
+          <div className="mt-6">
+            <Link to="/blog" className="btn-primary inline-flex items-center gap-2 text-xs py-2.5 px-4">
+              <FaArrowLeft className="text-xs" /> Back to Blog
+            </Link>
+          </div>
         </div>
       </section>
     );
@@ -44,6 +49,7 @@ export default function BlogDetail() {
     "@type": "BlogPosting",
     "headline": blog.title,
     "description": blog.excerpt || blog.summary,
+    ...(blog.cover_image_url ? { image: blog.cover_image_url } : {}),
     "author": {
       "@type": "Person",
       "name": "Gulrez Sarankar",
@@ -55,7 +61,7 @@ export default function BlogDetail() {
   };
 
   return (
-    <article className="bg-[var(--bg-main)] py-12 lg:py-20 transition-colors duration-300">
+    <article className="bg-[#0D0D0D] text-[#F5F5F5] py-12 sm:py-16 lg:py-20 border-b border-[#262626]">
       <SEO
         title={`${blog.title} | Gulrez Sarankar`}
         description={blog.excerpt || blog.summary}
@@ -64,42 +70,89 @@ export default function BlogDetail() {
         jsonLd={blogJsonLd}
       />
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        <Link to="/blog" className="btn-secondary-theme mb-8 text-xs">
-          <FaArrowLeft /> Back to Blog
+        <Link
+          to="/blog"
+          className="btn-secondary mb-8 text-xs inline-flex items-center gap-2 py-2 px-3.5"
+        >
+          <FaArrowLeft className="text-[10px]" /> <span>Back to Blog</span>
         </Link>
 
-        <header className="theme-card p-6 sm:p-8 lg:p-10">
-          <span className="theme-badge">
+        {blog.cover_image_url && (
+          <div className="mb-8 overflow-hidden rounded-xl border border-[#262626] bg-[#141414] max-h-[460px]">
+            <img
+              src={blog.cover_image_url}
+              alt={blog.title}
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                e.target.parentElement.style.display = "none";
+              }}
+            />
+          </div>
+        )}
+
+        <header className="rounded-xl border border-[#262626] bg-[#141414] p-6 sm:p-8 lg:p-10">
+          <span className="rounded bg-[#1A1A1A] border border-[#262626] px-2.5 py-0.5 text-[11px] font-mono text-[#A3E635]">
             {blog.category}
           </span>
-          <h1 className="mt-4 text-2xl sm:text-3xl font-black tracking-tight text-[var(--text-primary)] lg:text-4xl">
+
+          <h1 className="mt-4 font-heading text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#F5F5F5]">
             {blog.title}
           </h1>
-          <div className="mt-4 flex items-center gap-4 text-xs font-semibold text-[var(--text-secondary)]">
+
+          <div className="mt-4 flex items-center gap-4 text-xs font-mono text-[#A1A1A1]">
             <span className="flex items-center gap-1.5">
-              <FaCalendarAlt /> {blog.date}
+              <FaCalendarDays className="text-[10px] text-[#A3E635]" /> {blog.date}
             </span>
             <span className="flex items-center gap-1.5">
-              <FaClock /> {blog.readTime}
+              <FaClock className="text-[10px] text-[#A3E635]" /> {blog.readTime}
             </span>
           </div>
-          <p className="mt-5 text-sm sm:text-base leading-relaxed text-[var(--text-secondary)]">
-            {blog.summary}
+
+          <p className="mt-5 text-sm sm:text-base leading-relaxed text-[#A1A1A1]">
+            {blog.summary || blog.excerpt}
           </p>
         </header>
 
-        <div className="mt-6 space-y-6">
-          {blog.sections.map((section) => (
-            <section key={section.heading} className="theme-card p-6 sm:p-8">
-              <h2 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)]">{section.heading}</h2>
-              <p className="mt-3 text-sm sm:text-base leading-relaxed text-[var(--text-secondary)]">{section.body}</p>
-              {section.code && (
-                <div className="mt-4 overflow-x-auto rounded-lg border border-[#263241] bg-[#0A1018] p-4 font-code text-xs text-[#38BDF8] sm:text-sm">
-                  <pre><code>{section.code}</code></pre>
-                </div>
-              )}
-            </section>
-          ))}
+        {/* Article Body Sections */}
+        {blog.sections && blog.sections.length > 0 && (
+          <div className="mt-8 space-y-6">
+            {blog.sections.map((section, idx) => (
+              <section
+                key={idx}
+                className="rounded-xl border border-[#262626] bg-[#141414] p-6 sm:p-8"
+              >
+                <h2 className="font-heading text-lg sm:text-xl font-bold text-[#F5F5F5]">
+                  {section.heading}
+                </h2>
+
+                <p className="mt-3 text-sm sm:text-base leading-relaxed text-[#A1A1A1]">
+                  {section.body}
+                </p>
+
+                {section.code && (
+                  <div className="mt-4 overflow-x-auto rounded-lg border border-[#262626] bg-[#0D0D0D] p-4 font-mono text-xs text-[#BEF264]">
+                    <pre>
+                      <code>{section.code}</code>
+                    </pre>
+                  </div>
+                )}
+              </section>
+            ))}
+          </div>
+        )}
+
+        {/* Back Link at bottom */}
+        <div className="mt-10 pt-6 border-t border-[#262626] flex items-center justify-between">
+          <Link
+            to="/blog"
+            className="text-xs font-mono font-medium text-[#A1A1A1] hover:text-[#A3E635] transition-colors inline-flex items-center gap-2"
+          >
+            <FaArrowLeft className="text-[10px]" />
+            <span>Return to all articles</span>
+          </Link>
+          <span className="text-xs font-mono text-[#666666]">
+            Author: Gulrez Sarankar
+          </span>
         </div>
       </div>
     </article>

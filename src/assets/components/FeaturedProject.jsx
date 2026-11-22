@@ -1,165 +1,167 @@
-import { motion } from "framer-motion";
-import { FaCheckCircle } from "react-icons/fa";
-import { FaServer, FaDatabase, FaLayerGroup, FaArrowDown, FaMobile, FaDesktop, FaShieldHalved, FaJava, FaLock } from "react-icons/fa6";
-import { SiSpringboot, SiPostgresql, SiRedis, SiDocker, SiReact } from "react-icons/si";
+import { Link } from "react-router-dom";
+import { FaArrowRight, FaLock, FaCircleCheck } from "react-icons/fa6";
+import { FaJava } from "react-icons/fa6";
+import { SiSpringboot, SiPostgresql, SiRedis, SiDocker } from "react-icons/si";
+import { projects } from "../../data/projects";
 
 export default function FeaturedProject() {
+  const grandmart = projects.find((p) => p.id === "grandmart") || projects[0];
+
   return (
-    <section id="featured-project" className="bg-[var(--bg-main)] py-12 lg:py-20 border-b border-[var(--border-color)] transition-colors duration-300">
+    <section
+      id="featured-project"
+      className="relative bg-[#0D0D0D] py-16 sm:py-20 lg:py-24 border-b border-[#262626]"
+    >
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
-        <div className="mb-8 text-center">
-          <span className="text-xs font-bold uppercase tracking-wider text-[var(--accent-primary)]">
-            FEATURED ENGINEERING ARCHITECTURE
-          </span>
-          <h2 className="mt-2 text-2xl sm:text-3xl font-black tracking-tight text-[var(--text-primary)] md:text-4xl">
-            Production System Spotlight
+        {/* Section Header */}
+        <div className="max-w-3xl mb-12 sm:mb-16">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#262626] bg-[#141414] px-3 py-1 mb-4">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#A3E635]" />
+            <span className="text-[11px] font-mono uppercase tracking-wider text-[#A1A1A1]">
+              Featured Production Case Study
+            </span>
+          </div>
+
+          <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-[#F5F5F5]">
+            High-Throughput Retail Architecture
           </h2>
+
+          <p className="mt-4 text-base sm:text-lg text-[#A1A1A1] leading-relaxed">
+            An in-depth look at how distributed caching and pessimistic database locking power an enterprise multi-outlet retail ERP.
+          </p>
         </div>
 
-        <div className="theme-card overflow-hidden p-5 sm:p-8 lg:p-10">
-          <div className="grid items-center gap-8 lg:grid-cols-12">
-            {/* LEFT SIDE: Project Info */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="lg:col-span-6 min-w-0"
-            >
-              <div className="flex flex-wrap items-center gap-2">
-                <div className="theme-badge">
-                  <SiSpringboot /> ENTERPRISE SYSTEM
-                </div>
-                <div className="theme-badge-private">
-                  <FaLock className="text-[11px]" /> 🔒 PRIVATE PROJECT
-                </div>
+        {/* Feature Container */}
+        <div className="rounded-xl border border-[#262626] bg-[#141414] p-6 sm:p-8 lg:p-10">
+          <div className="grid items-center gap-10 lg:grid-cols-12">
+            {/* Left: Project Description & Highlights */}
+            <div className="lg:col-span-7">
+              {/* Badges */}
+              <div className="flex flex-wrap items-center gap-2 mb-4">
+                <span className="inline-flex items-center gap-1 rounded border border-[#262626] bg-[#1A1A1A] px-2.5 py-1 text-[11px] font-mono text-[#A3E635]">
+                  <SiSpringboot className="text-xs" /> SPRING BOOT 3
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded border border-[#262626] bg-[#1A1A1A] px-2.5 py-1 text-[11px] font-mono text-[#A1A1A1]">
+                  <FaLock className="text-[10px]" /> PRIVATE ENTERPRISE CODEBASE
+                </span>
               </div>
 
-              <h3 className="mt-4 text-xl sm:text-2xl lg:text-3xl font-black text-[var(--text-primary)]">
-                GrandMart — Multi Outlet Supermarket System
+              <h3 className="font-heading text-2xl sm:text-3xl font-bold text-[#F5F5F5] leading-tight">
+                {grandmart.title}
               </h3>
 
-              <p className="mt-4 text-sm sm:text-base leading-relaxed text-[var(--text-secondary)]">
-                A multi-outlet supermarket management system with role-based access,
-                real-time inventory management, POS billing, HR & payroll, and automated sales analytics.
+              <p className="mt-4 text-sm sm:text-base leading-relaxed text-[#A1A1A1]">
+                {grandmart.longDescription || grandmart.description}
               </p>
 
-              {/* Tech Badges */}
-              <div className="mt-5 flex flex-wrap gap-2">
-                {[
-                  { name: "Java", icon: <FaJava /> },
-                  { name: "Spring Boot", icon: <SiSpringboot /> },
-                  { name: "PostgreSQL", icon: <SiPostgresql /> },
-                  { name: "Redis", icon: <SiRedis /> },
-                  { name: "React", icon: <SiReact /> },
-                  { name: "Docker", icon: <SiDocker /> },
-                ].map((tech) => (
-                  <span
-                    key={tech.name}
-                    className="inline-flex items-center gap-1.5 rounded-md border border-[var(--border-color)] bg-[var(--bg-main)] px-2.5 py-1.5 text-xs font-bold text-[var(--text-primary)]"
-                  >
-                    <span className="text-[var(--accent-primary)]">{tech.icon}</span>
-                    {tech.name}
-                  </span>
-                ))}
-              </div>
-
-              {/* Feature Checklist */}
+              {/* Architectural Highlights */}
               <div className="mt-6 space-y-2.5">
                 {[
-                  "Multi-outlet & role-based access control (RBAC)",
-                  "Real-time inventory & barcode-based billing POS",
-                  "HR & Payroll management with automated tax computation",
-                  "Sales analytics, audit trails, and financial reporting",
-                ].map((feature, idx) => (
-                  <div key={idx} className="flex items-start gap-2.5">
-                    <FaCheckCircle className="mt-1 text-xs text-[var(--accent-primary)] shrink-0" />
-                    <span className="text-xs sm:text-sm font-semibold text-[var(--text-primary)]">
-                      {feature}
-                    </span>
+                  "Distributed inventory synchronization with sub-second SKU consistency across physical branches",
+                  "Stateless JWT RBAC securing Cashier POS, Store Manager, and Central Admin endpoints",
+                  "Pessimistic database locking algorithm preventing inventory overselling during rush hours",
+                  "Automated financial reconciliation reports with exportable CSV & PDF audit statements",
+                ].map((feat, idx) => (
+                  <div key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-[#F5F5F5]/90">
+                    <FaCircleCheck className="mt-1 text-xs text-[#A3E635] shrink-0" />
+                    <span>{feat}</span>
                   </div>
                 ))}
               </div>
-            </motion.div>
 
-            {/* RIGHT SIDE: Theme-Aware System Architecture Diagram Visualizer */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="lg:col-span-6 w-full min-w-0"
-            >
-              <div className="rounded-xl border border-[var(--border-color)] bg-[var(--bg-section)] p-4 sm:p-6 shadow-md transition-colors duration-300">
-                <div className="mb-4 flex items-center justify-between border-b border-[var(--border-color)] pb-3">
-                  <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-secondary)]">
-                    <FaLayerGroup className="text-[var(--accent-primary)]" />
-                    <span>SYSTEM ARCHITECTURE DIAGRAM</span>
-                  </div>
-                  <span className="rounded bg-[var(--accent-soft)] border border-[var(--border-color)] px-2 py-0.5 text-[10px] font-mono font-bold text-[var(--accent-primary)]">
-                    v2.4 Production
+              {/* Tech Badges */}
+              <div className="mt-6 flex flex-wrap gap-2">
+                {[
+                  { name: "Java 17", icon: <FaJava className="text-[#A3E635]" /> },
+                  { name: "Spring Boot 3", icon: <SiSpringboot className="text-[#A3E635]" /> },
+                  { name: "PostgreSQL", icon: <SiPostgresql className="text-[#A3E635]" /> },
+                  { name: "Redis Caching", icon: <SiRedis className="text-[#A3E635]" /> },
+                  { name: "Docker", icon: <SiDocker className="text-[#A3E635]" /> },
+                ].map((t) => (
+                  <span
+                    key={t.name}
+                    className="inline-flex items-center gap-1.5 rounded-md border border-[#262626] bg-[#1A1A1A] px-3 py-1 text-xs font-mono text-[#F5F5F5]"
+                  >
+                    <span>{t.icon}</span>
+                    {t.name}
                   </span>
+                ))}
+              </div>
+
+              {/* CTAs */}
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <Link
+                  to="/projects/grandmart"
+                  className="btn-primary text-xs sm:text-sm py-2.5 px-5"
+                >
+                  <span>Read Architecture Case Study</span>
+                  <FaArrowRight className="text-[11px]" />
+                </Link>
+
+                <Link
+                  to="/projects"
+                  className="btn-secondary text-xs sm:text-sm py-2.5 px-5"
+                >
+                  <span>All Projects</span>
+                </Link>
+              </div>
+            </div>
+
+            {/* Right: Architecture Topology Preview Card */}
+            <div className="lg:col-span-5 w-full">
+              <div className="rounded-lg border border-[#262626] bg-[#1A1A1A] p-5 sm:p-6 font-mono text-xs">
+                <div className="flex items-center justify-between pb-3 border-b border-[#262626]">
+                  <span className="font-semibold text-[#F5F5F5]">GrandMart Architecture Topology</span>
+                  <span className="text-[10px] text-[#A3E635]">Production Ready</span>
                 </div>
 
-                {/* Architecture Nodes Layout */}
-                <div className="flex flex-col items-center gap-2.5 sm:gap-3 font-mono text-xs">
-                  {/* Layer 1: Client */}
-                  <div className="flex items-center gap-3 sm:gap-4 rounded-lg border border-[var(--arch-node-border)] bg-[var(--arch-node-bg)] px-4 sm:px-6 py-2 shadow-xs transition-colors duration-300">
-                    <FaDesktop className="text-[var(--accent-primary)]" />
-                    <span className="font-bold text-[var(--arch-node-text)] text-[11px] sm:text-xs">Web / Mobile Client (React)</span>
-                    <FaMobile className="text-[var(--accent-primary)]" />
+                <div className="mt-4 space-y-3">
+                  <div className="rounded border border-[#262626] bg-[#141414] p-3 flex items-center justify-between">
+                    <span className="text-[#F5F5F5]">Client Tier</span>
+                    <span className="text-[11px] text-[#A1A1A1]">POS Terminals &amp; Admin Web</span>
                   </div>
 
-                  <FaArrowDown className="text-xs sm:text-sm text-[var(--accent-primary)] animate-bounce" />
+                  <div className="text-center text-[#666666] text-xs">↓ REST API / JWT Auth</div>
 
-                  {/* Layer 2: API Gateway */}
-                  <div className="flex items-center gap-2 rounded-lg border border-[var(--accent-primary)] bg-[var(--accent-soft)] px-3 sm:px-8 py-2 font-bold text-[var(--accent-primary)] text-[10px] sm:text-xs text-center">
-                    <FaShieldHalved className="shrink-0" />
-                    <span className="leading-tight">API Gateway / Spring Cloud LoadBalancer</span>
+                  <div className="rounded border border-[#262626] bg-[#141414] p-3 flex items-center justify-between">
+                    <div>
+                      <div className="text-[#A3E635] font-semibold">Spring Boot Microservices</div>
+                      <div className="text-[10px] text-[#A1A1A1]">Pessimistic Lock &amp; Transactions</div>
+                    </div>
+                    <span className="text-[10px] text-[#A1A1A1]">Dockerized</span>
                   </div>
 
-                  <FaArrowDown className="text-xs sm:text-sm text-[var(--accent-primary)] animate-bounce" />
+                  <div className="text-center text-[#666666] text-xs">↓ Distributed Queries</div>
 
-                  {/* Layer 3: Microservices Grid */}
-                  <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 w-full">
-                    <div className="flex flex-col items-center justify-center rounded-lg border border-[var(--arch-node-border)] bg-[var(--arch-node-bg)] p-2 text-center shadow-xs transition-colors duration-300">
-                      <span className="text-[9px] sm:text-[10px] text-[var(--text-muted)] font-sans">SERVICE 01</span>
-                      <span className="font-bold text-[#10B981] text-[10px] sm:text-xs">Auth Service</span>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="rounded border border-[#262626] bg-[#141414] p-2.5 text-center">
+                      <div className="text-[#F5F5F5] font-semibold">Redis</div>
+                      <div className="text-[10px] text-[#A1A1A1]">SKU Cache (sub-ms)</div>
                     </div>
-
-                    <div className="flex flex-col items-center justify-center rounded-lg border border-[var(--arch-node-border)] bg-[var(--arch-node-bg)] p-2 text-center shadow-xs transition-colors duration-300">
-                      <span className="text-[9px] sm:text-[10px] text-[var(--text-muted)] font-sans">SERVICE 02</span>
-                      <span className="font-bold text-[#3B82F6] text-[10px] sm:text-xs">User Service</span>
-                    </div>
-
-                    <div className="flex flex-col items-center justify-center rounded-lg border border-[var(--arch-node-border)] bg-[var(--arch-node-bg)] p-2 text-center shadow-xs transition-colors duration-300">
-                      <span className="text-[9px] sm:text-[10px] text-[var(--text-muted)] font-sans">SERVICE 03</span>
-                      <span className="font-bold text-[#F59E0B] text-[10px] sm:text-xs">Order Service</span>
-                    </div>
-
-                    <div className="flex flex-col items-center justify-center rounded-lg border border-[var(--arch-node-border)] bg-[var(--arch-node-bg)] p-2 text-center shadow-xs transition-colors duration-300">
-                      <span className="text-[9px] sm:text-[10px] text-[var(--text-muted)] font-sans">SERVICE 04</span>
-                      <span className="font-bold text-[#EC4899] text-[10px] sm:text-xs">Inventory</span>
+                    <div className="rounded border border-[#262626] bg-[#141414] p-2.5 text-center">
+                      <div className="text-[#F5F5F5] font-semibold">PostgreSQL</div>
+                      <div className="text-[10px] text-[#A1A1A1]">3NF Relational Store</div>
                     </div>
                   </div>
+                </div>
 
-                  <FaArrowDown className="text-xs sm:text-sm text-[var(--accent-primary)] animate-bounce" />
-
-                  {/* Layer 4: Storage */}
-                  <div className="flex items-center justify-center gap-4 sm:gap-6 rounded-lg border border-[var(--arch-node-border)] bg-[var(--arch-node-bg)] px-4 sm:px-6 py-2.5 w-full shadow-xs transition-colors duration-300">
-                    <div className="flex items-center gap-1.5 text-[#4169E1]">
-                      <FaDatabase />
-                      <span className="font-bold text-[var(--arch-node-text)] text-[11px] sm:text-xs">PostgreSQL</span>
-                    </div>
-                    <span className="text-[var(--border-color)]">|</span>
-                    <div className="flex items-center gap-1.5 text-[#DC382D]">
-                      <FaServer />
-                      <span className="font-bold text-[var(--arch-node-text)] text-[11px] sm:text-xs">Redis Cache</span>
-                    </div>
+                {/* Verified Technical Metrics */}
+                <div className="mt-5 pt-4 border-t border-[#262626] grid grid-cols-3 gap-2 text-center">
+                  <div>
+                    <div className="text-xs font-bold text-[#A3E635] font-mono">Row Lock</div>
+                    <div className="text-[10px] text-[#A1A1A1]">Pessimistic</div>
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-[#A3E635] font-mono">Cache-Aside</div>
+                    <div className="text-[10px] text-[#A1A1A1]">Redis Layer</div>
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-[#A3E635] font-mono">3NF Store</div>
+                    <div className="text-[10px] text-[#A1A1A1]">PostgreSQL</div>
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>

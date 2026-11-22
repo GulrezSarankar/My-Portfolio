@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <rect width="800" height="500" fill="#0D0D0D"/>
+  <rect x="20" y="20" width="760" height="460" rx="12" fill="#141414" stroke="#262626" stroke-width="1.5"/>
+  
+  <!-- Header Bar -->
+  <rect x="20" y="20" width="760" height="48" rx="12" fill="#1A1A1A"/>
+  <circle cx="45" cy="44" r="5" fill="#262626"/>
+  <circle cx="62" cy="44" r="5" fill="#262626"/>
+  <circle cx="79" cy="44" r="5" fill="#262626"/>
+  <text x="105" y="48" fill="#F5F5F5" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="600">RQD Farm — Agri-Tech Produce Marketplace Topology</text>
+  <rect x="650" y="34" width="110" height="20" rx="4" fill="#141414" stroke="#262626"/>
+  <text x="662" y="48" fill="#A3E635" font-family="monospace" font-size="10" font-weight="600">B2B AGRI-TECH</text>
+
+  <!-- Client Layer -->
+  <g transform="translate(60, 100)">
+    <rect width="180" height="150" rx="8" fill="#1A1A1A" stroke="#262626" stroke-width="1.5"/>
+    <text x="20" y="32" fill="#A3E635" font-family="monospace" font-size="11" font-weight="700">CLIENT LAYER</text>
+    <rect x="15" y="48" width="150" height="40" rx="6" fill="#141414" stroke="#262626"/>
+    <text x="25" y="73" fill="#F5F5F5" font-family="system-ui, sans-serif" font-size="12" font-weight="600">B2B Buyer Portal (React)</text>
+    <rect x="15" y="96" width="150" height="40" rx="6" fill="#141414" stroke="#262626"/>
+    <text x="25" y="121" fill="#F5F5F5" font-family="system-ui, sans-serif" font-size="12" font-weight="600">Grower &amp; Logistics Hub</text>
+  </g>
+
+  <!-- Connection Arrow 1 -->
+  <path d="M 240 175 L 300 175" stroke="#A3E635" stroke-width="2" stroke-dasharray="4 4"/>
+  <polygon points="305,175 297,171 297,179" fill="#A3E635"/>
+  <text x="245" y="165" fill="#A1A1A1" font-family="monospace" font-size="10">REST / OpenAPI</text>
+
+  <!-- Application Layer -->
+  <g transform="translate(310, 85)">
+    <rect width="215" height="180" rx="8" fill="#1A1A1A" stroke="#262626" stroke-width="1.5"/>
+    <text x="20" y="30" fill="#A3E635" font-family="monospace" font-size="11" font-weight="700">FASTAPI ASYNC BACKEND</text>
+    
+    <rect x="15" y="45" width="185" height="34" rx="5" fill="#141414" stroke="#262626"/>
+    <text x="25" y="67" fill="#F5F5F5" font-family="system-ui, sans-serif" font-size="11" font-weight="600">MOQ &amp; Freight Pricing Engine</text>
+
+    <rect x="15" y="87" width="185" height="34" rx="5" fill="#141414" stroke="#262626"/>
+    <text x="25" y="109" fill="#F5F5F5" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Async Consignment Pipeline</text>
+
+    <rect x="15" y="129" width="185" height="34" rx="5" fill="#141414" stroke="#262626"/>
+    <text x="25" y="151" fill="#F5F5F5" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Automated Invoice Dispatcher</text>
+  </g>
+
+  <!-- Connection Arrow 2 -->
+  <path d="M 525 150 L 585 130" stroke="#A3E635" stroke-width="2"/>
+  <polygon points="590,128 581,126 584,134" fill="#A3E635"/>
+
+  <path d="M 525 200 L 585 220" stroke="#A3E635" stroke-width="2"/>
+  <polygon points="590,222 584,216 581,224" fill="#A3E635"/>
+
+  <!-- Persistence Tier -->
+  <g transform="translate(595, 80)">
+    <rect width="160" height="90" rx="8" fill="#1A1A1A" stroke="#262626" stroke-width="1.5"/>
+    <text x="15" y="26" fill="#A3E635" font-family="monospace" font-size="10" font-weight="700">ASYNC WORKERS</text>
+    <text x="15" y="50" fill="#F5F5F5" font-family="system-ui, sans-serif" font-size="12" font-weight="600">Background Tasks</text>
+    <text x="15" y="70" fill="#A1A1A1" font-family="system-ui, sans-serif" font-size="10">Non-blocking dispatch</text>
+  </g>
+
+  <g transform="translate(595, 185)">
+    <rect width="160" height="95" rx="8" fill="#1A1A1A" stroke="#262626" stroke-width="1.5"/>
+    <text x="15" y="26" fill="#A3E635" font-family="monospace" font-size="10" font-weight="700">POSTGRESQL RELATIONAL</text>
+    <text x="15" y="50" fill="#F5F5F5" font-family="system-ui, sans-serif" font-size="12" font-weight="600">Consignment Data Store</text>
+    <text x="15" y="72" fill="#A1A1A1" font-family="system-ui, sans-serif" font-size="10">Indexed freight tracking</text>
+  </g>
+
+  <!-- Technical Guarantee Strip -->
+  <g transform="translate(60, 310)">
+    <rect width="695" height="135" rx="8" fill="#1A1A1A" stroke="#262626"/>
+    <text x="25" y="32" fill="#A3E635" font-family="monospace" font-size="11" font-weight="700">VERIFIED ARCHITECTURAL SPECIFICATIONS</text>
+    
+    <g transform="translate(25, 52)">
+      <circle cx="6" cy="10" r="4" fill="#A3E635"/>
+      <text x="20" y="14" fill="#F5F5F5" font-family="system-ui, sans-serif" font-size="12">Tiered Wholesale Pricing: Dynamic MOQ calculation factoring in buyer tiers and freight zone distance.</text>
+    </g>
+    
+    <g transform="translate(25, 80)">
+      <circle cx="6" cy="10" r="4" fill="#A3E635"/>
+      <text x="20" y="14" fill="#F5F5F5" font-family="system-ui, sans-serif" font-size="12">Async Order Processing: FastAPI asynchronous route handlers preventing thread pool blocking during bulk exports.</text>
+    </g>
+
+    <g transform="translate(25, 108)">
+      <circle cx="6" cy="10" r="4" fill="#A3E635"/>
+      <text x="20" y="14" fill="#F5F5F5" font-family="system-ui, sans-serif" font-size="12">Consignment Traceability: End-to-end status milestones from cold-storage gate exit to buyer delivery signoff.</text>
+    </g>
+  </g>
+</svg>

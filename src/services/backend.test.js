@@ -1,12 +1,22 @@
 import { isSupabaseConfigured } from "./supabaseClient";
-import { getAllPublishedProjects, getProjectBySlug } from "./projectsService";
+import { getAllPublishedProjects, getProjectBySlug, isValidUrl } from "./projectsService";
 import { getSkills } from "./skillsService";
 import { getExperience } from "./experienceService";
 import { getEducation } from "./educationService";
 import { getCertifications } from "./certificationsService";
 import { getPublishedPosts, getPostBySlug } from "./blogService";
 import { submitContactMessage } from "./contactService";
-import { validateImageFile, MAX_FILE_SIZE } from "./storageService";
+import {
+  validateImageFile,
+  MAX_FILE_SIZE,
+  uploadBlogImage,
+  uploadTestimonialImage,
+  uploadCaseStudyImage,
+} from "./storageService";
+import {
+  validateTestimonial,
+  getAllPublishedTestimonials,
+} from "./testimonialsService";
 
 describe("Supabase Backend Services Integration & Fallback Suite", () => {
   test("Supabase client environment safety check", () => {
@@ -95,6 +105,76 @@ describe("Supabase Backend Services Integration & Fallback Suite", () => {
 
     const invalidType = { type: "application/pdf", size: 1024, name: "doc.pdf" };
     expect(validateImageFile(invalidType).valid).toBe(false);
+  });
+
+  test("storageService uploadBlogImage validates file inputs", async () => {
+    const invalidRes = await uploadBlogImage(null);
+    expect(invalidRes.error).toBeDefined();
+
+    const badTypeRes = await uploadBlogImage({ type: "text/plain", size: 500, name: "bad.txt" });
+    expect(badTypeRes.error).toBeDefined();
+  });
+
+  test("projectsService URL validation handles valid and invalid URLs", () => {
+    expect(isValidUrl("https://github.com/GulrezSarankar")).toBe(true);
+    expect(isValidUrl("http://localhost:3000")).toBe(true);
+    expect(isValidUrl("invalid-url")).toBe(false);
+    expect(isValidUrl("ftp://invalid.com")).toBe(false);
+    expect(isValidUrl("")).toBe(false);
+    expect(isValidUrl(null)).toBe(false);
+  });
+
+  test("projectsService formats optional case study fields", async () => {
+    const res = await getProjectBySlug("grandmart");
+    expect(res.data).toBeDefined();
+    expect(res.data.has_case_study).toBe(true);
+    expect(res.data.overview).toBeDefined();
+    expect(Array.isArray(res.data.key_features)).toBe(true);
+    expect(Array.isArray(res.data.screenshots)).toBe(true);
+  });
+
+  test("testimonialsService validates client feedback inputs", () => {
+    const valid = validateTestimonial({
+      client_name: "Farhan Shaikh",
+      feedback: "Exceptional backend engineer.",
+    });
+    expect(valid.valid).toBe(true);
+
+    const missingName = validateTestimonial({
+      client_name: "",
+      feedback: "Great work.",
+    });
+    expect(missingName.valid).toBe(false);
+
+    const missingFeedback = validateTestimonial({
+      client_name: "Farhan",
+      feedback: "   ",
+    });
+    expect(missingFeedback.valid).toBe(false);
+  });
+
+  test("testimonialsService getAllPublishedTestimonials returns list with fallback", async () => {
+    const res = await getAllPublishedTestimonials();
+    expect(res.data).toBeDefined();
+    expect(Array.isArray(res.data)).toBe(true);
+    if (res.data.length > 0) {
+      expect(res.data[0].content || res.data[0].feedback).toBeDefined();
+    }
+  });
+
+  test("storageService uploadTestimonialImage and uploadCaseStudyImage validate file inputs", async () => {
+    const tInvalid = await uploadTestimonialImage(null);
+    expect(tInvalid.error).toBeDefined();
+
+    const csInvalid = await uploadCaseStudyImage(null);
+    expect(csInvalid.error).toBeDefined();
+
+    const badType = { type: "application/pdf", size: 100, name: "test.pdf" };
+    const tBad = await uploadTestimonialImage(badType);
+    expect(tBad.error).toBeDefined();
+
+    const csBad = await uploadCaseStudyImage(badType);
+    expect(csBad.error).toBeDefined();
   });
 });
 

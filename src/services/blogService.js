@@ -107,3 +107,13 @@ export const deletePost = async (id) => {
   return { data, error };
 };
 
+
+
+export const getAllPostsAdmin = async () => {
+  const { data, error } = await supabase
+    .from("blog_posts")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  return { data, error };
+};

@@ -16,6 +16,7 @@ export const getDashboardStats = async () => {
       blogsRes,
       messagesRes,
       analyticsRes,
+      testimonialsRes,
     ] = await Promise.all([
       supabase.from("projects").select("id, status, featured", { count: "exact" }),
       supabase.from("skills").select("id, is_visible", { count: "exact" }),
@@ -25,11 +26,13 @@ export const getDashboardStats = async () => {
       supabase.from("blog_posts").select("id, status", { count: "exact" }),
       supabase.from("contact_messages").select("id, status", { count: "exact" }),
       supabase.from("visitor_analytics").select("id", { count: "exact" }),
+      supabase.from("testimonials").select("id, is_visible", { count: "exact" }).then(res => res).catch(() => ({ data: [], count: 0 })),
     ]);
 
     const unreadMessages = (messagesRes.data || []).filter((m) => m.status === "unread").length;
     const publishedProjects = (projectsRes.data || []).filter((p) => p.status === "published").length;
     const publishedBlogs = (blogsRes.data || []).filter((b) => b.status === "published").length;
+    const visibleTestimonials = (testimonialsRes.data || []).filter((t) => t.is_visible).length;
 
     return {
       data: {
@@ -52,6 +55,10 @@ export const getDashboardStats = async () => {
         blogPosts: {
           total: blogsRes.count || 0,
           published: publishedBlogs,
+        },
+        testimonials: {
+          total: testimonialsRes.count || 0,
+          visible: visibleTestimonials,
         },
         messages: {
           total: messagesRes.count || 0,
