@@ -60,9 +60,23 @@ export default function Blog() {
                   </span>
                 </div>
 
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--accent-soft)] text-[var(--accent-primary)] border border-[var(--border-color)]">
-                  <FaBookOpen />
-                </div>
+                {blog.cover_image_url ? (
+                  <div className="mb-4 h-44 w-full overflow-hidden rounded-xl border border-[var(--border-color)] bg-[var(--bg-secondary)]">
+                    <img
+                      src={blog.cover_image_url}
+                      alt={blog.title}
+                      className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                      loading="lazy"
+                      onError={(e) => {
+                        e.target.parentElement.style.display = "none";
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--accent-soft)] text-[var(--accent-primary)] border border-[var(--border-color)]">
+                    <FaBookOpen />
+                  </div>
+                )}
 
                 <h2 className="text-lg sm:text-xl font-bold text-[var(--text-primary)]">
                   {blog.title}

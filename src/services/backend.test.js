@@ -6,7 +6,7 @@ import { getEducation } from "./educationService";
 import { getCertifications } from "./certificationsService";
 import { getPublishedPosts, getPostBySlug } from "./blogService";
 import { submitContactMessage } from "./contactService";
-import { validateImageFile, MAX_FILE_SIZE } from "./storageService";
+import { validateImageFile, MAX_FILE_SIZE, uploadBlogImage } from "./storageService";
 
 describe("Supabase Backend Services Integration & Fallback Suite", () => {
   test("Supabase client environment safety check", () => {
@@ -95,6 +95,14 @@ describe("Supabase Backend Services Integration & Fallback Suite", () => {
 
     const invalidType = { type: "application/pdf", size: 1024, name: "doc.pdf" };
     expect(validateImageFile(invalidType).valid).toBe(false);
+  });
+
+  test("storageService uploadBlogImage validates file inputs", async () => {
+    const invalidRes = await uploadBlogImage(null);
+    expect(invalidRes.error).toBeDefined();
+
+    const badTypeRes = await uploadBlogImage({ type: "text/plain", size: 500, name: "bad.txt" });
+    expect(badTypeRes.error).toBeDefined();
   });
 });
 

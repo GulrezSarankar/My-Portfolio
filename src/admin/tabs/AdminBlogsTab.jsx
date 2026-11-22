@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getAllPostsAdmin, createPost, updatePost, deletePost } from "../../services/blogService";
+import { uploadBlogImage, validateImageFile } from "../../services/storageService";
 import ConfirmModal from "../components/ConfirmModal";
 import {
   FaPlus,
@@ -8,6 +9,8 @@ import {
   FaTrash,
   FaArrowUpRightFromSquare,
   FaXmark,
+  FaCloudArrowUp,
+  FaImage,
 } from "react-icons/fa6";
 
 export default function AdminBlogsTab() {
@@ -21,12 +24,14 @@ export default function AdminBlogsTab() {
   const [modalMode, setModalMode] = useState("create");
   const [currentPost, setCurrentPost] = useState(null);
   const [saving, setSaving] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   // Form Fields
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [excerpt, setExcerpt] = useState("");
   const [content, setContent] = useState("");
+  const [coverImageUrl, setCoverImageUrl] = useState("");
   const [tagsInput, setTagsInput] = useState("");
   const [status, setStatus] = useState("published");
   const [formError, setFormError] = useState("");
@@ -62,6 +67,7 @@ export default function AdminBlogsTab() {
     setSlug("");
     setExcerpt("");
     setContent("");
+    setCoverImageUrl("");
     setTagsInput("Java, Spring Boot");
     setStatus("published");
     setFormError("");
@@ -75,6 +81,7 @@ export default function AdminBlogsTab() {
     setSlug(post.slug || "");
     setExcerpt(post.excerpt || "");
     setContent(post.content || "");
+    setCoverImageUrl(post.cover_image_url || "");
     setTagsInput((post.tags || []).join(", "));
     setStatus(post.status || "published");
     setFormError("");
@@ -92,6 +99,36 @@ export default function AdminBlogsTab() {
           .replace(/^-+|-+$/g, "")
       );
     }
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const validation = validateImageFile(file);
+    if (!validation.valid) {
+      setFormError(validation.error);
+      return;
+    }
+
+    setUploadingImage(true);
+    setFormError("");
+    try {
+      const { data, error: upError } = await uploadBlogImage(file);
+      if (upError) {
+        setFormError(`Image upload error: ${upError.message}`);
+      } else if (data?.publicUrl) {
+        setCoverImageUrl(data.publicUrl);
+      }
+    } catch (err) {
+      setFormError(`Image upload failed: ${err.message}`);
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setCoverImageUrl("");
   };
 
   const handleSave = async (e) => {
@@ -113,6 +150,7 @@ export default function AdminBlogsTab() {
       slug: slug.trim(),
       excerpt: excerpt.trim() || null,
       content: content.trim() || "",
+      cover_image_url: coverImageUrl.trim() || null,
       tags: tagsArray,
       status,
       published_at: status === "published" ? (currentPost?.published_at || new Date().toISOString()) : null,
@@ -236,8 +274,24 @@ export default function AdminBlogsTab() {
                 filteredPosts.map((post) => (
                   <tr key={post.id} className="hover:bg-slate-800/40 transition">
                     <td className="py-3.5 px-4">
-                      <div className="font-bold text-white text-sm">{post.title}</div>
-                      <div className="text-xs text-slate-400 font-mono mt-0.5">/blog/{post.slug}</div>
+                      <div className="flex items-center gap-3">
+                        {post.cover_image_url ? (
+                          <img
+                            src={post.cover_image_url}
+                            alt=""
+                            className="w-10 h-10 rounded-lg object-cover border border-slate-800 shrink-0"
+                            onError={(e) => { e.target.style.display = "none"; }}
+                          />
+                        ) : (
+                          <div className="w-10 h-10 rounded-lg bg-slate-950 border border-slate-800 flex items-center justify-center text-slate-600 shrink-0">
+                            <FaImage className="w-4 h-4" />
+                          </div>
+                        )}
+                        <div className="min-w-0">
+                          <div className="font-bold text-white text-sm truncate">{post.title}</div>
+                          <div className="text-xs text-slate-400 font-mono mt-0.5">/blog/{post.slug}</div>
+                        </div>
+                      </div>
                     </td>
                     <td className="py-3.5 px-4">
                       <div className="flex flex-wrap gap-1 max-w-xs">
@@ -354,6 +408,67 @@ export default function AdminBlogsTab() {
 
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
+                  Featured / Cover Image
+                </label>
+                <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+                  <input
+                    type="text"
+                    value={coverImageUrl}
+                    onChange={(e) => setCoverImageUrl(e.target.value)}
+                    placeholder="Enter image URL or upload to blog-images bucket"
+                    className="flex-1 w-full px-3.5 py-2 rounded-lg bg-slate-950 border border-slate-700 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  />
+                  <div className="flex items-center gap-2 shrink-0">
+                    <label className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 border border-slate-700 cursor-pointer transition">
+                      <FaCloudArrowUp className="w-4 h-4 text-indigo-400" />
+                      <span>{uploadingImage ? "Uploading..." : "Upload Image"}</span>
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp,image/avif"
+                        onChange={handleImageUpload}
+                        disabled={uploadingImage}
+                        className="hidden"
+                      />
+                    </label>
+                    {coverImageUrl && (
+                      <button
+                        type="button"
+                        onClick={handleRemoveImage}
+                        className="p-2 rounded-lg bg-slate-800 hover:bg-red-900/40 text-slate-400 hover:text-red-300 border border-slate-700 transition cursor-pointer"
+                        title="Remove image"
+                      >
+                        <FaXmark className="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {coverImageUrl && (
+                  <div className="mt-3 relative group rounded-xl overflow-hidden border border-slate-800 bg-slate-950 max-h-48 flex items-center justify-center">
+                    <img
+                      src={coverImageUrl}
+                      alt="Cover Preview"
+                      className="max-h-48 w-full object-cover"
+                      onError={(e) => {
+                        e.target.style.display = "none";
+                      }}
+                    />
+                    <div className="absolute bottom-2 left-2 right-2 px-2.5 py-1.5 rounded-md bg-slate-950/80 backdrop-blur-xs border border-slate-800 text-[11px] text-slate-400 truncate flex items-center justify-between">
+                      <span className="truncate">{coverImageUrl}</span>
+                      <button
+                        type="button"
+                        onClick={handleRemoveImage}
+                        className="text-red-400 hover:text-red-300 font-semibold ml-2 text-xs cursor-pointer"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
                   Summary / Excerpt
                 </label>
                 <input
@@ -418,7 +533,7 @@ export default function AdminBlogsTab() {
                 </button>
                 <button
                   type="submit"
-                  disabled={saving}
+                  disabled={saving || uploadingImage}
                   className="px-5 py-2 rounded-lg text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 transition cursor-pointer shadow-md shadow-indigo-600/30 disabled:opacity-60 flex items-center gap-2"
                 >
                   {saving && <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />}

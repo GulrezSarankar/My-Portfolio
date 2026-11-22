@@ -75,6 +75,41 @@ export const uploadProfileImage = async (file, customPath = null) => {
   return { data: { path: data.path, publicUrl }, error: null };
 };
 
+export const uploadBlogImage = async (file, customPath = null) => {
+  const validation = validateImageFile(file);
+  if (!validation.valid) {
+    return { data: null, error: new Error(validation.error) };
+  }
+
+  const cleanName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
+  const filePath = customPath || `blog/${Date.now()}-${cleanName}`;
+
+  const { data, error } = await supabase.storage
+    .from("blog-images")
+    .upload(filePath, file, {
+      cacheControl: "3600",
+      upsert: false,
+    });
+
+  if (error) return { data: null, error };
+
+  const publicUrl = getPublicImageUrl("blog-images", data.path);
+  return { data: { path: data.path, publicUrl }, error: null };
+};
+
+export const deleteBlogImage = async (pathOrUrl) => {
+  if (!pathOrUrl) return { data: null, error: null };
+  let path = pathOrUrl;
+  if (pathOrUrl.startsWith("http")) {
+    const bucketMarker = "/blog-images/";
+    const idx = pathOrUrl.indexOf(bucketMarker);
+    if (idx !== -1) {
+      path = pathOrUrl.slice(idx + bucketMarker.length);
+    }
+  }
+  return await deleteImage("blog-images", path);
+};
+
 export const deleteImage = async (bucket, path) => {
   const { data, error } = await supabase.storage.from(bucket).remove([path]);
   return { data, error };

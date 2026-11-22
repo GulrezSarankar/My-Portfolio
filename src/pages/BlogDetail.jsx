@@ -44,6 +44,7 @@ export default function BlogDetail() {
     "@type": "BlogPosting",
     "headline": blog.title,
     "description": blog.excerpt || blog.summary,
+    ...(blog.cover_image_url ? { image: blog.cover_image_url } : {}),
     "author": {
       "@type": "Person",
       "name": "Gulrez Sarankar",
@@ -68,6 +69,19 @@ export default function BlogDetail() {
           <FaArrowLeft /> Back to Blog
         </Link>
 
+        {blog.cover_image_url && (
+          <div className="mb-8 overflow-hidden rounded-2xl border border-[var(--border-color)] bg-[var(--bg-secondary)] shadow-xl">
+            <img
+              src={blog.cover_image_url}
+              alt={blog.title}
+              className="w-full max-h-[460px] object-cover"
+              onError={(e) => {
+                e.target.parentElement.style.display = "none";
+              }}
+            />
+          </div>
+        )}
+
         <header className="theme-card p-6 sm:p-8 lg:p-10">
           <span className="theme-badge">
             {blog.category}
@@ -89,17 +103,25 @@ export default function BlogDetail() {
         </header>
 
         <div className="mt-6 space-y-6">
-          {blog.sections.map((section) => (
-            <section key={section.heading} className="theme-card p-6 sm:p-8">
-              <h2 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)]">{section.heading}</h2>
-              <p className="mt-3 text-sm sm:text-base leading-relaxed text-[var(--text-secondary)]">{section.body}</p>
-              {section.code && (
-                <div className="mt-4 overflow-x-auto rounded-lg border border-[#263241] bg-[#0A1018] p-4 font-code text-xs text-[#38BDF8] sm:text-sm">
-                  <pre><code>{section.code}</code></pre>
-                </div>
-              )}
+          {Array.isArray(blog.sections) && blog.sections.length > 0 ? (
+            blog.sections.map((section) => (
+              <section key={section.heading} className="theme-card p-6 sm:p-8">
+                <h2 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)]">{section.heading}</h2>
+                <p className="mt-3 text-sm sm:text-base leading-relaxed text-[var(--text-secondary)]">{section.body}</p>
+                {section.code && (
+                  <div className="mt-4 overflow-x-auto rounded-lg border border-[#263241] bg-[#0A1018] p-4 font-code text-xs text-[#38BDF8] sm:text-sm">
+                    <pre><code>{section.code}</code></pre>
+                  </div>
+                )}
+              </section>
+            ))
+          ) : blog.content ? (
+            <section className="theme-card p-6 sm:p-8">
+              <div className="leading-relaxed text-sm sm:text-base text-[var(--text-secondary)] whitespace-pre-wrap">
+                {blog.content}
+              </div>
             </section>
-          ))}
+          ) : null}
         </div>
       </div>
     </article>
