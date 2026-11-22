@@ -1,11 +1,28 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
+let currentSeoOwnerId = 0;
+
+export const _resetSeoOwnerForTesting = () => {
+  currentSeoOwnerId = 0;
+};
+
 const BASE_URL = "https://gulrezsarankar.info";
 const DEFAULT_IMAGE = `${BASE_URL}/og-image.jpg`;
 const DEFAULT_TITLE = "Gulrez Sarankar | Software Engineer | Java Backend Developer";
 const DEFAULT_DESC =
   "Portfolio of Gulrez Sarankar, Software Engineer at ISEES Technologies LLP specializing in Java 17/21, Spring Boot microservices, PostgreSQL, Redis caching, and resilient RESTful API engineering.";
+
+// Helper to set/create meta tag
+function updateMetaTag(selector, attributeName, attributeValue, content) {
+  let element = document.querySelector(selector);
+  if (!element) {
+    element = document.createElement("meta");
+    element.setAttribute(attributeName, attributeValue);
+    document.head.appendChild(element);
+  }
+  element.setAttribute("content", content);
+}
 
 export default function SEO({
   title = DEFAULT_TITLE,
@@ -56,21 +73,12 @@ export default function SEO({
       : null;
 
   useEffect(() => {
+    const instanceId = ++currentSeoOwnerId;
+
     // 1. Update Document Title
     document.title = title;
 
-    // 2. Helper to set/create meta tag
-    const updateMetaTag = (selector, attributeName, attributeValue, content) => {
-      let element = document.querySelector(selector);
-      if (!element) {
-        element = document.createElement("meta");
-        element.setAttribute(attributeName, attributeValue);
-        document.head.appendChild(element);
-      }
-      element.setAttribute("content", content);
-    };
-
-    // 3. Helper to set/create canonical link tag
+    // 2. Helper to set/create canonical link tag
     let canonicalLink = document.querySelector("link[rel='canonical']");
     if (!canonicalLink) {
       canonicalLink = document.createElement("link");
@@ -79,7 +87,7 @@ export default function SEO({
     }
     canonicalLink.setAttribute("href", canonicalUrl);
 
-    // 4. Update Meta Description & Open Graph / Twitter / Robots Tags
+    // 3. Update Meta Description & Open Graph / Twitter / Robots Tags
     updateMetaTag("meta[name='robots']", "name", "robots", noindex ? "noindex, nofollow" : "index, follow");
     updateMetaTag("meta[name='description']", "name", "description", description);
     updateMetaTag("meta[property='og:title']", "property", "og:title", title);
@@ -100,7 +108,7 @@ export default function SEO({
     updateMetaTag("meta[name='twitter:image']", "name", "twitter:image", ogImage);
     updateMetaTag("meta[name='twitter:image:alt']", "name", "twitter:image:alt", ogImageAlt);
 
-    // 5. Dynamic JSON-LD Structured Data
+    // 4. Dynamic JSON-LD Structured Data
     let scriptTag = document.getElementById("dynamic-seo-jsonld");
     if (effectiveJsonLd) {
       if (!scriptTag) {
@@ -109,21 +117,30 @@ export default function SEO({
         scriptTag.type = "application/ld+json";
         document.head.appendChild(scriptTag);
       }
+      scriptTag.setAttribute("data-seo-owner", String(instanceId));
       scriptTag.textContent = JSON.stringify(effectiveJsonLd);
-    } else if (scriptTag) {
+    } else if (scriptTag && scriptTag.getAttribute("data-seo-owner") === String(instanceId)) {
       scriptTag.remove();
     }
 
     return () => {
-      // Cleanup custom JSON-LD when unmounting route
+      // Cleanup custom JSON-LD when unmounting route if owned by this instance
       const dynamicScript = document.getElementById("dynamic-seo-jsonld");
-      if (dynamicScript) {
+      if (dynamicScript && dynamicScript.getAttribute("data-seo-owner") === String(instanceId)) {
         dynamicScript.remove();
       }
-      // Revert robots meta to index, follow if route was noindex
-      if (noindex) {
-        updateMetaTag("meta[name='robots']", "name", "robots", "index, follow");
-      }
+
+      // Revert robots meta to index, follow ONLY if no newer SEO instance has taken ownership
+      const scheduleCleanup =
+        typeof queueMicrotask === "function"
+          ? queueMicrotask
+          : (cb) => setTimeout(cb, 0);
+
+      scheduleCleanup(() => {
+        if (instanceId === currentSeoOwnerId) {
+          updateMetaTag("meta[name='robots']", "name", "robots", "index, follow");
+        }
+      });
     };
   }, [
     title,
