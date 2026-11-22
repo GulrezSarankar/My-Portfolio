@@ -169,7 +169,7 @@ export default function Contact({ isStandalonePage = true }) {
 
                 {/* Email */}
                 <a
-                  href="mailto:gulrezsarankar24@gmail.com"
+                  href="mailto:gulrezsarankar39@gmail.com"
                   className="flex items-center gap-3.5 p-3.5 rounded-lg border border-[#262626] bg-[#1A1A1A] hover:border-[#383838] transition-colors group"
                 >
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#262626] bg-[#141414] text-[#A3E635] text-base">
@@ -180,7 +180,7 @@ export default function Contact({ isStandalonePage = true }) {
                       Official Email
                     </div>
                     <div className="text-sm font-semibold text-[#F5F5F5] group-hover:text-[#A3E635] transition-colors break-all">
-                      gulrezsarankar24@gmail.com
+                      gulrezsarankar39@gmail.com
                     </div>
                   </div>
                 </a>

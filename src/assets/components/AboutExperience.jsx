@@ -336,10 +336,10 @@ export default function AboutExperience({ isStandalonePage = false, pageType = "
               <div className="flex items-center gap-3 text-[#A1A1A1]">
                 <FaEnvelope className="text-base text-[#A3E635] shrink-0" />
                 <a
-                  href="mailto:gulrezsarankar24@gmail.com"
+                  href="mailto:gulrezsarankar39@gmail.com"
                   className="hover:text-[#F5F5F5] transition-colors"
                 >
-                  gulrezsarankar24@gmail.com
+                  gulrezsarankar39@gmail.com
                 </a>
               </div>
               <div className="flex items-center gap-3 text-[#A1A1A1]">

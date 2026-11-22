@@ -145,19 +145,19 @@ export default function FeaturedProject() {
                   </div>
                 </div>
 
-                {/* Metrics */}
+                {/* Verified Technical Metrics */}
                 <div className="mt-5 pt-4 border-t border-[#262626] grid grid-cols-3 gap-2 text-center">
                   <div>
-                    <div className="text-sm font-bold text-[#A3E635]">99.99%</div>
-                    <div className="text-[10px] text-[#A1A1A1]">SKU Consistency</div>
+                    <div className="text-xs font-bold text-[#A3E635] font-mono">Row Lock</div>
+                    <div className="text-[10px] text-[#A1A1A1]">Pessimistic</div>
                   </div>
                   <div>
-                    <div className="text-sm font-bold text-[#A3E635]">3.2x</div>
-                    <div className="text-[10px] text-[#A1A1A1]">Faster Queries</div>
+                    <div className="text-xs font-bold text-[#A3E635] font-mono">Cache-Aside</div>
+                    <div className="text-[10px] text-[#A1A1A1]">Redis Layer</div>
                   </div>
                   <div>
-                    <div className="text-sm font-bold text-[#A3E635]">10k+</div>
-                    <div className="text-[10px] text-[#A1A1A1]">Daily Txns</div>
+                    <div className="text-xs font-bold text-[#A3E635] font-mono">3NF Store</div>
+                    <div className="text-[10px] text-[#A1A1A1]">PostgreSQL</div>
                   </div>
                 </div>
               </div>

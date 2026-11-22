@@ -132,7 +132,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="mailto:gulrezsarankar24@gmail.com"
+                href="mailto:gulrezsarankar39@gmail.com"
                 aria-label="Email Gulrez Sarankar"
                 className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#262626] bg-[#141414] text-[#A1A1A1] hover:border-[#383838] hover:text-[#A3E635] transition-colors"
                 title="Email"
@@ -156,10 +156,10 @@ export default function Footer() {
             <div className="pt-2 text-xs font-mono text-[#666666]">
               Direct Email:{" "}
               <a
-                href="mailto:gulrezsarankar24@gmail.com"
+                href="mailto:gulrezsarankar39@gmail.com"
                 className="text-[#A1A1A1] hover:text-[#A3E635] transition-colors"
               >
-                gulrezsarankar24@gmail.com
+                gulrezsarankar39@gmail.com
               </a>
             </div>
           </div>

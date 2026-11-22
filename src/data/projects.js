@@ -1,6 +1,7 @@
 export const projects = [
   {
     id: "grandmart",
+    slug: "grandmart",
     title: "GrandMart — Multi-Outlet Enterprise ERP",
     description:
       "Enterprise supermarket management platform with multi-outlet inventory synchronization, role-based access control, POS billing, HR payroll, and real-time sales analytics.",
@@ -12,7 +13,7 @@ export const projects = [
     privateBadge: "🔒 PRIVATE • ENTERPRISE PRODUCTION",
     github: null,
     link: null,
-    images: ["/projects/neokart/1.png"],
+    images: ["/projects/architecture/grandmart-architecture.svg"],
     featured: true,
     features: [
       "Distributed inventory synchronization with sub-second SKU consistency across physical branches",
@@ -22,15 +23,16 @@ export const projects = [
       "Automated financial reconciliation reports with exportable CSV and PDF statements",
     ],
     contribution:
-      "Architected the modular Spring Boot backend, designed normalized 3NF PostgreSQL schemas with optimized composite indexes, integrated Redis caching to cut database load by 68%, and containerized services via Docker.",
+      "Architected the modular Spring Boot backend, designed normalized 3NF PostgreSQL schemas with optimized composite indexes, integrated Redis caching to decouple high-frequency SKU reads from the database, and containerized services via Docker.",
     metrics: [
-      { label: "SKU Consistency", value: "99.99%" },
-      { label: "Query Speedup", value: "3.2x faster" },
-      { label: "Daily Transactions", value: "10,000+" },
+      { label: "Concurrency Strategy", value: "Pessimistic Row Lock" },
+      { label: "Caching Layer", value: "Redis Cache-Aside" },
+      { label: "Schema Design", value: "PostgreSQL 3NF" },
     ],
   },
   {
     id: "aamzone",
+    slug: "aamzone",
     title: "AamZone — Mango E-Commerce Platform",
     description:
       "Specialty farm-to-table mango e-commerce platform facilitating farmer catalogs, pre-ordering, seasonal batch reservations, and temperature-controlled logistics tracking.",
@@ -42,7 +44,7 @@ export const projects = [
     privateBadge: "🔒 CLIENT PROJECT • PRODUCTION",
     github: null,
     link: null,
-    images: ["/projects/neokart/2.png"],
+    images: ["/projects/architecture/aamzone-architecture.svg"],
     featured: true,
     features: [
       "Direct orchard-to-consumer inventory tracking with batch harvest date traceability",
@@ -52,15 +54,16 @@ export const projects = [
       "Interactive farmer portal with dynamic pricing controls and order packaging checklists",
     ],
     contribution:
-      "Built the full-stack checkout and inventory locking engine. Designed responsive, glassmorphic UI components in React and optimized backend transactions to prevent overselling of perishable inventory.",
+      "Built the full-stack checkout and inventory locking engine. Designed responsive UI components in React and optimized backend transactions to prevent overselling of perishable seasonal inventory.",
     metrics: [
-      { label: "Peak Surge Concurrency", value: "2,500 users" },
-      { label: "Order Fulfilment Rate", value: "99.4%" },
-      { label: "Checkout Conversion", value: "+28%" },
+      { label: "Pre-Order Engine", value: "TTL Batch Queue" },
+      { label: "Payment Verification", value: "HMAC-SHA256" },
+      { label: "Database", value: "PostgreSQL ACID" },
     ],
   },
   {
     id: "doob-booking",
+    slug: "doob-booking",
     title: "DOOB — Sports Venue Booking Engine",
     description:
       "High-concurrency sports arena and slot booking platform featuring real-time collision prevention, dynamic court pricing, and instant payment verification.",
@@ -72,7 +75,7 @@ export const projects = [
     privateBadge: "🔒 CLIENT PROJECT • PRODUCTION",
     github: null,
     link: null,
-    images: ["/projects/scm/1.png"],
+    images: ["/projects/architecture/doob-architecture.svg"],
     featured: true,
     features: [
       "Pessimistic locking and Redis atomic counters to eliminate simultaneous double-booking of slots",
@@ -84,13 +87,14 @@ export const projects = [
     contribution:
       "Engineered the slot-booking concurrency algorithm using Spring Boot transactions and PostgreSQL row locks. Implemented RESTful APIs and secure customer authentication.",
     metrics: [
-      { label: "Double-Booking Incident Rate", value: "0%" },
-      { label: "Lock Release Time", value: "< 250ms" },
-      { label: "Monthly Court Bookings", value: "8,500+" },
+      { label: "Slot Concurrency", value: "SELECT FOR UPDATE" },
+      { label: "Lock Expiry", value: "Redis TTL Mutex" },
+      { label: "Architecture", value: "Spring Boot + Postgres" },
     ],
   },
   {
     id: "rqd-farm",
+    slug: "rqd-farm",
     title: "RQD Farm — Agri-Tech Produce Marketplace",
     description:
       "Agricultural marketplace connecting organic farm producers with B2B wholesale buyers, providing dynamic pricing, bulk logistics, and payment escrow.",
@@ -102,7 +106,7 @@ export const projects = [
     privateBadge: "🔒 CLIENT PROJECT • AGRI-TECH",
     github: null,
     link: null,
-    images: ["/projects/neokart/3.png"],
+    images: ["/projects/architecture/rqd-farm-architecture.svg"],
     featured: true,
     features: [
       "B2B tiered pricing tiers based on minimum order quantities (MOQ) and freight destination zones",
@@ -114,13 +118,14 @@ export const projects = [
     contribution:
       "Developed the frontend interface with responsive Tailwind CSS components and integrated FastAPI endpoints for real-time order lifecycle tracking and automated invoice generation.",
     metrics: [
-      { label: "Produce Tracked", value: "50+ Tons" },
-      { label: "Quotation Turnaround", value: "4x faster" },
-      { label: "API Response Latency", value: "< 45ms" },
+      { label: "Backend Engine", value: "FastAPI Async I/O" },
+      { label: "Pricing Architecture", value: "Tiered MOQ Model" },
+      { label: "Consignment Store", value: "PostgreSQL Relational" },
     ],
   },
   {
     id: "neokart",
+    slug: "neokart",
     title: "NeoKart — Full-Stack E-Commerce Ecosystem",
     description:
       "Modern e-commerce platform built with Spring Boot and SQL Server, featuring stateless JWT authentication, Razorpay gateway, admin & customer control panels.",
@@ -130,7 +135,7 @@ export const projects = [
     category: "Full Stack / Backend",
     isPrivate: false,
     github: "https://github.com/GulrezSarankar/Live-NeoKart.git",
-    link: "https://github.com/GulrezSarankar/Live-NeoKart.git",
+    link: null,
     images: [
       "/projects/neokart/1.png",
       "/projects/neokart/2.png",
@@ -147,13 +152,14 @@ export const projects = [
     contribution:
       "Designed and coded the entire Spring Boot backend and database schema. Wrote secure authentication filters, payment verification handlers, and REST API documentation.",
     metrics: [
-      { label: "API Endpoints", value: "35+ REST" },
-      { label: "Test Coverage", value: "85%+" },
-      { label: "Security Standard", value: "JWT + SSL" },
+      { label: "API Endpoints", value: "35+ REST Routes" },
+      { label: "Auth Standard", value: "Stateless JWT Filter" },
+      { label: "Payment Gateway", value: "Razorpay Signature" },
     ],
   },
   {
     id: "pysummarizer",
+    slug: "pysummarizer",
     title: "PySummarizer — AI Neural Text Condenser",
     description:
       "AI text summarization web platform leveraging Google T5 Transformer NLP model with user session history, automated email dispatch, and database persistence.",
@@ -181,13 +187,14 @@ export const projects = [
     contribution:
       "Constructed the complete frontend in React with responsive UI, built the Flask microservice connecting to the Hugging Face inference pipeline, and implemented user history persistence in MySQL.",
     metrics: [
-      { label: "Average Condensation", value: "70% text reduction" },
-      { label: "Processing Speed", value: "~1.8 seconds" },
-      { label: "NLP Model", value: "Google T5" },
+      { label: "NLP Model", value: "Google T5 Pipeline" },
+      { label: "Backend Service", value: "Python Flask REST" },
+      { label: "Frontend", value: "React + Tailwind" },
     ],
   },
   {
     id: "sams",
+    slug: "sams",
     title: "SAMS — Smart Attendance Management System",
     description:
       "Enterprise attendance management system delivering real-time student tracking, automated reports, and executive analytics dashboards.",
@@ -215,13 +222,14 @@ export const projects = [
     contribution:
       "Engineered the full-stack system: implemented React user interfaces, built high-speed FastAPI endpoints, and designed normalized MySQL schemas with student enrollment constraints.",
     metrics: [
-      { label: "Time Saved / Class", value: "85% reduction" },
-      { label: "Student Records", value: "1,200+" },
-      { label: "Uptime", value: "99.9%" },
+      { label: "Backend Framework", value: "FastAPI Async" },
+      { label: "Database", value: "MySQL Indexed" },
+      { label: "Eligibility Engine", value: "Automated Rule Checks" },
     ],
   },
   {
     id: "smart-contact-manager",
+    slug: "smart-contact-manager",
     title: "Smart Contact Manager — Cloud CRM",
     description:
       "Production-ready Spring Boot CRM application featuring Google OAuth2, automated SMTP email dispatch, pagination, contact management, and dashboard analytics.",
@@ -231,7 +239,7 @@ export const projects = [
     category: "Enterprise / Backend",
     isPrivate: false,
     github: "https://github.com/GulrezSarankar/SCM.git",
-    link: "https://github.com/GulrezSarankar/SCM.git",
+    link: null,
     images: ["/projects/scm/1.png"],
     featured: false,
     features: [
@@ -244,9 +252,9 @@ export const projects = [
     contribution:
       "Built the core Spring Boot application from scratch, configured Spring Security filters, designed the relational MySQL database schema, and implemented email verification flows.",
     metrics: [
-      { label: "Security Level", value: "BCrypt + OAuth2" },
-      { label: "Search Latency", value: "< 20ms" },
-      { label: "Database", value: "MySQL Relational" },
+      { label: "Authentication", value: "Spring Security + OAuth2" },
+      { label: "Password Security", value: "BCrypt Salt Hashing" },
+      { label: "Email Dispatch", value: "JavaMailSender SMTP" },
     ],
   },
 ];

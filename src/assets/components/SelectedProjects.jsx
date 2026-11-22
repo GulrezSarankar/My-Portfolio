@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { FaArrowRight, FaArrowUpRightFromSquare, FaLock } from "react-icons/fa6";
+import { FaArrowRight, FaArrowUpRightFromSquare, FaLock, FaGithub } from "react-icons/fa6";
 import { projects } from "../../data/projects";
 
 export default function SelectedProjects() {
@@ -150,17 +150,32 @@ export default function SelectedProjects() {
                     <FaArrowRight className="text-[10px]" />
                   </Link>
 
-                  {project.link && (
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-xs font-mono text-[#A1A1A1] hover:text-[#F5F5F5] transition-colors"
-                    >
-                      <span>Live Site</span>
-                      <FaArrowUpRightFromSquare className="text-[9px]" />
-                    </a>
-                  )}
+                  <div className="flex items-center gap-3">
+                    {project.github && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-mono text-[#A1A1A1] hover:text-[#F5F5F5] transition-colors"
+                        aria-label={`GitHub repo for ${project.title}`}
+                      >
+                        <FaGithub className="text-[11px]" />
+                        <span>Source</span>
+                      </a>
+                    )}
+
+                    {project.link && (
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-xs font-mono text-[#A1A1A1] hover:text-[#F5F5F5] transition-colors"
+                      >
+                        <span>Live Site</span>
+                        <FaArrowUpRightFromSquare className="text-[9px]" />
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}

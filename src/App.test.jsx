@@ -15,7 +15,7 @@ test("portfolio data includes projects and blog detail content", () => {
   expect(projects.length).toBeGreaterThan(0);
   expect(
     projects.every(
-      (project) => project.title && (project.isPrivate || project.link) && project.images.length
+      (project) => project.title && (project.isPrivate || project.link || project.github) && project.images.length
     )
   ).toBe(true);
 
