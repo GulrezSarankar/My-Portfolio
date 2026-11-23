@@ -105,6 +105,9 @@ export default function Testimonials() {
                   <img
                     src={t.photo_url}
                     alt={t.name || t.client_name}
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
                     className="h-10 w-10 shrink-0 rounded-lg object-cover border border-[#262626]"
                   />
                 ) : (

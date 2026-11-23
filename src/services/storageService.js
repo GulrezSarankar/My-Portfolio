@@ -125,7 +125,7 @@ export const uploadTestimonialImage = async (file, customPath = null) => {
   const filePath = customPath || `testimonials/${Date.now()}-${cleanName}`;
 
   const { data, error } = await supabase.storage
-    .from("testimonial-images")
+    .from("blog-images")
     .upload(filePath, file, {
       cacheControl: "3600",
       upsert: false,
@@ -133,7 +133,7 @@ export const uploadTestimonialImage = async (file, customPath = null) => {
 
   if (error) return { data: null, error };
 
-  const publicUrl = getPublicImageUrl("testimonial-images", data.path);
+  const publicUrl = getPublicImageUrl("blog-images", data.path);
   return { data: { path: data.path, publicUrl }, error: null };
 };
 
@@ -141,13 +141,19 @@ export const deleteTestimonialImage = async (pathOrUrl) => {
   if (!pathOrUrl) return { data: null, error: null };
   let path = pathOrUrl;
   if (pathOrUrl.startsWith("http")) {
-    const bucketMarker = "/testimonial-images/";
+    const bucketMarker = "/blog-images/";
+    const legacyMarker = "/testimonial-images/";
     const idx = pathOrUrl.indexOf(bucketMarker);
     if (idx !== -1) {
       path = pathOrUrl.slice(idx + bucketMarker.length);
+    } else {
+      const legIdx = pathOrUrl.indexOf(legacyMarker);
+      if (legIdx !== -1) {
+        path = pathOrUrl.slice(legIdx + legacyMarker.length);
+      }
     }
   }
-  return await deleteImage("testimonial-images", path);
+  return await deleteImage("blog-images", path);
 };
 
 export const uploadCaseStudyImage = async (file, customPath = null) => {

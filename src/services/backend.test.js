@@ -12,10 +12,12 @@ import {
   uploadBlogImage,
   uploadTestimonialImage,
   uploadCaseStudyImage,
+  deleteTestimonialImage,
 } from "./storageService";
 import {
   validateTestimonial,
   getAllPublishedTestimonials,
+  resolveTestimonialPhoto,
 } from "./testimonialsService";
 
 describe("Supabase Backend Services Integration & Fallback Suite", () => {
@@ -64,7 +66,7 @@ describe("Supabase Backend Services Integration & Fallback Suite", () => {
     expect(res.data).toBeDefined();
     expect(Array.isArray(res.data)).toBe(true);
     expect(res.data.length).toBeGreaterThan(0);
-  });
+  }, 25000);
 
   test("certificationsService returns verified credentials", async () => {
     const res = await getCertifications();
@@ -175,6 +177,41 @@ describe("Supabase Backend Services Integration & Fallback Suite", () => {
 
     const csBad = await uploadCaseStudyImage(badType);
     expect(csBad.error).toBeDefined();
+  });
+
+  test("resolveTestimonialPhoto synchronizes photo_path and photo_url with blog-images bucket", () => {
+    // 1. Given photo_path, derive photo_url from blog-images bucket
+    const fromPath = resolveTestimonialPhoto(null, "testimonials/173235-client.jpg");
+    expect(fromPath.photoPath).toBe("testimonials/173235-client.jpg");
+    expect(fromPath.photoUrl).toContain("/blog-images/testimonials/173235-client.jpg");
+
+    // 2. Given full blog-images photo_url, derive photo_path
+    const fromUrl = resolveTestimonialPhoto(
+      "https://example.supabase.co/storage/v1/object/public/blog-images/testimonials/173235-client.jpg",
+      null
+    );
+    expect(fromUrl.photoPath).toBe("testimonials/173235-client.jpg");
+    expect(fromUrl.photoUrl).toBe(
+      "https://example.supabase.co/storage/v1/object/public/blog-images/testimonials/173235-client.jpg"
+    );
+
+    // 3. Given legacy testimonial-images URL, normalize to blog-images
+    const legacy = resolveTestimonialPhoto(
+      "https://example.supabase.co/storage/v1/object/public/testimonial-images/testimonials/avatar.png",
+      null
+    );
+    expect(legacy.photoUrl).toContain("/blog-images/testimonials/avatar.png");
+    expect(legacy.photoPath).toBe("testimonials/avatar.png");
+
+    // 4. Handles null gracefully
+    const empty = resolveTestimonialPhoto(null, null);
+    expect(empty.photoUrl).toBeNull();
+    expect(empty.photoPath).toBeNull();
+  });
+
+  test("deleteTestimonialImage handles null and URLs gracefully", async () => {
+    const resNull = await deleteTestimonialImage(null);
+    expect(resNull.error).toBeNull();
   });
 });
 

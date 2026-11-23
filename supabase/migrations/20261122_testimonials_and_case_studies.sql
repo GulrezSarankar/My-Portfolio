@@ -1,12 +1,13 @@
 -- ==============================================================================
 -- Migration: Testimonials Manager & Project Case Studies
--- Date: 2026-11-22
+-- Date: 2026-11-22 (Updated for blog-images bucket reuse)
 -- Target: Supabase (PostgreSQL)
 -- Description:
 --   1. Creates public.testimonials table with visibility, ordering, and RLS.
 --   2. Extends public.projects table with backward-compatible case study fields.
---   3. Registers storage buckets 'testimonial-images' and 'project-case-study-images'.
---   4. Configures secure RLS policies for storage and database tables.
+--   3. Reuses existing 'blog-images' storage bucket for testimonial photos under 'testimonials/'.
+--   4. Registers 'project-case-study-images' bucket for case study media.
+--   5. Configures secure RLS policies for storage and database tables.
 -- ==============================================================================
 
 -- ------------------------------------------------------------------------------
@@ -89,19 +90,38 @@ CREATE INDEX IF NOT EXISTS idx_projects_has_case_study
 ON public.projects (has_case_study, status);
 
 -- ------------------------------------------------------------------------------
--- 3. STORAGE BUCKETS REGISTRATION & STORAGE RLS POLICIES
+-- 3. STORAGE POLICIES (Reusing 'blog-images' for Testimonials)
 -- ------------------------------------------------------------------------------
 
--- Register dedicated buckets if storage schema is available
+-- Ensure 'blog-images' bucket allows public read and admin write
+-- (Testimonial photos are stored under the 'testimonials/' folder path)
+DROP POLICY IF EXISTS "Allow public read on blog images" ON storage.objects;
+CREATE POLICY "Allow public read on blog images"
+ON storage.objects FOR SELECT
+USING (bucket_id = 'blog-images');
+
+DROP POLICY IF EXISTS "Allow admin manage blog images" ON storage.objects;
+CREATE POLICY "Allow admin manage blog images"
+ON storage.objects FOR ALL
+TO authenticated
+USING (
+    bucket_id = 'blog-images' AND
+    EXISTS (
+        SELECT 1 FROM public.admin_users
+        WHERE admin_users.user_id = auth.uid()
+    )
+)
+WITH CHECK (
+    bucket_id = 'blog-images' AND
+    EXISTS (
+        SELECT 1 FROM public.admin_users
+        WHERE admin_users.user_id = auth.uid()
+    )
+);
+
+-- Register project case study images bucket if needed
 INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 VALUES 
-  (
-    'testimonial-images', 
-    'testimonial-images', 
-    true, 
-    5242880, 
-    ARRAY['image/jpeg', 'image/png', 'image/webp', 'image/avif']
-  ),
   (
     'project-case-study-images', 
     'project-case-study-images', 
@@ -114,32 +134,6 @@ ON CONFLICT (id) DO UPDATE SET
   file_size_limit = 5242880,
   allowed_mime_types = ARRAY['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
 
--- Storage Policies for 'testimonial-images'
-DROP POLICY IF EXISTS "Allow public read on testimonial images" ON storage.objects;
-CREATE POLICY "Allow public read on testimonial images"
-ON storage.objects FOR SELECT
-USING (bucket_id = 'testimonial-images');
-
-DROP POLICY IF EXISTS "Allow admin manage testimonial images" ON storage.objects;
-CREATE POLICY "Allow admin manage testimonial images"
-ON storage.objects FOR ALL
-TO authenticated
-USING (
-    bucket_id = 'testimonial-images' AND
-    EXISTS (
-        SELECT 1 FROM public.admin_users
-        WHERE admin_users.user_id = auth.uid()
-    )
-)
-WITH CHECK (
-    bucket_id = 'testimonial-images' AND
-    EXISTS (
-        SELECT 1 FROM public.admin_users
-        WHERE admin_users.user_id = auth.uid()
-    )
-);
-
--- Storage Policies for 'project-case-study-images'
 DROP POLICY IF EXISTS "Allow public read on project case study images" ON storage.objects;
 CREATE POLICY "Allow public read on project case study images"
 ON storage.objects FOR SELECT
@@ -163,4 +157,3 @@ WITH CHECK (
         WHERE admin_users.user_id = auth.uid()
     )
 );
-
