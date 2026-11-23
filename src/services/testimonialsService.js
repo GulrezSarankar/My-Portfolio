@@ -71,7 +71,10 @@ export const getAllPublishedTestimonials = async () => {
     }
 
     const formatted = data.map((t) => {
-      const { photoUrl, photoPath } = resolveTestimonialPhoto(t.photo_url, t.photo_path);
+      const { photoUrl, photoPath } = resolveTestimonialPhoto(
+        t.avatar_url || t.photo_url,
+        t.photo_path
+      );
       return {
         id: t.id,
         name: t.client_name,
@@ -83,6 +86,7 @@ export const getAllPublishedTestimonials = async () => {
         designation: t.designation,
         photo_url: photoUrl,
         photo_path: photoPath,
+        avatar_url: photoUrl,
         is_visible: t.is_visible,
         display_order: t.display_order ?? 0,
         avatar: t.client_name
@@ -117,11 +121,15 @@ export const getAllTestimonialsAdmin = async () => {
   }
 
   const formatted = data.map((t) => {
-    const { photoUrl, photoPath } = resolveTestimonialPhoto(t.photo_url, t.photo_path);
+    const { photoUrl, photoPath } = resolveTestimonialPhoto(
+      t.avatar_url || t.photo_url,
+      t.photo_path
+    );
     return {
       ...t,
       photo_url: photoUrl,
       photo_path: photoPath,
+      avatar_url: photoUrl,
     };
   });
 
@@ -135,17 +143,19 @@ export const createTestimonial = async (testimonialData) => {
   }
 
   const { photoUrl, photoPath } = resolveTestimonialPhoto(
-    testimonialData.photo_url,
+    testimonialData.photo_url || testimonialData.avatar_url,
     testimonialData.photo_path
   );
 
+  // NOTE: Database schema has 'photo_path' and 'avatar_url'.
+  // Do NOT include 'photo_url' in the SQL payload as it is not a database column.
   const payload = {
     client_name: testimonialData.client_name.trim(),
     designation: testimonialData.designation ? testimonialData.designation.trim() : null,
     company: testimonialData.company ? testimonialData.company.trim() : null,
     feedback: testimonialData.feedback.trim(),
-    photo_url: photoUrl,
-    photo_path: photoPath,
+    photo_path: photoPath || null,
+    avatar_url: photoUrl || null,
     is_visible: testimonialData.is_visible !== false,
     display_order: Number(testimonialData.display_order) || 0,
   };
@@ -155,6 +165,18 @@ export const createTestimonial = async (testimonialData) => {
     .insert(payload)
     .select()
     .single();
+
+  if (data) {
+    const resolved = resolveTestimonialPhoto(data.avatar_url, data.photo_path);
+    return {
+      data: {
+        ...data,
+        photo_url: resolved.photoUrl,
+        photo_path: resolved.photoPath,
+      },
+      error: null,
+    };
+  }
 
   return { data, error };
 };
@@ -170,24 +192,41 @@ export const updateTestimonial = async (id, testimonialData) => {
     }
   }
 
+  // NOTE: Explicitly map permitted columns to prevent sending undeclared columns (e.g. photo_url)
   const payload = {
-    ...testimonialData,
     updated_at: new Date().toISOString(),
   };
 
-  if (payload.client_name) payload.client_name = payload.client_name.trim();
-  if (payload.designation !== undefined) payload.designation = payload.designation ? payload.designation.trim() : null;
-  if (payload.company !== undefined) payload.company = payload.company ? payload.company.trim() : null;
-  if (payload.feedback) payload.feedback = payload.feedback.trim();
-  if (payload.display_order !== undefined) payload.display_order = Number(payload.display_order) || 0;
+  if (testimonialData.client_name !== undefined) {
+    payload.client_name = testimonialData.client_name.trim();
+  }
+  if (testimonialData.designation !== undefined) {
+    payload.designation = testimonialData.designation ? testimonialData.designation.trim() : null;
+  }
+  if (testimonialData.company !== undefined) {
+    payload.company = testimonialData.company ? testimonialData.company.trim() : null;
+  }
+  if (testimonialData.feedback !== undefined) {
+    payload.feedback = testimonialData.feedback.trim();
+  }
+  if (testimonialData.is_visible !== undefined) {
+    payload.is_visible = testimonialData.is_visible !== false;
+  }
+  if (testimonialData.display_order !== undefined) {
+    payload.display_order = Number(testimonialData.display_order) || 0;
+  }
 
-  if (payload.photo_url !== undefined || payload.photo_path !== undefined) {
+  if (
+    testimonialData.photo_url !== undefined ||
+    testimonialData.photo_path !== undefined ||
+    testimonialData.avatar_url !== undefined
+  ) {
     const { photoUrl, photoPath } = resolveTestimonialPhoto(
-      payload.photo_url,
-      payload.photo_path
+      testimonialData.photo_url || testimonialData.avatar_url,
+      testimonialData.photo_path
     );
-    payload.photo_url = photoUrl;
-    payload.photo_path = photoPath;
+    payload.photo_path = photoPath || null;
+    payload.avatar_url = photoUrl || null;
   }
 
   const { data, error } = await supabase
@@ -196,6 +235,18 @@ export const updateTestimonial = async (id, testimonialData) => {
     .eq("id", id)
     .select()
     .single();
+
+  if (data) {
+    const resolved = resolveTestimonialPhoto(data.avatar_url, data.photo_path);
+    return {
+      data: {
+        ...data,
+        photo_url: resolved.photoUrl,
+        photo_path: resolved.photoPath,
+      },
+      error: null,
+    };
+  }
 
   return { data, error };
 };

@@ -95,9 +95,9 @@ export default function AdminTestimonialsTab() {
     setDesignation(item.designation || "");
     setCompany(item.company || "");
     setFeedback(item.feedback || "");
-    setPhotoUrl(item.photo_url || "");
+    setPhotoUrl(item.photo_url || item.avatar_url || "");
     setPhotoPath(item.photo_path || "");
-    setOldPhotoPath(item.photo_path || item.photo_url || "");
+    setOldPhotoPath(item.photo_path || item.photo_url || item.avatar_url || "");
     setIsVisible(item.is_visible !== false);
     setDisplayOrder(item.display_order ?? 0);
     setFormError("");
@@ -187,7 +187,10 @@ export default function AdminTestimonialsTab() {
     if (!testimonialToDelete) return;
     setDeleting(true);
     try {
-      const photoToDelete = testimonialToDelete.photo_path || testimonialToDelete.photo_url;
+      const photoToDelete =
+        testimonialToDelete.photo_path ||
+        testimonialToDelete.avatar_url ||
+        testimonialToDelete.photo_url;
       const { error: delErr } = await deleteTestimonial(testimonialToDelete.id, photoToDelete);
       if (delErr) throw delErr;
       setTestimonialToDelete(null);
@@ -321,10 +324,13 @@ export default function AdminTestimonialsTab() {
                   <tr key={item.id} className="hover:bg-slate-800/40 transition group">
                     <td className="py-3.5 px-4">
                       <div className="flex items-center gap-3">
-                        {item.photo_url ? (
+                        {item.photo_url || item.avatar_url ? (
                           <img
-                            src={item.photo_url}
+                            src={item.photo_url || item.avatar_url}
                             alt={item.client_name}
+                            onError={(e) => {
+                              e.currentTarget.style.display = "none";
+                            }}
                             className="w-10 h-10 rounded-full object-cover border border-slate-700 shrink-0"
                           />
                         ) : (

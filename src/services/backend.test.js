@@ -203,7 +203,17 @@ describe("Supabase Backend Services Integration & Fallback Suite", () => {
     expect(legacy.photoUrl).toContain("/blog-images/testimonials/avatar.png");
     expect(legacy.photoPath).toBe("testimonials/avatar.png");
 
-    // 4. Handles null gracefully
+    // 4. Given avatar_url, derive photoPath and photoUrl
+    const fromAvatar = resolveTestimonialPhoto(
+      "https://example.supabase.co/storage/v1/object/public/blog-images/testimonials/avatar2.png",
+      null
+    );
+    expect(fromAvatar.photoPath).toBe("testimonials/avatar2.png");
+    expect(fromAvatar.photoUrl).toBe(
+      "https://example.supabase.co/storage/v1/object/public/blog-images/testimonials/avatar2.png"
+    );
+
+    // 5. Handles null gracefully
     const empty = resolveTestimonialPhoto(null, null);
     expect(empty.photoUrl).toBeNull();
     expect(empty.photoPath).toBeNull();
